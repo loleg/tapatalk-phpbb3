@@ -381,26 +381,3 @@ foreach($_GET  as $key => $value) $_REQUEST[$key] = $value;
 foreach($_POST as $key => $value) $_REQUEST[$key] = $value;
 
 error_reporting(MOBIQUO_DEBUG);
-
-if (!function_exists('send_status_line'))
-{
-    function send_status_line($code, $message)
-    {
-        if (substr(strtolower(@php_sapi_name()), 0, 3) === 'cgi')
-        {
-            header("Status: $code $message", true, $code);
-        }
-        else
-        {
-            if (!empty($_SERVER['SERVER_PROTOCOL']))
-            {
-                $version = $_SERVER['SERVER_PROTOCOL'];
-            }
-            else
-            {
-                $version = 'HTTP/1.0';
-            }
-            header("$version $code $message", true, $code);
-        }
-    }
-}
