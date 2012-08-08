@@ -354,8 +354,8 @@ if (!$topic_data['topic_approved'] && !$auth->acl_get('m_approve', $forum_id))
 	trigger_error('NO_TOPIC');
 }
 
-// Start auth check
-if (!$auth->acl_get('f_read', $forum_id))
+// Start auth check (tapatalk add: avoid permission check for global announcement topic)
+if (!$auth->acl_get('f_read', $forum_id) && $topic_data['topic_type'] != POST_GLOBAL)
 {
 	if ($user->data['user_id'] != ANONYMOUS)
 	{
