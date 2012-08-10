@@ -66,6 +66,13 @@ function xmlrpc_error_handler($errno, $msg_text, $errfile, $errline)
         return;
     }
 
+    if ($msg_text = 'NO_SEARCH_RESULTS')
+    {
+        $response = search_func();
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".$response->serialize('UTF-8');
+        exit;
+    }
+
     // Message handler is stripping text. In case we need it, we are possible to define long text...
     if (isset($msg_long_text) && $msg_long_text && !$msg_text)
     {
@@ -148,12 +155,10 @@ function xmlrpc_error_handler($errno, $msg_text, $errfile, $errline)
         $result = check_error_status($msg_text);
         if (MOBIQUO_DEBUG == -1) $msg_text .= " > $errfile, $errline";
         
-        $response = new xmlrpcresp(
-            new xmlrpcval(array(
-                'result'        => new xmlrpcval($result, 'boolean'),
-                'result_text'   => new xmlrpcval(basic_clean($msg_text), 'base64'),
-            ),'struct')
-        );
+        $response = new xmlrpcresp(new xmlrpcval(array(
+            'result'        => new xmlrpcval($result, 'boolean'),
+            'result_text'   => new xmlrpcval(basic_clean($msg_text), 'base64'),
+        ),'struct'));
         
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".$response->serialize('UTF-8');
         exit;
