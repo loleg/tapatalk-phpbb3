@@ -326,13 +326,10 @@ switch ($request_method)
         $_POST['confirm'] = $user->lang['YES'];
         break;
     case 'm_ban_user':
-        if ($request_params[1] == 2) {
-            $_POST['unbansubmit'] = 1;
-        } else {
-            $_POST['ban'] = $request_params[0];
-            $_POST['bansubmit'] = 1;
-            $_POST['banreason'] = $request_params[2];
-        }
+    	$_POST['ban'] = $request_params[0];
+        $_POST['bansubmit'] = 1;
+        $_POST['banreason'] = $request_params[2]; 
+        
         $_GET['confirm_key'] = $user->data['user_last_confirm_key'] = $user->session_id;
         $_POST['i'] = 'ban';
         $_POST['user_id'] = $user->data['user_id'];

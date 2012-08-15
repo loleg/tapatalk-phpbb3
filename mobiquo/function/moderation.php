@@ -10,6 +10,8 @@ defined('IN_MOBIQUO') or exit;
 
 include($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
 require($phpbb_root_path . 'includes/functions_module.' . $phpEx);
+include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
+
 
 $user->setup('mcp');
 
@@ -89,17 +91,38 @@ else if ($topic_id)
     if ($request_method == 'm_approve_topic') $_REQUEST['post_id_list'] = array($row['topic_first_post_id']);
 }
 
-// transform username to ban id
+// transform username to ban id and delete the users's posts 
 if ($request_method == 'm_ban_user' && $request_params[1] == 2) {
-    $ban_userid = get_user_id_by_name($request_params[0]);
-    $sql = 'SELECT ban_id
-            FROM ' . BANLIST_TABLE . '
-            WHERE ban_userid = ' . $ban_userid;
-    $result = $db->sql_query_limit($sql, 1);
-    $ban_id = $db->sql_fetchfield('ban_id');
-    $db->sql_freeresult($result);
-    unset($sql);
-    $_REQUEST['unban'] = array($ban_id);
+	$ban_userid = get_user_id_by_name($request_params[0]);
+	//judge the user post num is or not > 50
+	$sql = "SELECT COUNT(*) AS tp_count FROM " . POSTS_TABLE . " p WHERE p.poster_id = '".$ban_userid."'";
+	$result = $db->sql_query($sql);
+	$countRow = $db->sql_fetchrow($result);
+	$db->sql_freeresult($result);
+	if($countRow['tp_count'] > 50) {
+		trigger_error('USER_POSTS_NUM GERATER THAN 50');
+	}
+	else {
+		$sql = "SELECT post_id,topic_id,forum_id FROM " . POSTS_TABLE . " p WHERE p.poster_id = '".$ban_userid."'";
+		$result1 = $db->sql_query($sql);
+		while($row = $db->sql_fetchrow($result1)) {		
+			$sql = 'SELECT f.*, t.*, p.*, u.username, u.username_clean, u.user_sig, u.user_sig_bbcode_uid, u.user_sig_bbcode_bitfield
+				FROM ' . POSTS_TABLE . ' p, ' . TOPICS_TABLE . ' t, ' . FORUMS_TABLE . ' f, ' . USERS_TABLE . " u
+				WHERE p.post_id = '".$row['post_id']."'
+					AND t.topic_id = p.topic_id
+					AND u.user_id = p.poster_id
+					AND (f.forum_id = t.forum_id
+						OR f.forum_id = '".$row['forum_id']."')" .
+					(($auth->acl_get('m_approve', $row['forum_id'])) ? '' : 'AND p.post_approved = 1');
+			$result2 = $db->sql_query($sql);
+			$post_data = $db->sql_fetchrow($result2);
+			$db->sql_freeresult($result2);
+			handle_post_delete($row['forum_id'], $row['topic_id'], $row['post_id'], $post_data);
+		}
+		unset($row);
+		$db->sql_freeresult($result1);
+	}
+		
 }
 
 // If the user doesn't have any moderator powers (globally or locally) he can't access the mcp
@@ -908,4 +931,67 @@ function check_ids(&$ids, $table, $sql_id, $acl_list = false, $single_forum = fa
     // If forum id is false and ids populated we may have only global announcements selected (returning 0 because of (int) $forum_id)
 
     return ($single_forum === false) ? true : (int) $forum_id;
+}
+/**
+* Do the various checks required for removing posts as well as removing it
+*/
+function handle_post_delete($forum_id, $topic_id, $post_id, &$post_data)
+{
+	global $user, $db, $auth, $config;
+	global $phpbb_root_path, $phpEx;
+	$flag = false;
+	// If moderator removing post or user itself removing post, present a confirmation screen
+	if ($auth->acl_get('m_delete', $forum_id) || ($post_data['poster_id'] == $user->data['user_id'] 
+	&& $user->data['is_registered'] && $auth->acl_get('f_delete', $forum_id) && 
+	$post_id == $post_data['topic_last_post_id'] && !$post_data['post_edit_locked'] && 
+	($post_data['post_time'] > time() - ($config['delete_time'] * 60) || !$config['delete_time'])))
+	{
+		$s_hidden_fields = build_hidden_fields(array(
+			'p'		=> $post_id,
+			'f'		=> $forum_id,
+			'mode'	=> 'delete')
+		);
+		$data = array(
+			'topic_first_post_id'	=> $post_data['topic_first_post_id'],
+			'topic_last_post_id'	=> $post_data['topic_last_post_id'],
+			'topic_replies_real'	=> $post_data['topic_replies_real'],
+			'topic_approved'		=> $post_data['topic_approved'],
+			'topic_type'			=> $post_data['topic_type'],
+			'post_approved'			=> $post_data['post_approved'],
+			'post_reported'			=> $post_data['post_reported'],
+			'post_time'				=> $post_data['post_time'],
+			'poster_id'				=> $post_data['poster_id'],
+			'post_postcount'		=> $post_data['post_postcount']
+		);
+
+		$next_post_id = delete_post($forum_id, $topic_id, $post_id, $data);
+		$post_username = ($post_data['poster_id'] == ANONYMOUS && !empty($post_data['post_username'])) ? $post_data['post_username'] : $post_data['username'];
+
+		if ($next_post_id === false)
+		{
+			add_log('mod', $forum_id, $topic_id, 'LOG_DELETE_TOPIC', $post_data['topic_title'], $post_username);
+		}
+		else
+		{
+			add_log('mod', $forum_id, $topic_id, 'LOG_DELETE_POST', $post_data['post_subject'], $post_username);
+
+		}
+		$flag = true;
+	}
+
+	// If we are here the user is not able to delete - present the correct error message
+	if($flag == false) 
+	{
+		if ($post_data['poster_id'] == $user->data['user_id'] && $auth->acl_get('f_delete', $forum_id))
+		{
+			trigger_error('DELETE_OWN_POSTS');
+		}
+	
+		if ($post_data['poster_id'] == $user->data['user_id'] && $auth->acl_get('f_delete', $forum_id) && $post_id != $post_data['topic_last_post_id'])
+		{
+			trigger_error('CANNOT_DELETE_REPLIED');
+		}
+		trigger_error('USER_CANNOT_DELETE');
+	}
+	
 }
