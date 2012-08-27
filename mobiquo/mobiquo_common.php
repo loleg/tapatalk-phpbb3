@@ -266,7 +266,7 @@ function post_html_clean($str)
         "/<object .*?data=\"(http:\/\/www\.youtube\.com\/.*?)\" .*?>.*?<\/object>/si",
         "/<object .*?data=\"(http:\/\/video\.google\.com\/.*?)\" .*?>.*?<\/object>/si",
         "/<iframe .*?src=\"(http.*?)\" .*?>.*?<\/iframe>/si",
-        "/<script( .*)?>.*?<\/script>/si",
+        "/<script( [^>]*)?>([^<]*?)<\/script>/si",
     );
     
     $replace = array(
