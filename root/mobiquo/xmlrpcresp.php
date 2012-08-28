@@ -316,3 +316,34 @@ function xmlresptrue()
     
     return new xmlrpcresp($result);
 }
+
+/**
+ * 
+ * check tapatalk push table is exist or not
+ */
+function push_table_exists()
+{
+	if(defined('PUSH_TABLE_EXISTS'))
+	{
+		return PUSH_TABLE_EXISTS;
+	}
+	global $db,$table_prefix;
+    $sql = "show tables";
+    $result = $db->sql_query($sql);
+    $tables_arr = array();
+    while($row = $db->sql_fetchrow($result))
+    {
+    	foreach ($row as $value)
+    	{
+    		$tables_arr[] = $value;
+    	}
+    }
+    $db->sql_freeresult($result);
+    if(!in_array($table_prefix.'tapatalk_users', $tables_arr))
+    {
+    	define('PUSH_TABLE_EXISTS',false);
+    	return false;
+    }
+    define('PUSH_TABLE_EXISTS',true);
+    return true;
+}

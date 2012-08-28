@@ -477,7 +477,7 @@ function get_user_info_func($xmlrpc_params)
         
         //'can_ban'            => new xmlrpcval($auth->acl_get('m_ban') && $user_id != $user->data['user_id'] ? true : false, 'boolean'),
     );
-    if($member['user_id'] == $user->data['user_id'])
+    if(($member['user_id'] == $user->data['user_id']) && push_table_exists())
     {
 	    $sql =  "SELECT * FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$member['user_id']."'";
 	    $result = $db->sql_query($sql);

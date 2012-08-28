@@ -31,7 +31,7 @@ function login_func($xmlrpc_params)
     {
         $auth->acl($user->data);
         //add tapatalk_users here,for push service
-        if(($params[3]  == '1') && isset($config['mobiquo_push']))
+        if(($params[3]  == '1') && push_table_exists())
         {
         	global $table_prefix;
         	$sql = "SELECT * FROM " . $table_prefix . "tapatalk_users where userid = '".$user->data['user_id']."'";
@@ -50,7 +50,7 @@ function login_func($xmlrpc_params)
 	        	VALUES ('".$user->data['user_id']."', '1', '1', '1', 1,1,1,'".time()."')";
 	        	$db->sql_query($sql);       	
 	        }
-	        else 
+	        else if(push_table_exists())
 	        {
 	        	$sql = "UPDATE `" . $table_prefix . "tapatalk_users` 
 	        	SET `updated`= '".time()."' WHERE `userid`='".$user->data['user_id']."'";

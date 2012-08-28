@@ -19,12 +19,12 @@ function get_forum_func($xmlrpc_params)
     if (isset($params[1]))
     {
         $fid = intval($params[1]);
-        $forum_filter = " WHERE f.parent_id = '$fid'" . 'AND f.forum_id NOT IN ('.(!empty($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : 0).')';
+        $forum_filter = " WHERE f.parent_id = '$fid'";
         $root_forum_id = $fid;
     }
     else
     {
-        $forum_filter = 'WHERE f.forum_id NOT IN ('.(!empty($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : 0).')';
+        $forum_filter = '';
         $root_forum_id = 0;
     }
     
@@ -37,6 +37,7 @@ function get_forum_func($xmlrpc_params)
     
     $forum_rows = array();
     $forum_rows[$root_forum_id] = array('forum_id' => $root_forum_id, 'parent_id' => -1, 'child' => array());
+    $forum_hide_forum_arr = explode(',', $mobiquo_config['hide_forum_id']);
     while ($row = $db->sql_fetchrow($result))
     {
         $forum_id = $row['forum_id'];
@@ -46,7 +47,15 @@ function get_forum_func($xmlrpc_params)
             // Non-postable forum with no subforums, don't display
             continue;
         }
-
+		if(in_array($row['forum_id'], $forum_hide_forum_arr))
+		{
+			continue;
+		}
+		elseif(in_array($row['parent_id'], $forum_hide_forum_arr))
+		{
+			array_push($row['forum_id'], $forum_hide_forum_arr);
+			continue;
+		}
         // Skip branch
         if (isset($right_id))
         {
