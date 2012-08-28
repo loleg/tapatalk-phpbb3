@@ -66,6 +66,7 @@
 		        		tapatalk_push_reply($data['post_id'], $post_data, $subject);
 		        		break;
 		        	case 'post':
+		        		$post_data['topic_id'] = $data['topic_id'];
 		        		tapatalk_push_newtopic($data['post_id'],$post_data,$subject);
 		        		break;
 		        	case 'quote':

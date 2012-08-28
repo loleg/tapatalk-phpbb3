@@ -93,7 +93,7 @@ function tapatalk_push_newtopic($post_id,$current_topic_info,$subject)
     		 $ttp_data = array(
                 'userid'    => $row['userid'],
                 'type'      => 'newtopic',
-                'id'        => $current_topic_info['forum_id'],
+                'id'        => $current_topic_info['topic_id'],
                 'subid'     => $post_id,
                 'title'     => tt_push_clean($subject),
                 'author'    => tt_push_clean($user->data['username']),
