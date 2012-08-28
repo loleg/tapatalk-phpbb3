@@ -9,7 +9,7 @@
 defined('IN_MOBIQUO') or exit;
 
 $server_param = array(
-    
+
     'login' => array(
         'function'  => 'login_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcBase64),
@@ -17,14 +17,14 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcBase64, $xmlrpcBoolean,$xmlrpcString)),
         'docstring' => 'login need two parameters,the first is user name(Base64), second is password(Base64).',
     ),
-    
+
     'get_forum' => array(
         'function' => 'get_forum_func',
         'signature' => array(array($xmlrpcArray),
                              array($xmlrpcArray, $xmlrpcBoolean),
                              array($xmlrpcArray, $xmlrpcBoolean, $xmlrpcString)),
     ),
-    
+
     'get_topic' => array(
         'function'  => 'get_topic_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcInt, $xmlrpcString),
@@ -33,67 +33,67 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be array(string,int,int,string)',
     ),
-    
+
     'get_thread' => array(
         'function'  => 'get_thread_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcInt, $xmlrpcBoolean),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcInt),
                              array($xmlrpcStruct, $xmlrpcString)),
     ),
-    
+
     'get_thread_by_unread' => array(
         'function'  => 'get_thread_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcBoolean),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt),
                              array($xmlrpcStruct, $xmlrpcString)),
     ),
-    
+
     'get_thread_by_post' => array(
         'function'  => 'get_thread_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcBoolean),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt),
                              array($xmlrpcStruct, $xmlrpcString)),
     ),
-    
+
     'get_raw_post' => array(
         'function'  => 'get_raw_post_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be array(string)',
     ),
-    
+
     'save_raw_post' => array(
         'function'  => 'save_raw_post_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64, $xmlrpcBoolean)),
         'docstring' => 'parameter should be array(string, base64, base64)',
     ),
-    
+
     'get_quote_post' => array(
         'function'  => 'get_quote_post_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be array(string)',
     ),
-    
+
     'get_quote_pm' => array(
         'function'  => 'get_quote_pm_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be array(string)',
     ),
-    
+
     'get_user_topic' => array(
         'function'  => 'search_func',
         'signature' => array(array($xmlrpcStruct),
                              array($xmlrpcStruct, $xmlrpcBase64),
                              array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcString)),
     ),
-    
+
     'get_user_reply_post' => array(
         'function'  => 'search_func',
         'signature' => array(array($xmlrpcStruct),
                              array($xmlrpcStruct, $xmlrpcBase64),
                              array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcString)),
     ),
-    
+
     'get_latest_topic' => array(
         'function' => 'search_func',
         'signature' => array(array($xmlrpcArray),
@@ -101,7 +101,7 @@ $server_param = array(
                              array($xmlrpcArray, $xmlrpcInt, $xmlrpcInt, $xmlrpcString),
                              array($xmlrpcArray, $xmlrpcInt, $xmlrpcInt, $xmlrpcString, $xmlrpcStruct)),
     ),
-    
+
     'get_unread_topic' => array(
         'function' => 'search_func',
         'signature' => array(array($xmlrpcArray),
@@ -109,7 +109,7 @@ $server_param = array(
                              array($xmlrpcArray, $xmlrpcInt, $xmlrpcInt, $xmlrpcString),
                              array($xmlrpcArray, $xmlrpcInt, $xmlrpcInt, $xmlrpcString, $xmlrpcStruct)),
     ),
-    
+
     'get_participated_topic' => array(
         'function' => 'search_func',
         'signature' => array(array($xmlrpcArray, $xmlrpcBase64, $xmlrpcInt, $xmlrpcInt, $xmlrpcString, $xmlrpcString),
@@ -118,39 +118,39 @@ $server_param = array(
                              array($xmlrpcArray, $xmlrpcBase64),
                              array($xmlrpcArray)),
     ),
-    
+
     'get_subscribed_topic' => array(
         'function'  => 'search_func',
         'signature' => array(array($xmlrpcArray),
                              array($xmlrpcStruct, $xmlrpcInt, $xmlrpcInt)),
         'docstring' => 'no need parameters for get_subscribed_topic',
     ),
-    
+
     'get_subscribed_forum' => array(
         'function'  => 'get_subscribed_forum_func',
         'signature' => array(array($xmlrpcArray)),
         'docstring' => 'no need parameters for get_subscribed_forum',
     ),
-    
+
     'get_user_info' => array(
         'function' => 'get_user_info_func',
         'signature' => array(array($xmlrpcStruct),
                              array($xmlrpcStruct, $xmlrpcBase64),
                              array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcString)),
     ),
-    
+
     'get_config' => array(
         'function'  => 'get_config_func',
         'signature' => array(array($xmlrpcArray)),
         'docstring' => 'no need parameters for get_forum',
     ),
-    
+
     'logout_user' => array(
         'function'  => 'logout_user_func',
         'signature' => array(array($xmlrpcArray)),
         'docstring' => 'no need parameters for logout',
     ),
-    
+
     'new_topic' => array(
         'function'  => 'new_topic_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64),
@@ -159,7 +159,7 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64, $xmlrpcString, $xmlrpcArray, $xmlrpcString)),
         'docstring' => 'parameter should be array(string,byte,byte,[string],[array])',
     ),
-    
+
     'reply_post' => array(
         'function'  => 'reply_post_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64),
@@ -167,43 +167,43 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcBase64, $xmlrpcBase64, $xmlrpcArray, $xmlrpcString, $xmlrpcBoolean)),
         'docstring' => 'parameter should be array(int,string,string)',
     ),
-    
+
     'subscribe_topic' => array(
         'function'  => 'subscribe_topic_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'subscribe_topic need one parameters as topic id.',
     ),
-    
+
     'unsubscribe_topic' => array(
         'function'  => 'unsubscribe_topic_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'unsubscribe_topic need one parameters as topic id.',
     ),
-    
+
     'subscribe_forum' => array(
         'function'  => 'subscribe_forum_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'subscribe_topic need one parameters as forum id.',
     ),
-    
+
     'unsubscribe_forum' => array(
         'function'  => 'unsubscribe_forum_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'unsubscribe_topic need one parameters as forum id.',
     ),
-    
+
     'get_inbox_stat' => array(
         'function'  => 'get_inbox_stat_func',
         'signature' => array(array($xmlrpcArray)),
         'docstring' => 'no parameter but need login first',
     ),
-    
+
     'get_box_info' => array(
         'function'  => 'get_box_info_func',
         'signature' => array(array($xmlrpcArray)),
         'docstring' => 'no parameter but need login first',
     ),
-    
+
     'get_box' => array(
         'function'  => 'get_box_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcInt, $xmlrpcDateTime),
@@ -212,7 +212,7 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be array(string,int,int,date)',
     ),
-    
+
     'get_message' => array(
         'function'  => 'get_message_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString),
@@ -220,33 +220,33 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean)),
         'docstring' => 'get_message need one parameter as message id'
     ),
-    
+
     'delete_message' => array(
         'function'  => 'delete_message_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcString)),
         'docstring' => 'get_message need one parameter as message id'
     ),
-    
+
     'create_message' => array(
         'function'  => 'create_message_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcArray, $xmlrpcBase64, $xmlrpcBase64),
                              array($xmlrpcStruct, $xmlrpcArray, $xmlrpcBase64, $xmlrpcBase64, $xmlrpcInt, $xmlrpcString)),
         'docstring' => 'parameter should be array(array,string,string,[int, string])',
     ),
-    
+
     'get_board_stat' => array(
         'function'  => 'get_board_stat_func',
         'signature' => array(array($xmlrpcStruct)),
         'docstring' => 'no parameter',
     ),
-    
+
     'get_online_users' => array(
         'function'  => 'get_online_users_func',
         'signature' => array(array($xmlrpcStruct)),
         'docstring' => 'no parameter',
     ),
-    
+
     'mark_all_as_read' => array(
         'function'  => 'mark_all_as_read_func',
         'signature' => array(array($xmlrpcArray),
@@ -266,7 +266,7 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcBase64)),
         'docstring' => 'parameter should be array(base64,[int,int])',
     ),
-    
+
     'search_post' => array(
         'function'  => 'search_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcBase64, $xmlrpcInt, $xmlrpcInt, $xmlrpcString),
@@ -288,7 +288,7 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'parameter should be)',
     ),
-    
+
     'get_participated_forum' => array(
         'function'  => 'get_participated_forum_func',
         'signature' => array(array($xmlrpcArray)),
@@ -299,38 +299,38 @@ $server_param = array(
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcBase64)),
         'docstring' => 'parameter should be)',
     ),
-    
+
     'upload_attach' => array(
         'function'  => 'upload_attach_func',
         'signature' => array(array($xmlrpcStruct)),
         'docstring' => 'parameter should be',
     ),
-    
+
     'upload_avatar' => array(
         'function'  => 'upload_avatar_func',
         'signature' => array(array($xmlrpcStruct)),
         'docstring' => 'parameter should be',
     ),
-    
+
     'remove_attachment' => array(
         'function'  => 'remove_attachment_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString),
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString)),
         'docstring' => 'parameter should be',
     ),
-    
+
     'get_id_by_url' => array(
         'function'  => 'get_id_by_url_func',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
         'docstring' => 'get_id_by_url need one parameters as url.',
     ),
-    
+
     'thank_post' => array(
         'function' => 'xmlresptrue',
         'signature' => array(array($xmlrpcStruct, $xmlrpcString)),
     ),
-    
-    
+
+
     // Moderation functions
     'm_stick_topic' => array(
         'function'  => 'xmlresptrue',
@@ -412,8 +412,8 @@ $server_param = array(
         'docstring' => '',
     ),
     'update_push_status' => array(
-    	'function' => 'update_push_status_func',
-    	'signature' => array(array($xmlrpcStruct,$xmlrpcStruct),
-	 array($xmlrpcStruct,$xmlrpcStruct,$xmlrpcBase64, $xmlrpcBase64)),    
+        'function' => 'update_push_status_func',
+        'signature' => array(array($xmlrpcStruct,$xmlrpcStruct),
+                       array($xmlrpcStruct,$xmlrpcStruct,$xmlrpcBase64, $xmlrpcBase64)),
     ),
 );

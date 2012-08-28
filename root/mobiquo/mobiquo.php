@@ -23,7 +23,7 @@ $mobiquo_config['guest_okay'] = isset($config['mobiquo_guest_okay']) ? $config['
 $mobiquo_config['reg_url'] = isset($config['mobiquo_reg_url']) ? $config['mobiquo_reg_url'] : $mobiquo_config['reg_url'];
 $mobiquo_config['hide_forum_id'] = isset($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : $mobiquo_config['hide_forum_id'];
 $mobiquo_config['push'] = isset($config['mobiquo_push']) ? $config['mobiquo_push'] : $mobiquo_config['push'];
-if(!isset($config['mobiquo_name'])) $config['mobiquo_name'] = 'mobiquo';
+if(!isset($config['tapatalkdir'])) $config['tapatalkdir'] = 'mobiquo';
 //include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
 
 error_reporting(MOBIQUO_DEBUG);

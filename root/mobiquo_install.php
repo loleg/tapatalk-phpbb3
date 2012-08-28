@@ -69,7 +69,7 @@ $versions = array(
 			array('mobiquo_hide_forum_id',''),
 			array('mobiquo_guest_okay',1),
 			array('mobiquo_reg_url','ucp.php?mode=register'),
-			array('mobiquo_name','mobiquo'),
+			array('tapatalkdir','mobiquo'),
 			array('mobiquo_is_chrome',1)
 		),
 		

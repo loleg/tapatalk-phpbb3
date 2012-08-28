@@ -78,15 +78,15 @@ function get_participated_forum_func()
         $logo_url = '';
         if (file_exists("./forum_icons/$forum_id.png"))
         {
-            $logo_url = $phpbb_home.$config['mobiquo_name']."/forum_icons/$forum_id.png";
+            $logo_url = $phpbb_home.$config['tapatalkdir']."/forum_icons/$forum_id.png";
         }
         else if (file_exists("./forum_icons/$forum_id.jpg"))
         {
-            $logo_url = $phpbb_home.$config['mobiquo_name']."/forum_icons/$forum_id.jpg";
+            $logo_url = $phpbb_home.$config['tapatalkdir']."/forum_icons/$forum_id.jpg";
         }
         else if (file_exists("./forum_icons/default.png"))
         {
-            $logo_url = $phpbb_home.$config['mobiquo_name']."/forum_icons/default.png";
+            $logo_url = $phpbb_home.$config['tapatalkdir']."/forum_icons/default.png";
         }
         else if ($row['forum_image'])
         {

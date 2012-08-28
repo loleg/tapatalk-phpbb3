@@ -23,10 +23,13 @@ function detectTapatalk() {
 				if (confirm("This forum has an app for BlackBerry! Click OK to learn more about Tapatalk."))	  
 					window.location = "http://appworld.blackberry.com/webstore/content/46654?lang=en";
 			} else if(window.chrome) {
+			    
+			    if (tapatalkdir == null) tapatalkdir = 'mobiquo';
+			    
 				setTapatalkCookies();
 				var script1 = document.createElement('script');
 				var script2;
-				script1.setAttribute('src',mobiquo_name+'/tapatalkdetect/jquery-1.7.min.js');
+				script1.setAttribute('src',tapatalkdir+'/tapatalkdetect/jquery-1.7.min.js');
 				script1.setAttribute('type','text/javascript');
 				var loaded=false;
 				var loaded2=false;
@@ -50,12 +53,12 @@ function detectTapatalk() {
 					var script2=document.createElement("link");
 					script2.setAttribute("rel", "stylesheet");
 					script2.setAttribute("type", "text/css");
-					script2.setAttribute("href", mobiquo_name+'/tapatalkdetect/notice.css');
+					script2.setAttribute("href", tapatalkdir+'/tapatalkdetect/notice.css');
 					script2.media='screen';
  
 					document.getElementsByTagName("head")[0].appendChild(script2);
 					var script3 = document.createElement('script');
-					script3.setAttribute('src',mobiquo_name+'/tapatalkdetect/jquery.purr.js');
+					script3.setAttribute('src',tapatalkdir+'/tapatalkdetect/jquery.purr.js');
 					script3.setAttribute('type','text/javascript');
 					script3.onload=loadFunction3;
 					document.getElementsByTagName("head")[0].appendChild(script3);

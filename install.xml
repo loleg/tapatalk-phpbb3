@@ -59,7 +59,7 @@
 		    {
 		    	$subject = utf8_normalize_nfc(request_var('subject', '', true));
 				$subject = (!$subject && $mode != 'post') ? $post_data['topic_title'] : $subject;
-		        require_once($phpbb_root_path . $config['mobiquo_name'].'/push_hook.' . $phpEx);
+		        require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
 		        switch ($mode)
 		        {
 		        	case 'reply':
@@ -92,7 +92,7 @@
 				<action type="after-add"><![CDATA[// BEGIN mobiquo Mod push service
 	if(!empty($data['msg_id']) && isset($config['mobiquo_push']))
 	{
-		require_once($phpbb_root_path . $config['mobiquo_name'].'/push_hook.' . $phpEx);
+		require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
     	tapatalk_push_pm($user_id, $data['msg_id'], $subject);
 	}
 // END mobiquo Mod]]></action>
@@ -103,13 +103,13 @@
 				<find><![CDATA[return array($active_forum_ary, array());]]></find>
 				<action type="before-add"><![CDATA[if($config['mobiquo_is_chrome'] == 1)
 	{
-		$template->assign_var('MOBIQUO_NAME',$config['mobiquo_name']);
-		$template->assign_var('TAPATALKDETECT_JS', $config['mobiquo_name'].'/tapatalkdetect.js');
+		$template->assign_var('MOBIQUO_NAME',$config['tapatalkdir']);
+		$template->assign_var('TAPATALKDETECT_JS', $config['tapatalkdir'].'/tapatalkdetect.js');
 	}
 	else 
 	{
-		$template->assign_var('MOBIQUO_NAME',$config['mobiquo_name']);
-		$template->assign_var('TAPATALKDETECT_JS', $config['mobiquo_name'].'/tapatalkdetect-nochrome.js');
+		$template->assign_var('MOBIQUO_NAME',$config['tapatalkdir']);
+		$template->assign_var('TAPATALKDETECT_JS', $config['tapatalkdir'].'/tapatalkdetect-nochrome.js');
 	}]]></action>
 			</edit>		
 		</open>
@@ -118,7 +118,7 @@
 				<find><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
 <head>]]></find>
 				<action type="after-add"><![CDATA[
-				<script type="text/javascript">var mobiquo_name="{MOBIQUO_NAME}";</script>
+				<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
 				<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
 			</edit>		
 		</open>

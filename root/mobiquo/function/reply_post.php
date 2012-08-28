@@ -447,7 +447,7 @@ function reply_post_func($xmlrpc_params)
     //add push service here
     if(($reply_success == true) && isset($config['mobiquo_push']))
     {
-        require_once($phpbb_root_path . $config['mobiquo_name'].'/push_hook.' . $phpEx);     
+        require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);     
         preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$matches);
         $user_name_arr = array_unique($matches[1]);
         if(empty($user_name_arr))

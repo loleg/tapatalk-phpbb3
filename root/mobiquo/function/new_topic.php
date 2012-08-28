@@ -290,7 +290,7 @@ function new_topic_func($xmlrpc_params)
     $redirect_url = submit_post('post', $post_data['post_subject'], $post_data['username'], $post_data['topic_type'], $poll, $data, $update_message);
     if($redirect_url && isset($config['mobiquo_push']))
     {
-    	require_once($phpbb_root_path . $config['mobiquo_name'].'/push_hook.' . $phpEx);
+    	require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
     	$post_data['topic_id'] = $data['topic_id'];
 		tapatalk_push_newtopic($data['post_id'],$post_data,$subject);
 		
