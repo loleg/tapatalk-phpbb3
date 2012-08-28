@@ -19,12 +19,12 @@ function get_forum_func($xmlrpc_params)
     if (isset($params[1]))
     {
         $fid = intval($params[1]);
-        $forum_filter = " WHERE f.parent_id = '$fid'";
+        $forum_filter = " WHERE f.parent_id = '$fid'" . 'AND f.forum_id NOT IN ('.(!empty($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : 0).')';
         $root_forum_id = $fid;
     }
     else
     {
-        $forum_filter = '';
+        $forum_filter = 'WHERE f.forum_id NOT IN ('.(!empty($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : 0).')';
         $root_forum_id = 0;
     }
     
@@ -32,7 +32,7 @@ function get_forum_func($xmlrpc_params)
             FROM ' . FORUMS_TABLE . ' f ' .
             ($user->data['is_registered'] ? ' LEFT JOIN ' . FORUMS_WATCH_TABLE . ' fw ON (fw.forum_id = f.forum_id AND fw.user_id = ' . $user->data['user_id'] . ')' : '') . 
             $forum_filter . '
-            AND f.forum_id NOT IN ('.(!empty($config['mobiquo_hide_forum_id']) ? $config['mobiquo_hide_forum_id'] : 0).') ORDER BY f.left_id ASC';
+            ORDER BY f.left_id ASC';
     $result = $db->sql_query($sql, 600);
     
     $forum_rows = array();
