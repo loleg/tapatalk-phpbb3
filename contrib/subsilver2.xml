@@ -20,7 +20,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>pb30_3.3.2</mod-version>
+		<mod-version>3.4.0</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -29,21 +29,9 @@
 		<history>
 			<entry>
 				<date>2012-08-25</date>
-				<rev-version>pb30_3.3.2</rev-version>
+				<rev-version>3.4.0</rev-version>
 				<changelog lang="en">
 					<change>Initial Release.</change>
-				</changelog>
-			</entry>
-			<entry>
-				<date>2012-08-25</date>
-				<rev-version>pb30_3.3.2</rev-version>
-				<changelog lang="en">
-					<change>Fixed bug with auto focus message field for IE.</change>
-					<change>Fixed bug for style ProSilver in IE6.</change>
-					<change>Fixed indicator (load, error, ok) for IE.</change>
-					<change>Fixed sound (now the place where the sound is hiden).</change>
-					<change>Fixed bug for Apache2 (did not send status query).</change>
-					<change>Minor bugfixes.</change>
 				</changelog>
 			</entry>
 		</history>

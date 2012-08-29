@@ -20,7 +20,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>pb30_3.3.2</mod-version>
+		<mod-version>3.4.0</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -29,7 +29,7 @@
 		<history>
 			<entry>
 				<date>2012-08-25</date>
-				<rev-version>pb30_3.3.2</rev-version>
+				<rev-version>3.4.0</rev-version>
 				<changelog lang="en">
 					<change>Modified compatible version of phpbb 3.0.3</change>
 					<change>Fixed several bugs</change>

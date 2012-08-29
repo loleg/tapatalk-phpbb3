@@ -46,7 +46,7 @@ function login_func($xmlrpc_params)
 	        		$params[2]=0;
 	        	}
 	        	$sql = "INSERT INTO `" . $table_prefix . "tapatalk_users` 
-	        	(`userid`, `announcement`, `pm`, `subscribee`, `quote`,`tag`,`newtopic`,`updated`) 
+	        	(`userid`, `announcement`, `pm`, `subscribe`, `quote`,`tag`,`newtopic`,`updated`) 
 	        	VALUES ('".$user->data['user_id']."', '1', '1', '1', 1,1,1,'".time()."')";
 	        	$db->sql_query($sql);       	
 	        }

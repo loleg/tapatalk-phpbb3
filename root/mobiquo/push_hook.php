@@ -18,7 +18,7 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .TOPICS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
-    	WHERE w.topic_id = '".$current_topic_info['topic_id']."' AND t.subscribee=1";
+    	WHERE w.topic_id = '".$current_topic_info['topic_id']."' AND t.subscribe=1";
     	$result = $db->sql_query($sql);
     	while($row = $db->sql_fetchrow($result))
     	{
@@ -41,7 +41,7 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
     	}
     	unset($row);
     	$db->sql_freeresult($result);
-        $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$current_topic_info['topic_poster']."' and subscribee=1";
+        $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$current_topic_info['topic_poster']."' and subscribe=1";
         $result = $db->sql_query($sql);
         $row = $db->sql_fetchrow($result);
         if ($row['userid'] == $user->data['user_id']) return 'from user_id is same with to user_id ';

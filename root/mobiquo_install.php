@@ -61,7 +61,7 @@ $version_config_name = 'mobiquo_version';
 */
 $versions = array(
 	// Version 1.2.10
-	'pb30_3.3.2'	=> array(
+	'3.4.0'	=> array(
 	
 		// Lets add a config setting and set it to true
 		'config_add' => array(
@@ -96,7 +96,7 @@ $versions = array(
 						'userid'		=> array('INT:10', 0),
 						'announcement'	=> array('INT:5', 1),
 						'pm'			=> array('INT:5', 1),
-						'subscribee'	=> array('INT:5', 1),
+						'subscribe'	=> array('INT:5', 1),
 						'quote'         => array('INT:5', 1),
 			            'newtopic'      => array('INT:5', 1),
 						'tag'           => array('INT:5', 1),

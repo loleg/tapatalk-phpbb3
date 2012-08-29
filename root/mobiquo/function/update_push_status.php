@@ -32,7 +32,7 @@ function update_push_status_func($xmlrpc_params)
 		{
 			$update_params['announcement'] = $params[0]['all'] ? 1 : 0;
             $update_params['pm'] = $params[0] ? 1 : 0;
-            $update_params['subscribee'] = $params[0]['all'] ? 1 : 0;
+            $update_params['subscribe'] = $params[0]['all'] ? 1 : 0;
             $update_params['quote'] = $params[0] ? 1 : 0;
             $update_params['tag'] = $params[0]['all'] ? 1 : 0;
             $update_params['newtopic'] = $params[0]['all'] ? 1 : 0;		
@@ -41,14 +41,14 @@ function update_push_status_func($xmlrpc_params)
 		{
 			$update_params['announcement'] = isset($params[0]['ann']) ? $params[0]['ann'] : 1;
             $update_params['pm'] = isset($params[0]['pm']) ? $params[0]['pm'] : 1;
-            $update_params['subscribee'] = isset($params[0]['sub']) ? $params[0]['sub'] : 1;
+            $update_params['subscribe'] = isset($params[0]['sub']) ? $params[0]['sub'] : 1;
             $update_params['quote'] = isset($params[0]['quote']) ? $params[0]['quote'] : 1;
             $update_params['tag'] = isset($params[0]['tag']) ? $params[0]['tag'] : 1;
             $update_params['newtopic'] = isset($params[0]['newtopic']) ? $params[0]['newtopic'] : 1;
             	
 		}
 		$sql = 'UPDATE '. $table_prefix . "tapatalk_users SET announcement = '".$update_params['announcement']."',pm='".$update_params['pm']."',
-		subscribee = '".$update_params['subscribee']."',quote = '".$update_params['quote']."',tag = '".$update_params['tag']."',newtopic='".$update_params['newtopic']."'
+		subscribe = '".$update_params['subscribe']."',quote = '".$update_params['quote']."',tag = '".$update_params['tag']."',newtopic='".$update_params['newtopic']."'
 		WHERE userid = '".$user->data['user_id']."'";
 		$result = $db->sql_query($sql);
 		if($result)

@@ -500,7 +500,7 @@ function get_user_info_func($xmlrpc_params)
 	    	{
 	    		$user_info['newtopic'] = new xmlrpcval('Subscription forum push', 'base64');
 	    	}
-	    	if($row['subscribee'] ==1 )
+	    	if($row['subscribe'] ==1 )
 	    	{
 	    		$user_info['sub'] = new xmlrpcval('Subscription topic push', 'base64');
 	    	}
