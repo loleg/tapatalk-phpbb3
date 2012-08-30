@@ -190,6 +190,8 @@ class acp_mobiquo
 	{
 		global $user, $config,$db,$strSelect;
 		$selected = explode(',', $config['mobiquo_hide_forum_id']);
+		$i = 0;
+		static $i;
 		$topArr = $this->getChild($rows,$parent_id);
 		foreach ($topArr as $info)
 		{
@@ -210,7 +212,7 @@ class acp_mobiquo
 			{
 				continue;
 			}
-			$i=0;		
+			$i = 0;		
 		}
 	}
 	
