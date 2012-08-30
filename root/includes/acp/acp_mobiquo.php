@@ -2,6 +2,7 @@
 /**
 * @ignore
 */
+error_reporting(0);
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -189,8 +190,6 @@ class acp_mobiquo
 	{
 		global $user, $config,$db,$strSelect;
 		$selected = explode(',', $config['mobiquo_hide_forum_id']);
-		$i = 0;
-		static $i;
 		$topArr = $this->getChild($rows,$parent_id);
 		foreach ($topArr as $info)
 		{
@@ -211,7 +210,7 @@ class acp_mobiquo
 			{
 				continue;
 			}
-			unset($i);		
+			$i=0;		
 		}
 	}
 	
