@@ -20,7 +20,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.4.0</mod-version>
+		<mod-version>3.4.1</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -32,6 +32,14 @@
 				<rev-version>3.4.0</rev-version>
 				<changelog lang="en">
 					<change>Initial Release.</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-08-31</date>
+				<rev-version>3.4.1</rev-version>
+				<changelog lang="en">
+					<change>Fixed some samll issues</change>
+					<change>Fixed Permission Problem with Latest Update</change>
 				</changelog>
 			</entry>
 		</history>

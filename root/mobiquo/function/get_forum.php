@@ -53,7 +53,7 @@ function get_forum_func($xmlrpc_params)
 		}
 		elseif(in_array($row['parent_id'], $forum_hide_forum_arr))
 		{
-			array_push($row['forum_id'], $forum_hide_forum_arr);
+			array_push($forum_hide_forum_arr, $row['forum_id']);
 			continue;
 		}
         // Skip branch

@@ -229,8 +229,14 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 	$right_id = 0;
 	$reset_search_forum = true;
+	$hide_forum_arr = $mobiquo_config['hide_forum_id'];
 	while ($row = $db->sql_fetchrow($result))
 	{
+		if(in_array($row['parent_id'], $hide_forum_arr))
+		{
+			array_push($hide_forum_arr,$row['forum_id']);
+		}
+		
 		if ($row['forum_password'] && $row['user_id'] != $user->data['user_id'])
 		{
 			$ex_fid_ary[] = (int) $row['forum_id'];
@@ -243,7 +249,8 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$ex_fid_ary[] = (int) $row['forum_id'];
 			continue;
 		}
-
+		
+		
 		if (sizeof($search_forum))
 		{
 			if ($search_child)
@@ -265,6 +272,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			}
 		}
 	}
+	$ex_fid_ary = array_unique(array_merge($ex_fid_ary,$hide_forum_arr));
 	$db->sql_freeresult($result);
 
 	// find out in which forums the user is allowed to view approved posts

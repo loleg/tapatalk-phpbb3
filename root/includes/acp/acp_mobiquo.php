@@ -207,12 +207,12 @@ class acp_mobiquo
 			{
 				$i++;
 				$this->display_select_forum($rows, $info['forum_id']);
+				$i--;
 			}
 			else
 			{
 				continue;
-			}
-			$i = 0;		
+			}					
 		}
 	}
 	

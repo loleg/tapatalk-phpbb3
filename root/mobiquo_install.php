@@ -44,7 +44,7 @@ $language_file = 'mods/info_acp_mobiquo';
 
 
 // The name of the mod to be displayed during installation.
-$mod_name = 'ACP_MCHAT_TITLE';
+$mod_name = 'ACP_MOBIQUO_TITLE';
 
 /*
 * The name of the config variable which will hold the currently installed version
@@ -84,7 +84,7 @@ $versions = array(
 				),
 			),		
 		),
-		// now install the mchat table
+		// now install the mobiquo table
 		// see if it exists from prior versions
 		'custom'	=> 'mobiquo_table',
 		
@@ -105,6 +105,19 @@ $versions = array(
 					'PRIMARY_KEY'	=> 'userid',
 				),
 			),			
+		),
+	),
+	'3.4.1' => array(
+		// Now to add some permission settings
+		'permission_add' => array(
+			array('a_mobiquo'),
+		),
+
+		// Admins can do anything with mobiquo
+		'permission_set' => array(
+			array('ADMINISTRATORS', 'a_mobiquo', 'group'),
+			// Global Role permissions for admins
+			array('ROLE_ADMIN_FULL', 'a_mobiquo'),
 		),
 	),
 );		
@@ -133,10 +146,10 @@ function mobiquo_table($action, $version)
 			//table from previous version exists...delete it.
 			$sql = 'DROP TABLE ' . $table_prefix.'tapatalk_users';
 			$db->sql_query($sql);
-			return 'MCHAT_TABLE_DELETED';
+			return 'MOBIQUO_TABLE_DELETED';
 		}			
 		
-		return 'MCHAT_NOTHING_TO_UPDATE';
+		return 'MOBIQUO_NOTHING_TO_UPDATE';
 	}
 }
 	
