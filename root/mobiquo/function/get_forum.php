@@ -37,7 +37,7 @@ function get_forum_func($xmlrpc_params)
     
     $forum_rows = array();
     $forum_rows[$root_forum_id] = array('forum_id' => $root_forum_id, 'parent_id' => -1, 'child' => array());
-    $forum_hide_forum_arr = explode(',', $mobiquo_config['hide_forum_id']);
+    $forum_hide_forum_arr = !empty($mobiquo_config['hide_forum_id']) ? $mobiquo_config['hide_forum_id'] : array();
     while ($row = $db->sql_fetchrow($result))
     {
         $forum_id = $row['forum_id'];

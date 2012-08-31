@@ -44,10 +44,7 @@ $sort_dir		= request_var('sd', 'd');
 $return_chars	= request_var('ch', ($topic_id) ? -1 : 200);
 $search_forum	= request_var('fid', array(0));
 $exclude_forum	= request_var('exclude', array(0));
-if(!empty($mobiquo_config['hide_forum_id']))
-{
-	$exclude_forum = array_unique(array_merge($exclude_forum,explode(',', $mobiquo_config['hide_forum_id'])));
-}
+
 // We put login boxes for the case if search_id is newposts, egosearch or unreadposts
 // because a guest should be able to log in even if guests search is not permitted
 
