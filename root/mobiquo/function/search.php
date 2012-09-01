@@ -229,7 +229,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 	$right_id = 0;
 	$reset_search_forum = true;
-	$hide_forum_arr = $mobiquo_config['hide_forum_id'];
+	$hide_forum_arr = is_array($mobiquo_config['hide_forum_id']) ? $mobiquo_config['hide_forum_id'] : array();
 	while ($row = $db->sql_fetchrow($result))
 	{
 		if(in_array($row['parent_id'], $hide_forum_arr))
