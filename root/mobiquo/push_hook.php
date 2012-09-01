@@ -203,7 +203,7 @@ function check_push()
 	if(!function_exists('push_table_exists'))
 	{
 		define('IN_MOBIQUO', 1);
-		require_once $phbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
 	}
 	if(!push_table_exists())
 		return false;
