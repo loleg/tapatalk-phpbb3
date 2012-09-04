@@ -327,23 +327,27 @@ function push_table_exists()
 	{
 		return PUSH_TABLE_EXISTS;
 	}
-	global $db,$table_prefix;
-    $sql = "show tables";
-    $result = $db->sql_query($sql);
-    $tables_arr = array();
-    while($row = $db->sql_fetchrow($result))
+	global $db,$table_prefix,$phpbb_root_path,$phpEx;
+	require_once($phpbb_root_path . 'includes/db/db_tools.' . $phpEx);
+	$db_tools = new phpbb_db_tools($db);
+    if(method_exists($db_tools, 'sql_table_exists') && $db_tools->sql_table_exists($table_prefix.'tapatalk_users'))
     {
-    	foreach ($row as $value)
-    	{
-    		$tables_arr[] = $value;
-    	}
+    	define('PUSH_TABLE_EXISTS',true);
+    	return true;   		
     }
-    $db->sql_freeresult($result);
-    if(!in_array($table_prefix.'tapatalk_users', $tables_arr))
+    elseif(!method_exists($db_tools, 'sql_table_exists'))
     {
-    	define('PUSH_TABLE_EXISTS',false);
-    	return false;
+    	$db->sql_return_on_error(true);
+		$result = $db->sql_query_limit('SELECT * FROM ' . $table_prefix.'tapatalk_users', 1);
+		$db->sql_return_on_error(false);
+
+		if ($result)
+		{
+			$db->sql_freeresult($result);
+			define('PUSH_TABLE_EXISTS',true);
+			return true;
+		}
     }
-    define('PUSH_TABLE_EXISTS',true);
-    return true;
+    define('PUSH_TABLE_EXISTS',false);
+    return false;
 }

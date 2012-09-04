@@ -80,7 +80,7 @@ $versions = array(
 					'module_basename'	=> 'mobiquo',
 					'module_langname'	=> 'ACP_MOBIQUO_SETTINGS',
 					'module_mode'		=> 'mobiquo',
-					'module_auth'		=> 'acl_a_board',
+					'module_auth'		=> 'acl_a_mobiquo',
 				),
 			),		
 		),
@@ -110,16 +110,31 @@ $versions = array(
 	'3.4.1' => array(
 		// Now to add some permission settings
 		'permission_add' => array(
-			array('a_mobiquo'),
+			array('a_mobiquo',true),
 		),
 
 		// Admins can do anything with mobiquo
 		'permission_set' => array(
-			array('ADMINISTRATORS', 'a_mobiquo', 'group'),
+		    // Global Group permissions
+			array('ADMINISTRATORS', 'a_mobiquo', 'group' ,true),
 			// Global Role permissions for admins
-			array('ROLE_ADMIN_FULL', 'a_mobiquo'),
+			array('ROLE_ADMIN_FULL', 'a_mobiquo' ,true),
 		),
 	),
+	'3.4.2' => array(
+		'module_remove' => array(
+            array('acp', 'ACP_MOBIQUO', 'ACP_MOBIQUO_SETTINGS'),
+		),
+		'module_add'  =>array(
+			array('acp', 'ACP_MOBIQUO', array(
+					'module_basename'	=> 'mobiquo',
+					'module_langname'	=> 'ACP_MOBIQUO_SETTINGS',
+					'module_mode'		=> 'mobiquo',
+					'module_auth'		=> 'acl_a_mobiquo',
+				),
+			),
+		),
+	)
 );		
 
 		
