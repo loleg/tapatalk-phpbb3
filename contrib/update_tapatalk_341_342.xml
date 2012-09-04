@@ -4,15 +4,15 @@
 		<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
 	<header>
 		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
-			<title lang="en">Tapatalk 3.4.0 to 3.4.1</title>
-				<description lang="en">Updates mod to 3.4.1 from 3.4.0</description>
+			<title lang="en">Tapatalk 3.4.1 to 3.4.2</title>
+				<description lang="en">Updates mod to 3.4.2 from 3.4.1</description>
 		<author-group>
 			<author>
 				<realname>tapatalk</realname>
 				<username>tapatalk</username>
 				<homepage>http://www.tapatalk.com</homepage>
 				<contributions-group>
-				  <contributions status="past" from="2009-08-13" to="2012-08-20" position="Developer"/>
+				  <contributions status="past" from="2009-08-13" to="2012-09-06" position="Developer"/>
 				</contributions-group>
 			</author>
 		</author-group>
