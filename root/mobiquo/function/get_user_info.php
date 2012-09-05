@@ -486,23 +486,23 @@ function get_user_info_func($xmlrpc_params)
 	    {
 	    	if($row['pm'] == 1)
 	    	{
-	    		$user_info['pm'] = new xmlrpcval('PM push', 'base64');
+	    		$user_info['pm'] = new xmlrpcval('Notification - Message', 'base64');
 	    	}
 	    	if($row['quote'] == 1)
 	    	{
-	    		$user_info['quote'] = new xmlrpcval('Quotes push', 'base64');
+	    		$user_info['quote'] = new xmlrpcval('Notification - Quoted', 'base64');
 	    	} 
 	    	if($row['tag'] == 1)
 	    	{
-	    		$user_info['tag'] = new xmlrpcval('Mention push', 'base64');
+	    		$user_info['tag'] = new xmlrpcval('Notification - Mentioned', 'base64');
 	    	}
 	    	if($row['newtopic'] == 1)
 	    	{
-	    		$user_info['newtopic'] = new xmlrpcval('Subscription forum push', 'base64');
+	    		$user_info['newtopic'] = new xmlrpcval('Notification - New Topic', 'base64');
 	    	}
 	    	if($row['subscribe'] ==1 )
 	    	{
-	    		$user_info['sub'] = new xmlrpcval('Subscription topic push', 'base64');
+	    		$user_info['sub'] = new xmlrpcval('Notification - Replies', 'base64');
 	    	}
 	    }
     }

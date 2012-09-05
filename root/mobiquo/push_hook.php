@@ -8,7 +8,7 @@
 function tapatalk_push_reply($post_id,$current_topic_info,$subject)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = $config['server_protocol'].$config['server_name'].$config['script_path'];
+	$boardurl = generate_board_url();
 	if(!check_push())
 	{
 		return false;
@@ -23,7 +23,6 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
     	while($row = $db->sql_fetchrow($result))
     	{
     		 if ($row['userid'] == $user->data['user_id']) continue;
-    		 if ($row['userid'] == $current_topic_info['topic_poster']) continue;
     		 $ttp_data = array(
                 'userid'    => $row['userid'],
                 'type'      => 'sub',
@@ -39,30 +38,6 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
             );
             $return_status = tt_do_post_request($ttp_post_data);
     	}
-    	unset($row);
-    	$db->sql_freeresult($result);
-        $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$current_topic_info['topic_poster']."' and subscribe=1";
-        $result = $db->sql_query($sql);
-        $row = $db->sql_fetchrow($result);
-        if ($row['userid'] == $user->data['user_id']) return 'from user_id is same with to user_id ';
-        $db->sql_freeresult($result);
-        if(!empty($row))
-        {
-            $ttp_data = array(
-                'userid'    => $row['userid'],
-                'type'      => 'sub',
-                'id'        => $current_topic_info['topic_id'],
-                'subid'     => $post_id,
-                'title'     => tt_push_clean($current_topic_info['topic_title']),
-                'author'    => tt_push_clean($user->data['username']),
-                'dateline'  => time(),
-            );
-            $ttp_post_data = array(
-                'url'  => $boardurl,
-                'data' => base64_encode(serialize(array($ttp_data))),
-            );
-            $return_status = tt_do_post_request($ttp_post_data);
-        }
     }
     return $return_status;
 }
@@ -74,7 +49,7 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
 function tapatalk_push_newtopic($post_id,$current_topic_info,$subject)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = $config['server_protocol'].$config['server_name'].$config['script_path'];
+	$boardurl = generate_board_url();
 	$return_status = false;
 	if(!check_push())
 	{
@@ -118,7 +93,7 @@ function tapatalk_push_newtopic($post_id,$current_topic_info,$subject)
 function tapatalk_push_pm($userid,$pm_id,$subject)
 {
     global $db, $user, $config,$table_prefix,$boardurl,$phpbb_root_path,$phpEx;
-	$boardurl = $config['server_protocol'].$config['server_name'].$config['script_path'];
+	$boardurl = generate_board_url();
 	if(!check_push())
 	{
 		return false;
@@ -157,7 +132,7 @@ function tapatalk_push_quote($post_id,$current_topic_info,$subject,$user_name_ar
 		$subject = $current_topic_info['topic_title'];
 	}
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = $config['server_protocol'].$config['server_name'].$config['script_path'];
+	$boardurl = generate_board_url();
 	$return_status = false;
 	if(!check_push())
 	{

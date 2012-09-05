@@ -459,11 +459,11 @@ function reply_post_func($xmlrpc_params)
         tapatalk_push_reply($data['post_id'], $post_data, $subject);
         tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_arr,'quote');
         
-        preg_match_all('/@(.*?)\\s/is', $data['message'],$matches);
+        preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
         $user_name_tag_arr = array_unique($matches[1]);
     	if(empty($user_name_tag_arr))
         {
-        	preg_match_all('/@(.*?)\\s/is', urldecode($data['message']),$matches);
+        	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', urldecode($data['message']),$matches);
         	$user_name_tag_arr = array_unique($matches[1]);
         }
 

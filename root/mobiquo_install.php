@@ -3,7 +3,7 @@
 /**
 *
 * @author jeffrey jack15083@gmail.com 
-* @package mobiquo
+* @package umil
 * @version $Id mobiquo_install.php
 * @copyright (c) 2012 www.tapatalk.com
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License

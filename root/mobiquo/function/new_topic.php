@@ -294,11 +294,11 @@ function new_topic_func($xmlrpc_params)
     	$post_data['topic_id'] = $data['topic_id'];
 		tapatalk_push_newtopic($data['post_id'],$post_data,$subject);
 		
-    	preg_match_all('/@(.*?)\\s/is', $data['message'],$matches);
+    	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
         $user_name_tag_arr = array_unique($matches[1]);
     	if(empty($user_name_tag_arr))
         {
-        	preg_match_all('/@(.*?)\\s/is', urldecode($data['message']),$matches);
+        	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', urldecode($data['message']),$matches);
         	$user_name_tag_arr = array_unique($matches[1]);
         }
 		tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_tag_arr,'tag');

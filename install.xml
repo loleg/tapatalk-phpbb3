@@ -15,14 +15,14 @@
 				<username>tapatalk</username>
 				<homepage>http://www.tapatalk.com</homepage>
 				<contributions-group>
-				  <contributions status="past" from="2009-08-13" to="2012-09-06" position="Developer"/>
+				  <contributions status="current" from="2009-08-13"  position="Developer"/>
 				</contributions-group>
 			</author>
 		</author-group>
 		<mod-version>3.4.2</mod-version>
 		<installation>
 			<level>intermediate</level>
-			<time>600</time>
+			<time>1800</time>
 			<target-version>3.0.0 above</target-version>
 		</installation>
 		<history>
@@ -68,10 +68,10 @@
 	</header>
 	<action-group>
 		<copy>
+			<file from="root/umil/*.*" to="umil/*.*" />
 			<file from="root/mobiquo_install.php" to="mobiquo_install.php" />
 			<file from="root/includes/acp/*.*" to="includes/acp/*.*" />
 			<file from="root/adm/style/*.*" to="adm/style/*.*" />
-			<file from="root/umil/*.*" to="umil/*.*" />
 			<file from="root/mobiquo/*.*" to="mobiquo/*.*" />
 			<file from="root/language/*.*" to="language/*.*" />
 		</copy>
@@ -101,7 +101,7 @@
 		        		tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_arr,'quote');
 		        		break;
 		        }
-		        preg_match_all('/@(.*?)\\s/is', $data['message'],$matches);
+		        preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
 		        $user_name_tag_arr = array_unique($matches[1]);
 		        unset($matches);
 		        tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_tag_arr,'tag');		   
@@ -125,7 +125,7 @@
 		<open src="includes/functions_display.php">
 			<edit>
 				<find><![CDATA[return array($active_forum_ary, array());]]></find>
-				<action type="before-add"><![CDATA[if($config['mobiquo_is_chrome'] == 1)
+				<action type="before-add"><![CDATA[if(isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1))
 	{
 		$template->assign_var('MOBIQUO_NAME',$config['tapatalkdir']);
 		$template->assign_var('TAPATALKDETECT_JS', $config['tapatalkdir'].'/tapatalkdetect.js');
