@@ -75,39 +75,34 @@
 			<file from="root/mobiquo/*.*" to="mobiquo/*.*" />
 			<file from="root/language/*.*" to="language/*.*" />
 		</copy>
-		<open src="posting.php">
+		<open src="includes/functions_posting.php">
 			<edit>
-				<find><![CDATA[			$redirect_url = submit_post($mode, $post_data['post_subject'], $post_data['username'], $post_data['topic_type'],]]></find>
-				<action type="after-add"><![CDATA[// BEGIN mobiquo Mod push service
-			if ($redirect_url && isset($config['mobiquo_push']))
-		    {
-		    	$subject = utf8_normalize_nfc(request_var('subject', '', true));
-				$subject = (!$subject && $mode != 'post') ? $post_data['topic_title'] : $subject;
-		        require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
-		        switch ($mode)
-		        {
-		        	case 'reply':
-		        		tapatalk_push_reply($data['post_id'], $post_data, $subject);
-		        		break;
-		        	case 'post':
-		        		$post_data['topic_id'] = $data['topic_id'];
-		        		tapatalk_push_newtopic($data['post_id'],$post_data,$subject);
-		        		break;
-		        	case 'quote':
-		        		preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$matches);
-		        		$user_name_arr = array_unique($matches[1]);
-		        		unset($matches);		        		
-		        		tapatalk_push_reply($data['post_id'], $post_data, $subject);
-		        		tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_arr,'quote');
-		        		break;
-		        }
-		        preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
-		        $user_name_tag_arr = array_unique($matches[1]);
-		        unset($matches);
-		        tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_tag_arr,'tag');		   
-		    	unset($subject);
-		    }
-// END mobiquo Mod]]></action>
+				<find><![CDATA[	$url = append_sid($url, 'f=' . $data['forum_id'] . $params) . $add_anchor;]]></find>
+				<action type="after-add"><![CDATA[	// BEGIN mobiquo Mod push service
+	if ($url && isset($config['mobiquo_push']))
+    {
+        require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
+        switch ($mode)
+        {
+        	case 'reply':
+        		tapatalk_push_reply($data);
+        		break;
+        	case 'post':
+        		tapatalk_push_newtopic($data);
+        		break;
+        	case 'quote':
+        		preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$matches);
+        		$user_name_arr = array_unique($matches[1]);
+        		unset($matches);		        		
+        		tapatalk_push_reply($data);
+        		tapatalk_push_quote($data,$user_name_arr,'quote');
+        		break;
+        }
+        $user_name_tag_arr = get_tag_list($data['message']);
+        tapatalk_push_quote($data,$user_name_tag_arr,'tag');		   
+    	unset($subject);
+    }
+	// END mobiquo Mod]]></action>
 			</edit>		
 		</open>
 		<open src="includes/functions_privmsgs.php">

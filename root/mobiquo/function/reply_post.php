@@ -444,33 +444,6 @@ function reply_post_func($xmlrpc_params)
             }
         }
     }
-    //add push service here
-    if(($reply_success == true) && isset($config['mobiquo_push']))
-    {
-        require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);     
-        preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$matches);
-        $user_name_arr = array_unique($matches[1]);
-        if(empty($user_name_arr))
-        {
-        	preg_match_all('/quote="(.*?)"/is', urldecode($data['message']),$matches);
-        	$user_name_arr = array_unique($matches[1]);
-        }
-        unset($matches);	        		
-        tapatalk_push_reply($data['post_id'], $post_data, $subject);
-        tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_arr,'quote');
-        
-        preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
-        $user_name_tag_arr = array_unique($matches[1]);
-    	if(empty($user_name_tag_arr))
-        {
-        	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', urldecode($data['message']),$matches);
-        	$user_name_tag_arr = array_unique($matches[1]);
-        }
-
-        unset($matches);
-        tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_tag_arr,'tag');		   
-
-    }
     
     $xmlrpc_reply_topic = new xmlrpcval(array(
         'result'    => new xmlrpcval($reply_success, 'boolean'),

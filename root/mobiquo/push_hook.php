@@ -5,7 +5,7 @@
  * @param int $post_id  the current post_id
  * @param array $current_topic_info
  */
-function tapatalk_push_reply($post_id,$current_topic_info,$subject)
+function tapatalk_push_reply($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$boardurl = generate_board_url();
@@ -14,11 +14,11 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
 		return false;
 	}
 	$return_status = false;
-    if (!empty($current_topic_info) && $post_id && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
+    if (!empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .TOPICS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
-    	WHERE w.topic_id = '".$current_topic_info['topic_id']."' AND t.subscribe=1";
+    	WHERE w.topic_id = '".$data['topic_id']."' AND t.subscribe=1";
     	$result = $db->sql_query($sql);
     	while($row = $db->sql_fetchrow($result))
     	{
@@ -26,9 +26,9 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
     		 $ttp_data = array(
                 'userid'    => $row['userid'],
                 'type'      => 'sub',
-                'id'        => $current_topic_info['topic_id'],
-                'subid'     => $post_id,
-                'title'     => tt_push_clean($current_topic_info['topic_title']),
+                'id'        => $data['topic_id'],
+                'subid'     => $data['post_id'],
+                'title'     => tt_push_clean($data['topic_title']),
                 'author'    => tt_push_clean($user->data['username']),
                 'dateline'  => time(),
             );
@@ -46,7 +46,7 @@ function tapatalk_push_reply($post_id,$current_topic_info,$subject)
  * push watch forum
  * @param array $current_topic_info
  */
-function tapatalk_push_newtopic($post_id,$current_topic_info,$subject)
+function tapatalk_push_newtopic($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$boardurl = generate_board_url();
@@ -55,22 +55,22 @@ function tapatalk_push_newtopic($post_id,$current_topic_info,$subject)
 	{
 		return false;
 	}
-    if (!empty($current_topic_info) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
+    if (!empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .FORUMS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
-    	WHERE w.forum_id = '".$current_topic_info['forum_id']."' AND t.newtopic = 1";
+    	WHERE w.forum_id = '".$data['forum_id']."' AND t.newtopic = 1";
     	$result = $db->sql_query($sql);
     	while($row = $db->sql_fetchrow($result))
     	{
     		 if ($row['userid'] == $user->data['user_id']) continue;
-    		 if ($row['userid'] == $current_topic_info['topic_poster']) continue;
+    		 if ($row['userid'] == $data['poster_id']) continue;
     		 $ttp_data = array(
                 'userid'    => $row['userid'],
                 'type'      => 'newtopic',
-                'id'        => $current_topic_info['topic_id'],
-                'subid'     => $post_id,
-                'title'     => tt_push_clean($subject),
+                'id'        => $data['topic_id'],
+                'subid'     => $data['post_id'],
+                'title'     => tt_push_clean($data['topic_title']),
                 'author'    => tt_push_clean($user->data['username']),
                 'dateline'  => time(),
             );
@@ -125,12 +125,8 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
     }
     return $return_status;     
 }
-function tapatalk_push_quote($post_id,$current_topic_info,$subject,$user_name_arr,$type="quote")
+function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 {
-	if(($type == 'quote') || ($type == 'tag'))
-	{
-		$subject = $current_topic_info['topic_title'];
-	}
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$boardurl = generate_board_url();
 	$return_status = false;
@@ -138,13 +134,13 @@ function tapatalk_push_quote($post_id,$current_topic_info,$subject,$user_name_ar
 	{
 		return false;
 	}
-	if(!empty($user_name_arr) && !empty($current_topic_info) && (function_exists('curl_init') || ini_get('allow_url_fopen')))
+	if(!empty($user_name_arr) && !empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))
 	{
 		foreach ($user_name_arr as $username)
 		{			
 			$user_id = get_user_id($username);
 			if ($user_id == $user->data['user_id']) continue;
-			if ($user_id == $current_topic_info['topic_poster']) continue;
+			if ($user_id == $data['poster_id']) continue;
 			$sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$user_id."' AND " . $type . " = 1" ;
 	        $result = $db->sql_query($sql);
 	        $row = $db->sql_fetchrow($result);
@@ -154,9 +150,9 @@ function tapatalk_push_quote($post_id,$current_topic_info,$subject,$user_name_ar
 	            $ttp_data = array(
 	                'userid'    => $row['userid'],
 	                'type'      => $type,
-	                'id'        => empty($current_topic_info['topic_id']) ? $current_topic_info['forum_id'] : $current_topic_info['topic_id'],
-	                'subid'     => $post_id,
-	                'title'     => tt_push_clean($subject),
+	                'id'        => empty($data['topic_id']) ? $data['forum_id'] : $data['topic_id'],
+	                'subid'     => $data['post_id'],
+	                'title'     => tt_push_clean($data['topic_title']),
 	                'author'    => tt_push_clean($user->data['username']),
 	                'dateline'  => time(),
 	            );
@@ -251,5 +247,20 @@ function get_user_id($username)
     $db->sql_freeresult($result);
     
     return $user_id;
+}
+
+function get_tag_list($str)
+{
+    if ( preg_match_all( '/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $str, $tags ) )
+    {
+        foreach ($tags[2] as $index => $tag)
+        {
+            if ($tag) $tags[1][$index] = $tag;
+        }
+        
+        return array_unique($tags[1]);
+    }
+    
+    return array();
 }
 ?>

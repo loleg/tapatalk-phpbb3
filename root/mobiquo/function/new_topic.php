@@ -288,21 +288,6 @@ function new_topic_func($xmlrpc_params)
     $phpbb_root_path_tmp = $phpbb_root_path;
     $phpbb_root_path = './';
     $redirect_url = submit_post('post', $post_data['post_subject'], $post_data['username'], $post_data['topic_type'], $poll, $data, $update_message);
-    if($redirect_url && isset($config['mobiquo_push']))
-    {
-    	require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
-    	$post_data['topic_id'] = $data['topic_id'];
-		tapatalk_push_newtopic($data['post_id'],$post_data,$subject);
-		
-    	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $data['message'],$matches);
-        $user_name_tag_arr = array_unique($matches[1]);
-    	if(empty($user_name_tag_arr))
-        {
-        	preg_match_all('/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', urldecode($data['message']),$matches);
-        	$user_name_tag_arr = array_unique($matches[1]);
-        }
-		tapatalk_push_quote($data['post_id'], $post_data, $subject,$user_name_tag_arr,'tag');
-    }
     chdir($cwd);
     $phpbb_root_path = $phpbb_root_path_tmp;
     
