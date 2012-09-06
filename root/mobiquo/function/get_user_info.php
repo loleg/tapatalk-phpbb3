@@ -318,6 +318,35 @@ function get_user_info_func($xmlrpc_params)
             'value' => new xmlrpcval(basic_clean($member['user_sig']), 'base64')
         ), 'struct');
     
+    if(($member['user_id'] == $user->data['user_id']) && push_table_exists())
+    {
+	    $sql =  "SELECT * FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$member['user_id']."'";
+	    $result = $db->sql_query($sql);
+	    $row = $db->sql_fetchrow($result);
+	    if(!empty($row))
+	    {
+	    	array_push($custom_fields_list, new xmlrpcval(array(
+            'name'  => new xmlrpcval('Notification - Message', 'base64'),
+            'value' => new xmlrpcval($row['pm'] ? 'On' : 'Off', 'base64')
+        	), 'struct'));
+        	array_push($custom_fields_list, new xmlrpcval(array(
+            'name'  => new xmlrpcval('Notification - Quoted', 'base64'),
+            'value' => new xmlrpcval($row['quote'] ? 'On' : 'Off', 'base64')
+        	), 'struct'));
+        	array_push($custom_fields_list, new xmlrpcval(array(
+            'name'  => new xmlrpcval('Notification - Mentioned', 'base64'),
+            'value' => new xmlrpcval($row['tag'] ? 'On' : 'Off', 'base64')
+        	), 'struct'));
+        	array_push($custom_fields_list, new xmlrpcval(array(
+            'name'  => new xmlrpcval('Notification - New Topic', 'base64'),
+            'value' => new xmlrpcval($row['newtopic'] ? 'On' : 'Off', 'base64')
+        	), 'struct'));
+        	array_push($custom_fields_list, new xmlrpcval(array(
+            'name'  => new xmlrpcval('Notification - Replies', 'base64'),
+            'value' => new xmlrpcval($row['subscribe'] ? 'On' : 'Off', 'base64')
+        	), 'struct'));
+	    }
+    }
     
     $user_avatar_url = get_user_avatar_url($member['user_avatar'], $member['user_avatar_type']);
     
@@ -477,36 +506,6 @@ function get_user_info_func($xmlrpc_params)
         
         //'can_ban'            => new xmlrpcval($auth->acl_get('m_ban') && $user_id != $user->data['user_id'] ? true : false, 'boolean'),
     );
-    if(($member['user_id'] == $user->data['user_id']) && push_table_exists())
-    {
-	    $sql =  "SELECT * FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$member['user_id']."'";
-	    $result = $db->sql_query($sql);
-	    $row = $db->sql_fetchrow($result);
-	    if(!empty($row))
-	    {
-	    	if($row['pm'] == 1)
-	    	{
-	    		$user_info['pm'] = new xmlrpcval('Notification - Message', 'base64');
-	    	}
-	    	if($row['quote'] == 1)
-	    	{
-	    		$user_info['quote'] = new xmlrpcval('Notification - Quoted', 'base64');
-	    	} 
-	    	if($row['tag'] == 1)
-	    	{
-	    		$user_info['tag'] = new xmlrpcval('Notification - Mentioned', 'base64');
-	    	}
-	    	if($row['newtopic'] == 1)
-	    	{
-	    		$user_info['newtopic'] = new xmlrpcval('Notification - New Topic', 'base64');
-	    	}
-	    	if($row['subscribe'] ==1 )
-	    	{
-	    		$user_info['sub'] = new xmlrpcval('Notification - Replies', 'base64');
-	    	}
-	    }
-    }
-    
     
     $xmlrpc_user_info = new xmlrpcval($user_info, 'struct');
     return new xmlrpcresp($xmlrpc_user_info);

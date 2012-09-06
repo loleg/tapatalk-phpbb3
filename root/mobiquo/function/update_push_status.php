@@ -31,9 +31,9 @@ function update_push_status_func($xmlrpc_params)
 		if(isset($params[0]['all']))
 		{
 			$update_params['announcement'] = $params[0]['all'] ? 1 : 0;
-            $update_params['pm'] = $params[0] ? 1 : 0;
+            $update_params['pm'] = $params[0]['all'] ? 1 : 0;
             $update_params['subscribe'] = $params[0]['all'] ? 1 : 0;
-            $update_params['quote'] = $params[0] ? 1 : 0;
+            $update_params['quote'] = $params[0]['all'] ? 1 : 0;
             $update_params['tag'] = $params[0]['all'] ? 1 : 0;
             $update_params['newtopic'] = $params[0]['all'] ? 1 : 0;		
 		}
