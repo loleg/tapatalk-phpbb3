@@ -101,10 +101,10 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
 	$return_status = false;
     if ($userid && !empty($subject) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
     {         
-         $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$userid."' and `pm` =1";
+         $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$userid."' and pm =1";
          $result = $db->sql_query($sql);
          $row = $db->sql_fetchrow($result);
-         if ($row['userid'] == $user->data['user_id']) return 'from user_id is same with to user_id and `pm` =1';
+         if ($row['userid'] == $user->data['user_id']) return false;
          $db->sql_freeresult($result);
          if(!empty($row))
          {

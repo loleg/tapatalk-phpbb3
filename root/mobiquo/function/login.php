@@ -39,21 +39,30 @@ function login_func($xmlrpc_params)
 	        $userInfo = $db->sql_fetchrow($result);
 	        $db->sql_freeresult($result);
 	        $time = time();
-	        if(empty($userInfo))
+        	if(empty($userInfo))
 	        {
 	        	if(empty($params[2]))
 	        	{
 	        		$params[2]=0;
 	        	}
-	        	$sql = "INSERT INTO `" . $table_prefix . "tapatalk_users` 
-	        	(`userid`, `announcement`, `pm`, `subscribe`, `quote`,`tag`,`newtopic`,`updated`) 
-	        	VALUES ('".$user->data['user_id']."', '1', '1', '1', 1,1,1,'".time()."')";
-	        	$db->sql_query($sql);       	
+	        	$sql_data[$table_prefix . "tapatalk_users"]['sql'] = array(
+	        		'userid' => $user->data['user_id'],
+	        		'announcement' => 1,
+	        		'pm' => 1,
+	        		'subscribe' => 1,
+	        		'quote' => 1,
+	        		'tag' => 1,
+	        		'newtopic' => 1,
+	        		'updated' => time()
+	        	);
+	        	$sql = 'INSERT INTO ' . $table_prefix . "tapatalk_users" . ' ' .
+				$db->sql_build_array('INSERT', $sql_data[$table_prefix . "tapatalk_users"]['sql']);
+				$db->sql_query($sql);    	
 	        }
-	        else if(push_table_exists())
+	        else
 	        {
-	        	$sql = "UPDATE `" . $table_prefix . "tapatalk_users` 
-	        	SET `updated`= '".time()."' WHERE `userid`='".$user->data['user_id']."'";
+	        	$sql = "UPDATE " . $table_prefix . "tapatalk_users 
+	        	SET updated= '".time()."' WHERE userid='".$user->data['user_id']."'";
 	        	$db->sql_query($sql);
 	        }
         }
