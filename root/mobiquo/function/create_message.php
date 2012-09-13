@@ -41,6 +41,8 @@ function create_message_func($xmlrpc_params)
         $_REQUEST['message'] = $params[2];
         $subject    = utf8_normalize_nfc(request_var('subject', '', true));
         $text_body  = utf8_normalize_nfc(request_var('message', '', true));
+        require_once 'include/emoji.php';
+        $text_body = emoji_unified_to_names($text_body);
     }
     
     $action = 'post';   // default action

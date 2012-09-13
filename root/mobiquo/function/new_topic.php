@@ -21,6 +21,8 @@ function new_topic_func($xmlrpc_params)
     $forum_id   = isset($params[0]) ? intval($params[0]) : '';
     $subject    = isset($params[1]) ? $params[1] : '';
     $text_body  = isset($params[2]) ? $params[2] : '';
+    require_once 'include/emoji.php';
+    $text_body = emoji_unified_to_names($text_body);
     $_POST['attachment_data'] = (isset($params[5]) && $params[5]) ? unserialize(base64_decode($params[5])) : array();
     
     if (!$forum_id) trigger_error('NO_FORUM');

@@ -7,11 +7,10 @@
 */
 
 defined('IN_MOBIQUO') or exit;
-
 function reply_post_func($xmlrpc_params)
 {
     global $db, $auth, $user, $config, $phpbb_root_path, $phpEx, $mobiquo_config, $phpbb_home;
-    
+    require_once 'include/emoji.php';
     $user->setup('posting');
     if (!$user->data['is_registered']) trigger_error('LOGIN_EXPLAIN_POST');
     
@@ -22,6 +21,7 @@ function reply_post_func($xmlrpc_params)
     $topic_id   = isset($params[1]) ? intval($params[1]) : '';
     $subject    = isset($params[2]) ? $params[2] : '';
     $text_body  = isset($params[3]) ? $params[3] : '';
+    $text_body = emoji_unified_to_names($text_body);
     
     $attach_list = isset($params[4]) ? $params[4] : array();
     $_POST['attachment_data'] = (isset($params[5]) && $params[5]) ? unserialize(base64_decode($params[5])) : array();
