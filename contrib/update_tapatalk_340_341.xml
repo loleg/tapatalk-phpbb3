@@ -27,6 +27,14 @@
 		</link-group>
 	</header>
 	<action-group>
+		<copy>
+			<file from="root/umil/*.*" to="umil/*.*" />
+			<file from="root/mobiquo_install.php" to="mobiquo_install.php" />
+			<file from="root/includes/acp/*.*" to="includes/acp/*.*" />
+			<file from="root/adm/style/*.*" to="adm/style/*.*" />
+			<file from="root/mobiquo/*.*" to="mobiquo/*.*" />
+			<file from="root/language/*.*" to="language/*.*" />
+		</copy>
 <diy-instructions lang="en"><![CDATA[*** NOTE: If you are installing via Automod you may skip to step 2 ***
 1. Make all edits to all files and upload them to your forum.    
 2. Browse to the file mobiquo_install.php in the root of your forum to make the database changes (eg, http://mysite.com/mobiquo_install.php).

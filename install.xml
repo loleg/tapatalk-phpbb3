@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.4.2</mod-version>
+		<mod-version>3.4.3</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -59,11 +59,22 @@
 					<change>Modified the plugin ACP Permission</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2012-09-13</date>
+				<rev-version>3.4.3</rev-version>
+				<changelog lang="en">
+					<change>Fixed can not login to ACP by using firefox issues</change>
+					<change>Fixed can not delete posts by using firefox</change>
+					<change>Fixed language constant string missing (LOG_CONFIG_MOBIQUO and acl_acp_moiquo) .</change>
+					<change>Fixed can not display pictures by using IE .</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
 			<link type="contrib" href="./contrib/update_tapatalk_340_341.xml" lang="en">Update from 340 to 341</link>
 			<link type="contrib" href="./contrib/update_tapatalk_341_342.xml" lang="en">Update from 341 to 342</link>
+			<link type="contrib" href="./contrib/update_tapatalk_342_343.xml" lang="en">Update from 342 to 343</link>
 		</link-group>
 	</header>
 	<action-group>
@@ -82,13 +93,16 @@
 	if ($url && isset($config['mobiquo_push']))
     {
         require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
+        $user_name_tag_arr = get_tag_list($data['message']);
         switch ($mode)
         {
         	case 'reply':
         		tapatalk_push_reply($data);
+        		tapatalk_push_quote($data,$user_name_tag_arr,'tag');
         		break;
         	case 'post':
         		tapatalk_push_newtopic($data);
+        		tapatalk_push_quote($data,$user_name_tag_arr,'tag');
         		break;
         	case 'quote':
         		preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$matches);
@@ -96,11 +110,9 @@
         		unset($matches);		        		
         		tapatalk_push_reply($data);
         		tapatalk_push_quote($data,$user_name_arr,'quote');
+        		tapatalk_push_quote($data,$user_name_tag_arr,'tag');
         		break;
-        }
-        $user_name_tag_arr = get_tag_list($data['message']);
-        tapatalk_push_quote($data,$user_name_tag_arr,'tag');		   
-    	unset($subject);
+        }		   
     }
 	// END mobiquo Mod]]></action>
 			</edit>		
@@ -109,7 +121,7 @@
 			<edit>
 				<find><![CDATA[// Send Notifications]]></find>
 				<action type="after-add"><![CDATA[// BEGIN mobiquo Mod push service
-	if(!empty($data['msg_id']) && isset($config['mobiquo_push']))
+	if(!empty($data['msg_id']) && isset($config['mobiquo_push']) && ($mode != 'edit'))
 	{
 		require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
     	tapatalk_push_pm($user_id, $data['msg_id'], $subject);
@@ -117,28 +129,24 @@
 // END mobiquo Mod]]></action>
 			</edit>		
 		</open>
-		<open src="includes/functions_display.php">
+		
+		<open src="includes/functions.php">
 			<edit>
-				<find><![CDATA[return array($active_forum_ary, array());]]></find>
-				<action type="before-add"><![CDATA[if(isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1))
-	{
-		$template->assign_var('MOBIQUO_NAME',$config['tapatalkdir']);
-		$template->assign_var('TAPATALKDETECT_JS', $config['tapatalkdir'].'/tapatalkdetect.js');
-	}
-	else 
-	{
-		$template->assign_var('MOBIQUO_NAME',$config['tapatalkdir']);
-		$template->assign_var('TAPATALKDETECT_JS', $config['tapatalkdir'].'/tapatalkdetect-nochrome.js');
-	}]]></action>
-			</edit>		
+				<find><![CDATA[	if (strpos($user_lang, '-x-') !== false)]]></find>
+				<action type="before-add"><![CDATA[	$user->add_lang('mods/info_acp_mobiquo');]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA['ROOT_PATH'			=> $phpbb_root_path,]]></find>
+				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . $config['tapatalkdir'] : $phpbb_root_path . 'mobiquo',
+		'TAPATALKDETECT_JS' => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . $config['tapatalkdir'].'/tapatalkdetect.js' : $phpbb_root_path . $config['tapatalkdir'].'/tapatalkdetect-nochrome.js',]]></action>
+			</edit>
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
 			<edit>
 				<find><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
 <head>]]></find>
-				<action type="after-add"><![CDATA[
-				<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
-				<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
+				<action type="after-add"><![CDATA[<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
+<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
 			</edit>		
 		</open>
 		<php-installer><![CDATA[mobiquo_install.php]]></php-installer>

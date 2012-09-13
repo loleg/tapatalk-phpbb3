@@ -40,11 +40,7 @@ function login_func($xmlrpc_params)
 	        $db->sql_freeresult($result);
 	        $time = time();
         	if(empty($userInfo))
-	        {
-	        	if(empty($params[2]))
-	        	{
-	        		$params[2]=0;
-	        	}
+        	{
 	        	$sql_data[$table_prefix . "tapatalk_users"]['sql'] = array(
 	        		'userid' => $user->data['user_id'],
 	        		'announcement' => 1,

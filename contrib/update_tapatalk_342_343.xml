@@ -4,8 +4,8 @@
 		<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
 	<header>
 		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
-			<title lang="en">Tapatalk 3.4.1 to 3.4.2</title>
-				<description lang="en">Updates mod to 3.4.2 from 3.4.1</description>
+			<title lang="en">Tapatalk 3.4.2 to 3.4.3</title>
+				<description lang="en">Updates mod to 3.4.3 from 3.4.2</description>
 		<author-group>
 			<author>
 				<realname>tapatalk</realname>
@@ -16,22 +16,20 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.4.2</mod-version>
+		<mod-version>3.4.3</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>
 			<target-version>3.0.0</target-version>
 		</installation>
 		<link-group>
-			<link type="template" href="../install.xml" lang="en">Main Install File</link>
+			<link type="parent" href="../install.xml" lang="en">Main Install File</link>
 		</link-group>
 	</header>
 	<action-group>
 		<copy>
-			<file from="root/umil/*.*" to="umil/*.*" />
 			<file from="root/mobiquo_install.php" to="mobiquo_install.php" />
 			<file from="root/includes/acp/*.*" to="includes/acp/*.*" />
-			<file from="root/adm/style/*.*" to="adm/style/*.*" />
 			<file from="root/mobiquo/*.*" to="mobiquo/*.*" />
 			<file from="root/language/*.*" to="language/*.*" />
 		</copy>

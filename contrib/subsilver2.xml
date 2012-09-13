@@ -72,11 +72,10 @@
 			<edit>
 				<find><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
 <head>]]></find>
-				<action type="after-add"><![CDATA[
-				<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
-				<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
+				<action type="after-add"><![CDATA[<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
+<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
 			</edit>		
-		</open>		
+		</open>	
 	<diy-instructions lang="en"><![CDATA[
 // subsilver2 instructions
 Go to Administration Control Panel (ACP) and refresh the style.]]></diy-instructions>
