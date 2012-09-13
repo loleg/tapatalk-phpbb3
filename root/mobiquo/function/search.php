@@ -555,9 +555,9 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		{
 			// tapatalk update
 			if (function_exists('get_unread_topics'))
-				$id_ary = array_keys(get_unread_topics($user->data['user_id'], $sql_where, $sql_sort, 1001 - $start, $start));
+				$id_ary = array_keys(get_unread_topics($user->data['user_id'], $sql_where, $sql_sort, 1001 - $request_params[0], $request_params[0]));
 			else
-				$id_ary = array_keys(tt_get_unread_topics($user->data['user_id'], $sql_where, $sql_sort, 1001 - $start, $start));
+				$id_ary = array_keys(tt_get_unread_topics($user->data['user_id'], $sql_where, $sql_sort, 1001 - $request_params[0], $request_params[0]));
 
 			$total_match_count = sizeof($id_ary) + $start;
 			$id_ary = array_slice($id_ary, 0, $per_page);
