@@ -24,7 +24,8 @@ function detectTapatalk() {
 					window.location = "http://appworld.blackberry.com/webstore/content/46654?lang=en";
 			} else if(window.chrome) {
 			    
-			    if (tapatalkdir == null) tapatalkdir = 'mobiquo';
+			    if ((typeof(tapatalkdir)) == 'undefined' ) var tapatalkdir = 'mobiquo';
+			    else if(tapatalkdir == '' || tapatalkdir == null) tapatalkdir = 'mobiquo';
 			    
 				setTapatalkCookies();
 				var script1 = document.createElement('script');
