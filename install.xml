@@ -60,13 +60,18 @@
 				</changelog>
 			</entry>
 			<entry>
-				<date>2012-09-13</date>
+				<date>2012-09-14</date>
 				<rev-version>3.4.3</rev-version>
 				<changelog lang="en">
 					<change>Fixed can not login to ACP by using firefox issues</change>
 					<change>Fixed can not delete posts by using firefox</change>
 					<change>Fixed language constant string missing (LOG_CONFIG_MOBIQUO and acl_acp_moiquo) .</change>
-					<change>Fixed can not display pictures by using IE .</change>
+					<change>Fixed push time out error</change>
+					<change>Added push conditions check in push.php</change>
+					<change>Fixed error when post with emoji </change>
+					<change>Fixed repeating the first page of unread posts in the second page</change>
+					<change>Fixed Syntax Error in SQL Statement on Login phpBB on PostgreSQL</change>
+					<change>Fixed a undefined error when edit a pm</change>
 				</changelog>
 			</entry>
 		</history>
