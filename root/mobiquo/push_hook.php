@@ -211,11 +211,11 @@ function tt_do_post_request($data)
 		$timeout = 10;
 		$old = ini_set('default_socket_timeout', $timeout);
 		$fp = @fopen($push_url, 'rb', false, $ctx);
+		if (!$fp) return false;
+		
 		ini_set('default_socket_timeout', $old);
 		stream_set_timeout($fp, $timeout);
 		stream_set_blocking($fp, 0); 
-		
-		if (!$fp) return false;
 		$response = @stream_get_contents($fp);
 	}
 	return $response;
