@@ -518,11 +518,12 @@ function url_encode($url)
     
     $url = rawurlencode($url);
     
-    $from = array('/%3A/', '/%2F/', '/%3F/', '/%2C/', '/%3D/', '/%26/', '/%25/', '/%23/', '/%2B/', '/%3B/', '/%5C/');
-    $to   = array(':',     '/',     '?',     ',',     '=',     '&',     '%',     '#',     '+',     ';',     '\\');
+    $from = array('/%3A/', '/%2F/', '/%3F/', '/%2C/', '/%3D/', '/%26/', '/%25/', '/%23/', '/%2B/', '/%3B/', '/%5C/', '/%20/');
+    $to   = array(':',     '/',     '?',     ',',     '=',     '&',     '%',     '#',     '+',     ';',     '\\',    ' ');
     $url = preg_replace($from, $to, $url);
     $root_path = preg_replace('/^\//', '', $phpbb_root_path);
     $url = preg_replace('#^\.\./|^/|'.addslashes($root_path).'#si', '', $url);
+    $url = preg_replace('#^.*?(?=download/file\.php)#si', '', $url);
     
     if (strpos($url, 'http') !== 0)
     {
