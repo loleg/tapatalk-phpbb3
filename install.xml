@@ -142,8 +142,8 @@
 			</edit>
 			<edit>
 				<find><![CDATA['ROOT_PATH'			=> $phpbb_root_path,]]></find>
-				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . $config['tapatalkdir'] : $phpbb_root_path . 'mobiquo',
-		'TAPATALKDETECT_JS' => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . $config['tapatalkdir'].'/tapatalkdetect.js' : $phpbb_root_path . $config['tapatalkdir'].'/tapatalkdetect-nochrome.js',]]></action>
+				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ) : $phpbb_root_path . 'mobiquo',
+		'TAPATALKDETECT_JS' => (isset($config['mobiquo_is_chrome']) && ($config['mobiquo_is_chrome'] == 1)) ? $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect.js' : $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect-nochrome.js',]]></action>
 			</edit>
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
