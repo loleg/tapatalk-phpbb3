@@ -279,6 +279,7 @@ function new_topic_func($xmlrpc_params)
         
         // for mod post expire compatibility
         'post_expire_time'      => -1,
+    	'topic_status'          => 0,
     );
 
     $poll = array();
