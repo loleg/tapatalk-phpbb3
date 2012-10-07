@@ -3,3 +3,15 @@ GNU General Public License v2. (https://www.phpbb.com/downloads/license/)
 
 Installation Instruction:
 http://tapatalk.com/activate_tapatalk.php?plugin=phpbb
+
+Lookup Tags for stable versions:
+https://github.com/tapatalk/tapatalk-phpbb3/tags
+
+Download (All versions):
+https://github.com/tapatalk/tapatalk-phpbb3/downloads
+
+Developer API:
+http://tapatalk.com/api/api.php (Requires Login)
+
+Contribution:
+Feel free to fork your own fix and request to merge to master.
