@@ -256,6 +256,7 @@ function process_short_content($post_text, $length = 200)
 
 function post_html_clean($str)
 {
+	
     global $phpbb_root_path, $phpbb_home, $mobiquo_config;
     
     $search = array(
@@ -267,6 +268,7 @@ function post_html_clean($str)
         "/<object .*?data=\"(http:\/\/video\.google\.com\/.*?)\" .*?>.*?<\/object>/si",
         "/<iframe .*?src=\"(http.*?)\" .*?>.*?<\/iframe>/si",
         "/<script( [^>]*)?>([^<]*?)<\/script>/si",
+        "/<param name=\"movie\" value=\"(.*?)\" \/>/si"
     );
     
     $replace = array(
@@ -278,6 +280,7 @@ function post_html_clean($str)
         '[url=$1]Google Video[/url]',
         '[url=$1]$1[/url]',
         '',
+        '[url=$1]Flash Video[/url]',
     );
     
     $str = preg_replace('/\n|\r/si', '', $str);
@@ -296,6 +299,7 @@ function post_html_clean($str)
     
     // change relative path to absolute URL and encode url
     $str = preg_replace('/\[img\](.*?)\[\/img\]/sei', "'[img]'.url_encode('$1').'[/img]'", $str);
+    
     $str = preg_replace('/\[\/img\]\s*/si', "[/img]\n", $str);
     $str = preg_replace('/\[\/img\]\s+\[img\]/si', '[/img][img]', $str);
     
@@ -517,12 +521,19 @@ function url_encode($url)
     global $phpbb_home, $phpbb_root_path;
     
     $url = rawurlencode($url);
-    
     $from = array('/%3A/', '/%2F/', '/%3F/', '/%2C/', '/%3D/', '/%26/', '/%25/', '/%23/', '/%2B/', '/%3B/', '/%5C/', '/%20/');
     $to   = array(':',     '/',     '?',     ',',     '=',     '&',     '%',     '#',     '+',     ';',     '\\',    ' ');
     $url = preg_replace($from, $to, $url);
     $root_path = preg_replace('/^\//', '', $phpbb_root_path);
-    $url = preg_replace('#^\.\./|^/|'.addslashes($root_path).'#si', '', $url);
+    if($root_path == '/')
+    {
+    	$url = preg_replace('#^\.\./|^/#si', '', $url);
+    }
+    else 
+    {
+    	$url = preg_replace('#^\.\./|^/|'.addslashes($root_path).'#si', '', $url);
+    }
+    
     $url = preg_replace('#^.*?(?=download/file\.php)#si', '', $url);
     
     if (strpos($url, 'http') !== 0)
@@ -1000,4 +1011,111 @@ function tt_get_unread_topics($user_id = false, $sql_extra = '', $sql_sort = '',
     }
 
     return $unread_topics;
+}
+function get_forum_icon($id, $type = 'forum', $lock = false, $new = false)
+{
+    if (!in_array($type, array('link', 'category', 'forum')))
+        $type = 'forum';
+    
+    $icon_name = $type;
+    if ($type != 'link')
+    {
+        if ($lock) $icon_name .= '_lock';
+        if ($new) $icon_name .= '_new';
+    }
+    
+    $icon_map = array(
+        'category_lock_new' => array('category_lock', 'category_new', 'lock_new', 'category', 'lock', 'new'),
+        'category_lock'     => array('category', 'lock'),
+        'category_new'      => array('category', 'new'),
+        'lock_new'          => array('lock', 'new'),
+        'forum_lock_new'    => array('forum_lock', 'forum_new', 'lock_new', 'forum', 'lock', 'new'),
+        'forum_lock'        => array('forum', 'lock'),
+        'forum_new'         => array('forum', 'new'),
+        'category'          => array(),
+        'forum'             => array(),
+        'lock'              => array(),
+        'new'               => array(),
+        'link'              => array(),
+    );
+    
+    $final = empty($icon_map[$icon_name]);
+    
+    if ($url = get_forum_icon_by_name($id, $icon_name, $final))
+        return $url;
+    
+    foreach ($icon_map[$icon_name] as $sub_name)
+    {
+        $final = empty($icon_map[$sub_name]);
+        if ($url = get_forum_icon_by_name($id, $sub_name, $final))
+            return $url;
+    }
+    
+    return '';
+}
+
+function get_forum_icon_by_name($id, $name, $final)
+{
+    global $tapatalk_forum_icon_dir, $tapatalk_forum_icon_url;
+    
+    $filename_array = array(
+        $name.'_'.$id.'.png',
+        $name.'_'.$id.'.jpg',
+        $id.'.png', $id.'.jpg',
+        $name.'.png',
+        $name.'.jpg',
+    );
+    
+    foreach ($filename_array as $filename)
+    {
+        if (file_exists($tapatalk_forum_icon_dir.$filename))
+        {
+            return $tapatalk_forum_icon_url.$filename;
+        }
+    }
+    
+    if ($final) {
+        if (file_exists($tapatalk_forum_icon_dir.'default.png'))
+            return $tapatalk_forum_icon_url.'default.png';
+        else if (file_exists($tapatalk_forum_icon_dir.'default.jpg'))
+            return $tapatalk_forum_icon_url.'default.jpg';
+    }
+    
+    return false;
+}
+
+function check_return_user_type($username)
+{
+	global $db;
+	$session = new session();
+	$user_id = get_user_id_by_name($username);
+	if(empty($user_id))
+	{
+		$user_id = 0;
+	}
+	$sql = "SELECT group_id FROM " . USER_GROUP_TABLE . " WHERE user_id = " . $user_id;
+	$query = $db->sql_query($sql);
+	$is_ban = $session->check_ban($user_id);
+	$user_groups = array();
+	while($row = $db->sql_fetchrow($query))
+	{
+		$user_groups[] = $row['group_id'];
+	}
+	if(!empty($is_ban ) || in_array(6, $user_groups))
+	{
+		$user_type = 'banned';
+	}
+	else if(in_array(5, $user_groups))
+	{
+		$user_type = 'admin';
+	}
+	else if(in_array(4, $user_groups))
+	{
+		$user_type = 'mod';
+	}
+	else
+    {
+		$user_type = 'normal';
+	}
+	return new xmlrpcval(basic_clean($user_type), 'base64');
 }
