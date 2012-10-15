@@ -96,6 +96,7 @@ function login_func($xmlrpc_params)
         'result'        => new xmlrpcval(true, 'boolean'),
         'user_id'       => new xmlrpcval($user->data['user_id'], 'string'),
         'username'      => new xmlrpcval($user->data['username'], 'base64'),
+		'user_type' => check_return_user_type($user->data['username']),
         'usergroup_id'  => new xmlrpcval($usergroup_id, 'array'),
         'icon_url'      => new xmlrpcval(get_user_avatar_url($user->data['user_avatar'], $user->data['user_avatar_type']), 'string'),
         'post_count'    => new xmlrpcval($user->data['user_posts'], 'int'),

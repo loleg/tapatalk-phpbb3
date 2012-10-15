@@ -492,6 +492,7 @@ function get_user_info_func($xmlrpc_params)
     $user_info = array(
         'user_id'            => new xmlrpcval($member['user_id']),
         'username'           => new xmlrpcval($member['username'], 'base64'),
+		'user_type' => check_return_user_type($member['username']),
         'post_count'         => new xmlrpcval($member['user_posts'], 'int'),
         'reg_time'           => new xmlrpcval(mobiquo_iso8601_encode($member['user_regdate']), 'dateTime.iso8601'),
         'timestamp_reg'      => new xmlrpcval($member['user_regdate'], 'string'),

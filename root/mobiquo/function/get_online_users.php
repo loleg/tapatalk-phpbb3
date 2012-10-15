@@ -277,9 +277,11 @@ function get_online_users_func()
         $user_list[] = new xmlrpcval(array(
             'user_id'       => new xmlrpcval($row['user_id'], 'string'),
             'username'      => new xmlrpcval($row['username'], 'base64'),
+			'user_type' => check_return_user_type($row['username']),
             'user_name'     => new xmlrpcval($row['username'], 'base64'),
             'icon_url'      => new xmlrpcval($user_avatar_url),
             'display_text'  => new xmlrpcval($location, 'base64')
+			
         ), 'struct');
         
     }

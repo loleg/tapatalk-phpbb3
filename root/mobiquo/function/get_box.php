@@ -171,6 +171,7 @@ function get_box_func($xmlrpc_params)
             $msg_to[] = new xmlrpcval(array(
                 'user_id'  => new xmlrpcval($address['id'], 'string'),
                 'username' => new xmlrpcval(basic_clean($address['name']), 'base64'),
+				'user_type' => check_return_user_type($address['name']),
             ), 'struct');
         }
 

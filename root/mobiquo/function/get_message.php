@@ -58,6 +58,7 @@ function get_message_func($xmlrpc_params)
         $msg_to[] = new xmlrpcval(array(
             'user_id'  => new xmlrpcval($address_row['UG_ID'], 'string'),
             'username' => new xmlrpcval($address_row['NAME'], 'base64'),
+			'user_type' => check_return_user_type($address_row['NAME']),
         ), 'struct');
     }
 
