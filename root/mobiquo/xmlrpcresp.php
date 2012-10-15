@@ -109,6 +109,7 @@ function get_thread_func()
                         $thank_list[] = new xmlrpcval(array(
                             'userid'    => new xmlrpcval($thanker['user_id'], 'string'),
                             'username'  => new xmlrpcval(basic_clean($thanker['username']), 'base64'),
+							'user_type' => check_return_user_type($thanker['username']),
                         ), 'struct');
 
                         $count++;
@@ -306,7 +307,32 @@ function search_func()
         return new xmlrpcresp(new xmlrpcval($return_list, 'array'));
     }
 }
-
+function get_alert_func()
+{
+	global $alertData;
+	$return_array = array();
+	foreach ($alertData as $data)
+	{
+		$return_array[] =new xmlrpcval(array(
+			'user_id' => new xmlrpcval($data['author_id'],'string'),
+			'username' => new xmlrpcval($data['author'],'base64'),
+			'user_type' => check_return_user_type($data['author']),
+			'icon_url' => new xmlrpcval($data['icon_url'],'string'),
+			'message' => new xmlrpcval($data['message'],'base64'),
+			'timestamp' => new xmlrpcval($data['create_time'],'string'),
+			'content_type' => new xmlrpcval($data['data_type'],'string'),
+			'content_id' => new xmlrpcval($data['data_id'],'string'),
+			)
+			,'struct'
+		);
+	}
+	
+	$result = new xmlrpcval(array(
+		'total' => new xmlrpcval(count($alertData),'int'),
+		'items' => new xmlrpcval($return_array,'array'),
+	),'struct');
+	return $result;
+}
 function xmlresptrue()
 {
     $result = new xmlrpcval(array(
@@ -349,5 +375,36 @@ function push_table_exists()
 		}
     }
     define('PUSH_TABLE_EXISTS',false);
+    return false;
+}
+
+function push_data_table_exists()
+{
+	if(defined('PUSH_DATA_TABLE_EXISTS'))
+	{
+		return PUSH_DATA_TABLE_EXISTS;
+	}
+	global $db,$table_prefix,$phpbb_root_path,$phpEx;
+	require_once($phpbb_root_path . 'includes/db/db_tools.' . $phpEx);
+	$db_tools = new phpbb_db_tools($db);
+    if(method_exists($db_tools, 'sql_table_exists') && $db_tools->sql_table_exists($table_prefix.'tapatalk_push_data'))
+    {
+    	define('PUSH_DATA_TABLE_EXISTS',true);
+    	return true;   		
+    }
+    elseif(!method_exists($db_tools, 'sql_table_exists'))
+    {
+    	$db->sql_return_on_error(true);
+		$result = $db->sql_query_limit('SELECT * FROM ' . $table_prefix.'tapatalk_push_data', 1);
+		$db->sql_return_on_error(false);
+
+		if ($result)
+		{
+			$db->sql_freeresult($result);
+			define('PUSH_DATA_TABLE_EXISTS',true);
+			return true;
+		}
+    }
+    define('PUSH_DATA_TABLE_EXISTS',false);
     return false;
 }

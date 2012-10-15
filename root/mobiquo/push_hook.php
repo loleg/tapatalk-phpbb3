@@ -8,7 +8,6 @@
 function tapatalk_push_reply($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = generate_board_url();
 	if(!check_push())
 	{
 		return false;
@@ -22,21 +21,8 @@ function tapatalk_push_reply($data)
     	$result = $db->sql_query($sql);
     	while($row = $db->sql_fetchrow($result))
     	{
-    		 if ($row['userid'] == $user->data['user_id']) continue;
-    		 $ttp_data = array(
-                'userid'    => $row['userid'],
-                'type'      => 'sub',
-                'id'        => $data['topic_id'],
-                'subid'     => $data['post_id'],
-                'title'     => tt_push_clean($data['topic_title']),
-                'author'    => tt_push_clean($user->data['username']),
-                'dateline'  => time(),
-            );
-            $ttp_post_data = array(
-                'url'  => $boardurl,
-                'data' => base64_encode(serialize(array($ttp_data))),
-            );
-            $return_status = tt_do_post_request($ttp_post_data);
+    		if ($row['userid'] == $user->data['user_id']) continue;
+            $return_status = tt_send_push_data($row['userid'], 'sub', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username']);
     	}
     }
     return $return_status;
@@ -49,7 +35,6 @@ function tapatalk_push_reply($data)
 function tapatalk_push_newtopic($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = generate_board_url();
 	$return_status = false;
 	if(!check_push())
 	{
@@ -63,22 +48,9 @@ function tapatalk_push_newtopic($data)
     	$result = $db->sql_query($sql);
     	while($row = $db->sql_fetchrow($result))
     	{
-    		 if ($row['userid'] == $user->data['user_id']) continue;
-    		 if ($row['userid'] == $data['poster_id']) continue;
-    		 $ttp_data = array(
-                'userid'    => $row['userid'],
-                'type'      => 'newtopic',
-                'id'        => $data['topic_id'],
-                'subid'     => $data['post_id'],
-                'title'     => tt_push_clean($data['topic_title']),
-                'author'    => tt_push_clean($user->data['username']),
-                'dateline'  => time(),
-            );
-            $ttp_post_data = array(
-                'url'  => $boardurl,
-                'data' => base64_encode(serialize(array($ttp_data))),
-            );
-            $return_status = tt_do_post_request($ttp_post_data);
+    		if ($row['userid'] == $user->data['user_id']) continue;
+    		if ($row['userid'] == $data['poster_id']) continue;
+            $return_status = tt_send_push_data($row['userid'], 'newtopic', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username']);
     	}
     }
     return $return_status;
@@ -93,7 +65,6 @@ function tapatalk_push_newtopic($data)
 function tapatalk_push_pm($userid,$pm_id,$subject)
 {
     global $db, $user, $config,$table_prefix,$boardurl,$phpbb_root_path,$phpEx;
-	$boardurl = generate_board_url();
 	if(!check_push())
 	{
 		return false;
@@ -108,19 +79,7 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
          $db->sql_freeresult($result);
          if(!empty($row))
          {
-         	 $ttp_data = array(
-              'userid'    => $row['userid'],
-                    'type'      => 'pm',
-                    'id'        => $pm_id,
-                    'title'     => tt_push_clean($subject),
-                    'author'    => tt_push_clean($user->data['username']),
-                    'dateline'  => time(),
-              );
-             $ttp_post_data = array(
-                    'url'  => $boardurl,
-                    'data' => base64_encode(serialize(array($ttp_data))),
-              );
-        	 $return_status = tt_do_post_request($ttp_post_data);
+        	 $return_status = tt_send_push_data($row['userid'], 'pm', $pm_id, '', $subject, $user->data['username']);
          }
     }
     return $return_status;     
@@ -128,7 +87,6 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
 function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	$boardurl = generate_board_url();
 	$return_status = false;
 	if(!check_push())
 	{
@@ -138,7 +96,7 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 	{
 		foreach ($user_name_arr as $username)
 		{			
-			$user_id = get_user_id($username);
+			$user_id = tt_get_user_id($username);
 			if ($user_id == $user->data['user_id']) continue;
 			if ($user_id == $data['poster_id']) continue;
 			$sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$user_id."' AND " . $type . " = 1" ;
@@ -147,20 +105,8 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 	        $db->sql_freeresult($result);
 	        if(!empty($row))
 	        {
-	            $ttp_data = array(
-	                'userid'    => $row['userid'],
-	                'type'      => $type,
-	                'id'        => empty($data['topic_id']) ? $data['forum_id'] : $data['topic_id'],
-	                'subid'     => $data['post_id'],
-	                'title'     => tt_push_clean($data['topic_title']),
-	                'author'    => tt_push_clean($user->data['username']),
-	                'dateline'  => time(),
-	            );
-	            $ttp_post_data = array(
-	                'url'  => $boardurl,
-	                'data' => base64_encode(serialize(array($ttp_data))),
-	            );
-	            $return_status = tt_do_post_request($ttp_post_data);
+	            $id = empty($data['topic_id']) ? $data['forum_id'] : $data['topic_id'];
+	            $return_status = tt_send_push_data($row['userid'], $type, $id, $data['post_id'], $data['topic_title'], $user->data['username']);
 	        }
 			
 		}
@@ -195,7 +141,7 @@ function tt_do_post_request($data)
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch,CURLOPT_TIMEOUT,10);
+		curl_setopt($ch,CURLOPT_TIMEOUT,1);
 
 		$response = curl_exec($ch);
 		curl_close($ch);
@@ -208,7 +154,7 @@ function tt_do_post_request($data)
 		));
 
 		$ctx = stream_context_create($params);
-		$timeout = 10;
+		$timeout = 1;
 		$old = ini_set('default_socket_timeout', $timeout);
 		$fp = @fopen($push_url, 'rb', false, $ctx);
 		if (!$fp) return false;
@@ -228,7 +174,7 @@ function tt_push_clean($str)
     return html_entity_decode($str, ENT_QUOTES, 'UTF-8');
 }
 
-function get_user_id($username)
+function tt_get_user_id($username)
 {
     global $db;
     
@@ -262,5 +208,45 @@ function get_tag_list($str)
     }
     
     return array();
+}
+
+function tt_insert_push_data($data)
+{
+	global $table_prefix,$db;
+	$sql_data[$table_prefix . "tapatalk_push_data"]['sql'] = array(
+        'author' => $data['author'],
+		'user_id' => $data['userid'],
+		'data_type' => $data['type'],
+		'title' => $data['title'],
+		'data_id' => $data['subid'],
+		'create_time' => $data['dateline']		
+    );
+    $sql = 'INSERT INTO ' . $table_prefix . "tapatalk_push_data" . ' ' .
+    $db->sql_build_array('INSERT', $sql_data[$table_prefix . "tapatalk_push_data"]['sql']);
+	$db->sql_query($sql);	
+}
+
+function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
+{
+    $boardurl = generate_board_url();
+	$title = tt_push_clean($title);
+	$author = tt_push_clean($author);
+	$ttp_data = array(
+                'userid'    => $user_id,
+                'type'      => $type,
+                'id'        => $id,
+                'subid'     => $sub_id,
+                'title'     => tt_push_clean($title),
+                'author'    => tt_push_clean($author),
+                'dateline'  => time(),
+    );
+    if(push_data_table_exists())
+    	tt_insert_push_data($ttp_data);
+    $ttp_post_data = array(
+          'url'  => $boardurl,
+          'data' => base64_encode(serialize(array($ttp_data))),
+       );
+    $return_status = tt_do_post_request($ttp_post_data);
+    return $return_status;
 }
 ?>
