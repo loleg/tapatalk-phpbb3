@@ -37,7 +37,8 @@ $lang = array_merge($lang, array(
 	'MOBIQUO_REG_URL_EXPLAIN' => 'If your forum reg url is not default,please change',
 	'MOBIQUO_PUSH' => 'Enable Tapatalk Push Notification',
 	'MOBIQUO_PUSH_EXPLAIN' => 'Tapatalk users on your forum can get instant notification with new reply of subscribed topic and new pm if this setting was enabled.',
-	
+	'TAPATALK_PUSH_KEY' => 'Tapatalk push key',
+    'TAPATALK_PUSH_KEY_EXPLAIN' => 'A push_key to verify your forum push certification, you can fill here with the push key you registered in Tapatalk.com. This is not mandatory but if you enter this key, it will make push feature perfect .',
 	)
 );
 ?>
