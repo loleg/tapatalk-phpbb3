@@ -138,6 +138,27 @@ $versions = array(
 	),
 	'3.4.3' => array(
 	),
+	'3.5.0' => array(
+		'config_add' => array(
+			array('tapatalk_push_key', ''),
+		),
+		'table_add' => array(
+			array($table_prefix.'tapatalk_push_data', array(
+					'COLUMNS'		=> array(
+						'push_id'		=> array('INT:10'),
+						'autor'	        => array('VCHAR:100'),
+						'user_id'	    => array('INT:10'),
+						'data_type'	    => array('CHAR:20'),
+						'title'         => array('VCHAR:200'),
+			            'data_id'       => array('INT:10'),
+						'create_time'	=> array('TIMESTAMP'),
+					),
+					'PRIMARY_KEY'	=> 'push_id',
+					'KEY'           => 'user_id',
+				),
+			)
+		),
+	),
 );		
 
 		
@@ -167,6 +188,13 @@ function mobiquo_table($action, $version)
 			return 'MOBIQUO_TABLE_DELETED';
 		}			
 		
+		if ($umil->table_exists($table_prefix.'tapatalk_push_data'))
+		{
+			//table from previous version exists...delete it.
+			$sql = 'DROP TABLE ' . $table_prefix.'tapatalk_push_data';
+			$db->sql_query($sql);
+			return 'MOBIQUO_TABLE_DELETED';
+		}
 		return 'MOBIQUO_NOTHING_TO_UPDATE';
 	}
 }

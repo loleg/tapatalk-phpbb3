@@ -32,6 +32,11 @@ if ($request_file && isset($server_param[$request_method]))
     else
         require('./function/'.$request_file.'.php');
 }
+else 
+{
+	require 'web.php';
+	exit;
+}
 $rpcServer = new xmlrpc_server($server_param, false);
 $rpcServer->setDebug(1);
 $rpcServer->compress_response = 'true';

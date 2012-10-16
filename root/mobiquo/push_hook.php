@@ -132,7 +132,7 @@ function check_push()
 function tt_do_post_request($data)
 {
 	$push_url = 'http://push.tapatalk.com/push.php';
-
+	$timeout = isset($data['test']) || isset($data['ip']) ? 10 : 1;
 	$response = 'CURL is disabled and PHP option "allow_url_fopen" is OFF. You can enable CURL or turn on "allow_url_fopen" in php.ini to fix this problem.';
 	if (function_exists('curl_init'))
 	{
@@ -141,7 +141,7 @@ function tt_do_post_request($data)
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch,CURLOPT_TIMEOUT,1);
+		curl_setopt($ch,CURLOPT_TIMEOUT,$timeout);
 
 		$response = curl_exec($ch);
 		curl_close($ch);
@@ -154,7 +154,6 @@ function tt_do_post_request($data)
 		));
 
 		$ctx = stream_context_create($params);
-		$timeout = 1;
 		$old = ini_set('default_socket_timeout', $timeout);
 		$fp = @fopen($push_url, 'rb', false, $ctx);
 		if (!$fp) return false;
@@ -195,7 +194,7 @@ function tt_get_user_id($username)
     return $user_id;
 }
 
-function get_tag_list($str)
+function tt_get_tag_list($str)
 {
     if ( preg_match_all( '/(?<=^@|\s@)(#(.{1,50})#|\S{1,50}(?=[,\.;!\?]|\s|$))/U', $str, $tags ) )
     {
@@ -228,6 +227,7 @@ function tt_insert_push_data($data)
 
 function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
 {
+	global $config;
     $boardurl = generate_board_url();
 	$title = tt_push_clean($title);
 	$author = tt_push_clean($author);
@@ -244,6 +244,7 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
     	tt_insert_push_data($ttp_data);
     $ttp_post_data = array(
           'url'  => $boardurl,
+    	  'key'  => (!empty($config['tapatalk_push_key']) ? $config['tapatalk_push_key'] : ''),
           'data' => base64_encode(serialize(array($ttp_data))),
        );
     $return_status = tt_do_post_request($ttp_post_data);

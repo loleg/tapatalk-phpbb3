@@ -19,10 +19,10 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.4.2</mod-version>
+		<mod-version>3.5.0</mod-version>
 		<installation>
 			<level>intermediate</level>
-			<time>600</time>
+			<time>1800</time>
 			<target-version>3.0.0 above</target-version>
 		</installation>
 		<history>
@@ -57,6 +57,33 @@
 					<change>Fixed some samll install issues</change>
 					<change>Fixed undefined variable</change>
 					<change>Modified the plugin ACP Permission</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-09-14</date>
+				<rev-version>3.4.3</rev-version>
+				<changelog lang="en">
+					<change>Fixed can not login to ACP by using firefox issues</change>
+					<change>Fixed can not delete posts by using firefox</change>
+					<change>Fixed language constant string missing (LOG_CONFIG_MOBIQUO and acl_acp_moiquo) .</change>
+					<change>Fixed push time out error</change>
+					<change>Added push conditions check in push.php</change>
+					<change>Fixed error when post with emoji </change>
+					<change>Fixed repeating the first page of unread posts in the second page</change>
+					<change>Fixed Syntax Error in SQL Statement on Login phpBB on PostgreSQL</change>
+					<change>Fixed a undefined error when edit a pm</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-10-18</date>
+				<rev-version>3.5.0</rev-version>
+				<changelog lang="en">
+					<change>Display optimization for all native bbcode </change>
+					<change>Add push notification key in tapatalk option</change>
+					<change>Optimize plugin entry file interface from browser</change>
+					<change>Add alerts data for tapatalk user (need app support)</change>
+					<change>Add advanced custom forum icon configuration support</change>
+					<change>Some minor bugs fix</change>
 				</changelog>
 			</entry>
 		</history>
