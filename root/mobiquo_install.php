@@ -145,16 +145,16 @@ $versions = array(
 		'table_add' => array(
 			array($table_prefix.'tapatalk_push_data', array(
 					'COLUMNS'		=> array(
-						'push_id'		=> array('INT:10'),
-						'autor'	        => array('VCHAR:100'),
-						'user_id'	    => array('INT:10'),
-						'data_type'	    => array('CHAR:20'),
-						'title'         => array('VCHAR:200'),
-			            'data_id'       => array('INT:10'),
-						'create_time'	=> array('TIMESTAMP'),
+						'push_id'		=> array('INT:10', NULL,'auto_increment'),
+						'author'	    => array('VCHAR:100'),
+						'user_id'	    => array('INT:10',0),
+						'data_type'	    => array('CHAR:20',''),
+						'title'         => array('VCHAR:200',''),
+			            'data_id'       => array('INT:10',0),
+						'create_time'	=> array('TIMESTAMP',0),
 					),
 					'PRIMARY_KEY'	=> 'push_id',
-					'KEY'           => 'user_id',
+					'KEYS'          => array('user_id' => array('INDEX','user_id')),
 				),
 			)
 		),
