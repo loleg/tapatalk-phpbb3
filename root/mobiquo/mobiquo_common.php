@@ -462,47 +462,8 @@ function process_bbcode($message, $uid)
     // prcess bbcode: list
     $message = preg_replace('/\[\*:'.$uid.'\]/si', '[*]', $message);
     $message = preg_replace('/\[\/\*:(m:)?'.$uid.'\]/si', '', $message);
-    $blocks = preg_split('/(\[list=[^\]]*?:'.$uid.'\]|\[list:'.$uid.'\]|\[\/list:o:'.$uid.'\]|\[\/list:u:'.$uid.'\])/siU', $message, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    
-    $result = '';
-    $status = 'out';
-    foreach($blocks as $block)
-    {
-        if ($status == 'out')
-        {
-            if (strpos($block, '[list:') !== false)
-            {
-                $status = 'inlist';
-            } elseif (strpos($block, '[list=') !== false)
-            {
-                $status = 'inorder';
-            } else {
-                $result .= $block;
-            }
-        } elseif ($status == 'inlist')
-        {
-            if (strpos($block, '[/list') !== false)
-            {
-                $status = 'out';
-            } else
-            {
-                $result .= str_replace('[*]', '  * ', ltrim($block));
-            }
-        } elseif ($status == 'inorder')
-        {
-            if (strpos($block, '[/list') !== false)
-            {
-                $status = 'out';
-            } else
-            {
-                $index = 1;
-                $result .= preg_replace('/\[\*\]/sie', "'  '.\$index++.'. '", ltrim($block));
-            }
-        }
-    }
-    
-    $message = $result;
-    
+    $message = tt_covert_list($message, '/\[list:'.$uid.'\](.*?)\[\/list:u:'.$uid.'\]/si', '1', $uid);
+    $message = tt_covert_list($message, '/\[list=[^\]]*?:'.$uid.'\](.*?)\[\/list:o:'.$uid.'\]/si', '2', $uid);
     // process video bbcode\
     $message = preg_replace('/\[(youtube|yt|video|googlevideo|gvideo):'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/sie', "video_bbcode_format('$1', '$2')", $message);
     $message = preg_replace('/\[(BBvideo)[\d, ]+:'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/si', "[url=$2]YouTube Video[/url]", $message);
@@ -515,7 +476,36 @@ function process_bbcode($message, $uid)
     
     return $message;
 }
-
+function tt_covert_list($message,$preg,$type,$uid)
+{
+	while(preg_match($preg, $message, $blocks))
+    {
+    	$list_str = "";
+    	$list_arr = explode('[*]', $blocks[1]);
+    	foreach ($list_arr as $key => $value)
+    	{
+    		$value = trim($value);
+    		if(!empty($value) && $key != 0)
+    		{
+    			if($type == '1')
+    			{
+    				$key = ' * ';
+    			}
+    			else 
+    			{
+    				$key = $key.'.';
+    			}
+    			$list_str .= $key.$value ."\n";
+    		}
+    		else if(!empty($value))
+    		{
+    			$list_str .= $value ."\n";
+    		}    		
+    	}
+    	$message = str_replace($blocks[0], $list_str, $message);
+    }
+    return $message;
+}
 function url_encode($url)
 {
     global $phpbb_home, $phpbb_root_path;
