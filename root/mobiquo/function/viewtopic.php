@@ -55,12 +55,23 @@ if ($view && !$post_id)
 {
 	if (!$forum_id)
 	{
-		$sql = 'SELECT forum_id
+		$sql = 'SELECT *
 			FROM ' . TOPICS_TABLE . "
 			WHERE topic_id = $topic_id";
 		$result = $db->sql_query($sql);
-		$forum_id = (int) $db->sql_fetchfield('forum_id');
+		$topic_row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
+		if($topic_row['topic_type'] == POST_GLOBAL)
+		{
+			$sql = 'SELECT forum_id FROM ' . FORUMS_TABLE . ' WHERE forum_type = ' . FORUM_POST . ' LIMIT 1'; 
+			$result = $db->sql_query($sql);
+			$forum_id = (int) $db->sql_fetchfield('forum_id');
+			$db->sql_freeresult($result);
+		}
+		else 
+		{
+			$forum_id = $topic_row['forum_id'];
+		}
 
 		if (!$forum_id)
 		{
@@ -1409,7 +1420,7 @@ if (file_exists($phpbb_root_path . 'includes/functions_thanks.' . $phpEx))
         }
     }
 
-    if (function_exists('array_all_thanks'))
+    if (function_exists('array_all_thanks') && isset($config['remove_thanks']))
     {
         array_all_thanks($post_list);
         $support_post_thanks = true;
@@ -1447,10 +1458,9 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 
 	// Parse the message and subject
 	$message = censor_text($row['post_text']);
-
     // tapatalk add for bbcode pretreatment
     $message = process_bbcode($message, $row['bbcode_uid']);
-
+    
 	// Second parse bbcode here
 	if ($row['bbcode_bitfield'])
 	{
