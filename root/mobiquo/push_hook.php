@@ -212,6 +212,10 @@ function tt_get_tag_list($str)
 function tt_insert_push_data($data)
 {
 	global $table_prefix,$db;
+	if($data['type'] == 'pm')
+	{
+		$data['subid'] = $data['id'];
+	}
 	$sql_data[$table_prefix . "tapatalk_push_data"]['sql'] = array(
         'author' => $data['author'],
 		'user_id' => $data['userid'],
@@ -244,9 +248,12 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
     	tt_insert_push_data($ttp_data);
     $ttp_post_data = array(
           'url'  => $boardurl,
-    	  'key'  => (!empty($config['tapatalk_push_key']) ? $config['tapatalk_push_key'] : ''),
           'data' => base64_encode(serialize(array($ttp_data))),
        );
+    if(!empty($config['tapatalk_push_key']))
+    {
+    	$ttp_post_data['key'] = $config['tapatalk_push_key'];
+    }
     $return_status = tt_do_post_request($ttp_post_data);
     return $return_status;
 }

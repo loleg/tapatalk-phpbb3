@@ -26,7 +26,7 @@ function getAlert()
     $db->sql_query($sql);
     $sql_select = "SELECT p.*,u.user_id as author_id FROM ". $push_table . " p 
     LEFT JOIN " . USERS_TABLE . " u ON p.author = u.username WHERE p.user_id = " . $user->data['user_id'] . "
-    LIMIT $startNum,$per_page";
+    ORDER BY create_time DESC LIMIT $startNum,$per_page ";
     $query = $db->sql_query($sql_select);
     while($data = $db->sql_fetchrow($query))
     {
