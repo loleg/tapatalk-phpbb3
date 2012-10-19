@@ -1,0 +1,63 @@
+phpBB 3.0.X - Version 3.4.0 released
+
+Update note:
+
+1. Fixed function 'send_status_line' missing issue
+2. Fixed phpbb 404 response code issue
+3. Fixed global announcement permission check issue
+4. Fixed return empty data not error message when no search result
+5. Fixed modified ban & delete all of a users posts, or just ban and cannot delete all the posts
+6. Fixed block a user via "Moderation Area", access via Tapatalk still work.
+7. Increase the compatibility of the phpbb 3.0.0 version.
+8. Add push notification support (For automod installation only)
+
+Instruction for @ tag function for push:
+You can mention someone when you are posting by add text with "@username" format(There should be no character directly before @).
+Example:
+There are some words in A's post:"I did remember @B , he is a good guy!"
+If you enabled push notification in app, you will get a push data like "A mentioned you in thread '....' ".
+
+phpBB 3.0.X - Version 3.4.1 released
+
+Update note:
+
+1.Fixed some small installation issues
+2.Fixed post permission problem
+3.Fixed hide forum areas but posts are not be hidden
+4.Add ACP permission for tapatalk option
+5.Fixed conflict with Mini-Chat
+
+phpBB 3.0.X - Version 3.4.2 released
+
+Update note:
+
+1.Fixed some installation issues
+2.Fixed undefined variable bug
+3.Modified the push code structure
+4.Fixed SQL ERROR [ postgres]
+5.Add push notification switch info in profile information
+
+phpBB 3.0.X - Version 3.4.3 released
+
+Update note:
+
+1.Fixed can not login to ACP via firefox
+2.Fixed can not delete posts via firefox
+3.Fixed language constant string missing (LOG_CONFIG_MOBIQUO and acl_acp_moiquo) .
+4.Fixed push time out error
+5.Added push conditions checking in push.php
+6.Fixed SQL error when post with emoji
+7.Fixed repeating the first page of unread posts in the second page
+8.Fixed Syntax Error in SQL Statement on Login phpBB on PostgreSQL
+9.Fixed undefined error when edit a PM
+
+phpBB 3.0.X - Version 3.5.0 released
+
+Update note:
+
+1.Display optimization for all native bbcode
+2.Add push notification key in tapatalk option
+3.Optimize plugin entry file interface from browser
+4.Add alerts data for tapatalk user (need app support)
+5.Add advanced custom forum icon configuration support
+6.Some minor bugs fix
