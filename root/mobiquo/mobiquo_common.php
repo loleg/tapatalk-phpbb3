@@ -468,6 +468,7 @@ function process_bbcode($message, $uid)
     $message = preg_replace('/\[(youtube|yt|video|googlevideo|gvideo):'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/sie', "video_bbcode_format('$1', '$2')", $message);
     $message = preg_replace('/\[(BBvideo)[\d, ]+:'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/si', "[url=$2]YouTube Video[/url]", $message);
     $message = preg_replace('/\[(spoil|spoiler):'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/si', "[spoiler]$2[/spoiler]", $message);
+    $message = preg_replace('/\[HiddenText=(.*?)\](.*?)\[\/HiddenText\]/si', '[spoiler]$2[/spoiler]', $message);
     $message = preg_replace('/\[b:'.$uid.'\](.*?)\[\/b:'.$uid.'\]/si', '[b]$1[/b]', $message);
     $message = preg_replace('/\[i:'.$uid.'\](.*?)\[\/i:'.$uid.'\]/si', '[i]$1[/i]', $message);
     $message = preg_replace('/\[u:'.$uid.'\](.*?)\[\/u:'.$uid.'\]/si', '[u]$1[/u]', $message);
