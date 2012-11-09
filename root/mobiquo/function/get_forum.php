@@ -137,8 +137,9 @@ function get_forum_func($xmlrpc_params)
                 $forum =& $forum_rows[$forum_id];
                 $logo_url = '';
 	            //@todo
+				global $tapatalk_forum_icon_dir,$tapatalk_forum_icon_url;
 				$tapatalk_forum_icon_dir = './forum_icons/';
-				$tapatalk_forum_icon_url = $phpbb_home.$config['tapatalkdir'];
+				$tapatalk_forum_icon_url = $phpbb_home.$config['tapatalkdir'].'/forum_icons/';
 	       		if($forum['forum_type'] != FORUM_POST)
 				{
 					$forum_type = 'category';
@@ -153,15 +154,15 @@ function get_forum_func($xmlrpc_params)
 				}
 				if(empty($forum['forum_image']))
 				{
-					$logo_url = get_forum_icon(2,$forum_type);
+					$logo_url = get_forum_icon($forum_id,$forum_type);
 				}
 				else if (!empty($forum['forum_password']))
 				{
-					$logo_url = get_forum_icon(2,$forum_type,true);
+					$logo_url = get_forum_icon($forum_id,$forum_type,true);
 				}
 				else if(!empty($forum['unread_count']))
 				{
-					$logo_url = get_forum_icon(2,$forum_type,false,true);
+					$logo_url = get_forum_icon($forum_id,$forum_type,false,true);
 				}
                 else if ($forum['forum_image'])
                 {

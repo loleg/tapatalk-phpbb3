@@ -99,6 +99,7 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 			$user_id = tt_get_user_id($username);
 			if ($user_id == $user->data['user_id']) continue;
 			if ($user_id == $data['poster_id']) continue;
+			if (empty($user_id)) continue;
 			$sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$user_id."' AND " . $type . " = 1" ;
 	        $result = $db->sql_query($sql);
 	        $row = $db->sql_fetchrow($result);
@@ -250,11 +251,14 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
           'url'  => $boardurl,
           'data' => base64_encode(serialize(array($ttp_data))),
        );
+    //error_log(print_r($ttp_post_data, true) ."1\n", 3, 'push.log');
     if(!empty($config['tapatalk_push_key']))
     {
     	$ttp_post_data['key'] = $config['tapatalk_push_key'];
     }
+    //error_log(print_r($ttp_post_data, true) ."2\n", 3, 'push.log');
     $return_status = tt_do_post_request($ttp_post_data);
+    //error_log("return----" . print_r($return_status, true) . "----\n", 3, 'push.log');
     return $return_status;
 }
 ?>
