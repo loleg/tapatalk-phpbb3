@@ -16,9 +16,9 @@ $lang = array_merge($lang, array(
 	'MOBIQUO_TABLE_CREATED'			=> 'The Tapatalk table was successfully created',
 	'MOBIQUO_TABLE_UPDATED'			=> 'The Tapatalk table was successfully updated',
 	'MOBIQUO_NOTHING_TO_UPDATE'		=> 'Nothing to do....continuing',
-	'ACP_MOBIQUO'                   => 'Tapatalk',
-    'ACP_MOBIQUO_SETTINGS'          => 'Tapatalk Settings',
-	'ACP_MOBIQUO_SETTINGS_EXPLAIN'  => 'Default Tapatalk settings can be changed here.',
+	'ACP_MOBIQUO'                   => 'Tapatalk Settings',
+    'ACP_MOBIQUO_SETTINGS'          => 'Tapatalk General',
+	'ACP_MOBIQUO_SETTINGS_EXPLAIN'  => 'Default Tapatalk general settings can be changed here.',
 	'ACP_MOBIQUO_MOD_VER'           => 'MOD version',
 	'LOG_CONFIG_MOBIQUO'            => 'Update tpatalk settings',
 	'acl_a_mobiquo'                 => array('lang' => 'Can manage Tapatalk settings', 'cat' => 'misc'),
@@ -39,6 +39,29 @@ $lang = array_merge($lang, array(
 	'MOBIQUO_PUSH_EXPLAIN' 			=> 'Tapatalk users on your forum can get instant notification with new reply of subscribed topic and new pm if this setting was enabled.',
 	'TAPATALK_PUSH_KEY' 			=> 'Tapatalk push key',
     'TAPATALK_PUSH_KEY_EXPLAIN' 	=> 'A push_key to verify your forum push certification, you can fill here with the push key you registered in Tapatalk.com. This is not mandatory but if you enter this key, it will make push feature perfect .',
+
+	'ACP_TAPATALK_REBRANDING'          => 'Taptalk Rebranding',
+	'ACP_TAPATALK_REBRANDING_EXPLAIN'  => 'Default Tapatalk Rebranding settings can be changed here.',
+	'TAPATALK_FORUM_READ_ONLY'         => 'Forum Read Only' ,
+	'TAPATALK_FORUM_READ_ONLY_EXPLAIN' => 'Set forums you don\'t want to user have a new topic',
+
+	'TAPATALK_IPAD_MESSAGE'         => 'iPad Product Message',
+	'TAPATALK_IPAD_URL'             => 'iPad Product URL',
+	'TAPATALK_ANDROID_MESSAGE'      => 'Android Product Message',
+	'TAPATALK_ANDROID_URL'          => 'Android Product URL',
+	'TAPATALK_IPHONE_MESSAGE'       => 'iPhone Product Message',
+	'TAPATALK_IPHONE_URL'           => 'iPhone Product URL',
+	'TAPATALK_KINDLE_MESSAGE'       => 'Kindle Fire Product Message',
+	'TAPATALK_KINDLE_URL'           => 'Kindle Fire Product URL',
+
+	'TAPATALK_IPAD_MESSAGE_EXPLAIN'         => 'Customize this message if you are Tapatalk Rebranding Customer and has published your App to Apple App Store',
+	'TAPATALK_IPAD_URL_EXPLAIN'             => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Apple App Store',
+	'TAPATALK_ANDROID_MESSAGE_EXPLAIN'      => 'Customize this message if you are Tapatalk Rebranding Customer and has published your App to Google Play',
+	'TAPATALK_ANDROID_URL_EXPLAIN'          => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Google Play',
+	'TAPATALK_IPHONE_MESSAGE_EXPLAIN'       => 'Customize this message if you are Tapatalk Rebranding Customer and has published your App to Apple App Store',
+	'TAPATALK_IPHONE_URL_EXPLAIN'           => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Apple App Store',
+	'TAPATALK_KINDLE_MESSAGE_EXPLAIN'       => 'Customize this message if you are Tapatalk Rebranding Customer and has published your App to Amazon App Store',
+	'TAPATALK_KINDLE_URL_EXPLAIN'           => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Amazon App Store',
 	)
 );
 ?>

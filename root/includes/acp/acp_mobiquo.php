@@ -31,19 +31,42 @@ class acp_mobiquo
 		*		script_path (absolute path in url - beginning with / and no trailing slash),
 		*		rpath (relative), rwpath (realtive, writable), path (relative path, but able to escape the root), wpath (writable)
 		*/
-		$display_vars = array(
-			'title'	=> 'ACP_MOBIQUO_SETTINGS',
-			'vars'	=> array(
-			'legend'				=> 'GENERAL_OPTIONS',
-			'mobiquo_is_chrome'		=> array('lang' => 'MOBIQUO_IS_CHROME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-			'mobiquo_guest_okay'	=> array('lang' => 'MOBIQUO_GUEST_OKAY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-			'mobiquo_hide_forum_id'	=> array('lang' => 'MOBIQUO_HIDE_FORUM_ID', 'validate' => 'string',	'type' => 'custom',	'explain' => true,	'method' => 'select_box'),
-			'tapatalkdir'			=> array('lang' => 'MOBIQUO_NAME', 'validate' => 'string', 'type' => 'text:10:12', 'explain' => true),
-			'mobiquo_reg_url'		=> array('lang' => 'MOBIQUO_REG_URL', 'validate' => 'string', 'type' => 'text:30:40', 'explain' => true),
-			'mobiquo_push'			=> array('lang' => 'MOBIQUO_PUSH', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),	
-		    'tapatalk_push_key'		=> array('lang' => 'TAPATALK_PUSH_KEY', 'validate' => 'string','type' => 'text:40:60','explain' => true),
-			)
-		);
+		switch ($mode)
+		{
+			case 'mobiquo':
+				$display_vars = array(
+					'title'	=> 'ACP_MOBIQUO_SETTINGS',
+					'vars'	=> array(
+					'legend'				=> 'GENERAL_OPTIONS',
+					'mobiquo_is_chrome'		=> array('lang' => 'MOBIQUO_IS_CHROME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+					'mobiquo_guest_okay'	=> array('lang' => 'MOBIQUO_GUEST_OKAY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+					'mobiquo_hide_forum_id'	=> array('lang' => 'MOBIQUO_HIDE_FORUM_ID', 'validate' => 'string',	'type' => 'custom',	'explain' => true,	'method' => 'select_box'),
+					'tapatalkdir'			=> array('lang' => 'MOBIQUO_NAME', 'validate' => 'string', 'type' => 'text:10:12', 'explain' => true),
+					'mobiquo_reg_url'		=> array('lang' => 'MOBIQUO_REG_URL', 'validate' => 'string', 'type' => 'text:30:40', 'explain' => true),
+					'mobiquo_push'			=> array('lang' => 'MOBIQUO_PUSH', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),	
+				    'tapatalk_push_key'		=> array('lang' => 'TAPATALK_PUSH_KEY', 'validate' => 'string','type' => 'text:40:60','explain' => true),
+					'tapatalk_forum_read_only'	=> array('lang' => 'TAPATALK_FORUM_READ_ONLY', 'validate' => 'string',	'type' => 'custom',	'explain' => true,	'method' => 'select_box'),
+					)
+				);
+				break;
+			case 'rebranding':
+				$display_vars = array(
+					'title'	=> 'ACP_TAPATALK_REBRANDING',
+					'vars'	=> array(
+					'legend'				=> 'GENERAL_OPTIONS',
+					'tapatalk_ipad_msg'		=> array('lang' => 'TAPATALK_IPAD_MESSAGE', 'validate' => 'string', 'type' => 'textarea:4:200', 'explain' => true),
+					'tapatalk_ipad_url'	    => array('lang' => 'TAPATALK_IPAD_URL', 'validate' => 'string', 'type' => 'text:40:100', 'explain' => true),
+					'tapatalk_android_msg'	=> array('lang' => 'TAPATALK_ANDROID_MESSAGE', 'validate' => 'string',	'type' => 'textarea:4:200',	'explain' => true),
+					'tapatalk_android_url'	=> array('lang' => 'TAPATALK_ANDROID_URL', 'validate' => 'string', 'type' => 'text:40:100', 'explain' => true),
+					'tapatalk_iphone_msg'	=> array('lang' => 'TAPATALK_IPHONE_MESSAGE', 'validate' => 'string', 'type' => 'textarea:4:200', 'explain' => true),
+					'tapatalk_iphone_url'	=> array('lang' => 'TAPATALK_IPHONE_URL', 'validate' => 'string', 'type' => 'text:40:100', 'explain' => true),	
+				    'tapatalk_kindle_msg'	=> array('lang' => 'TAPATALK_KINDLE_MESSAGE', 'validate' => 'string','type' => 'textarea:4:200','explain' => true),
+					'tapatalk_kindle_url'   => array('lang' => 'TAPATALK_KINDLE_URL', 'validate' => 'string','type' => 'text:40:100','explain' => true),
+					)
+				);
+				break;
+		}
+		
 
 		if (isset($display_vars['lang']))
 		{
@@ -82,6 +105,15 @@ class acp_mobiquo
 			elseif ($submit && empty($_REQUEST['mobiquo_hide_forum_id']))
 			{
 				$cfg_array['mobiquo_hide_forum_id'] = '';
+			}
+			if(isset($_REQUEST['tapatalk_forum_read_only']))
+			{
+				$forum_read_only = implode(',',$_REQUEST['tapatalk_forum_read_only']);
+				$cfg_array['tapatalk_forum_read_only'] = $forum_read_only;
+			}
+			elseif ($submit && empty($_REQUEST['tapatalk_forum_read_only']))
+			{
+				$cfg_array['tapatalk_forum_read_only'] = '';
 			}
 			$this->new_config[$config_name] = $config_value = $cfg_array[$config_name];
 
@@ -182,15 +214,15 @@ class acp_mobiquo
 	        $forum_id = $row['forum_id'];
 	        $forum_rows[$forum_id] = $row;
 	    }
-	    $this->display_select_forum($forum_rows,0);
+	    $this->display_select_forum($forum_rows,0,$key);
 	    $strSelect .= '</select>';
 	    return $strSelect;
 	} 
 	
-	function display_select_forum($rows,$parent_id)
+	function display_select_forum($rows,$parent_id,$key)
 	{
 		global $user, $config,$db,$strSelect;
-		$selected = explode(',', $config['mobiquo_hide_forum_id']);
+		$selected = explode(',', $config[$key]);
 		$i = 0;
 		static $i;
 		$topArr = $this->getChild($rows,$parent_id);
@@ -207,7 +239,7 @@ class acp_mobiquo
 			if(!empty($childArr))
 			{
 				$i++;
-				$this->display_select_forum($rows, $info['forum_id']);
+				$this->display_select_forum($rows, $info['forum_id'],$key);
 				$i--;
 			}
 			else

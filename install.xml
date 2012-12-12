@@ -108,7 +108,7 @@
 			<edit>
 				<find><![CDATA[	$url = append_sid($url, 'f=' . $data['forum_id'] . $params) . $add_anchor;]]></find>
 				<action type="after-add"><![CDATA[	// BEGIN mobiquo Mod push service
-	if ($url && isset($config['mobiquo_push']))
+	if ($url && isset($config['mobiquo_push']) && $post_approval)
     {
         require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
         $user_name_tag_arr = tt_get_tag_list($data['message']);

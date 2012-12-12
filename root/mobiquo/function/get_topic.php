@@ -326,13 +326,24 @@ function get_topic_func($xmlrpc_params)
     $max_png_size = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 10485760 : ($allowed ? ($config['max_filesize'] === '0' ? 10485760 : $config['max_filesize']) : 0);
     $max_jpg_size = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 10485760 : ($allowed ? ($config['max_filesize'] === '0' ? 10485760 : $config['max_filesize']) : 0);
     
+	$read_only_forums = explode(",", $config['tapatalk_forum_read_only']);
+	$can_post = true;
+	if(empty($read_only_forums) || !is_array($read_only_forums))
+	{
+		$read_only_forums = array();
+	}
+	if(!$auth->acl_get('f_post', $forum_id) || in_array($forum_id, $read_only_forums))
+	{
+		$can_post = false;
+	}
+	
     $response = new xmlrpcval(array(
         'total_topic_num' => new xmlrpcval($topic_num, 'int'),
         'unread_sticky_count'   => new xmlrpcval($unread_sticky_num, 'int'),
         'unread_announce_count' => new xmlrpcval($unread_announce_count, 'int'),
         'forum_id'        => new xmlrpcval($forum_id, 'string'),
         'forum_name'      => new xmlrpcval(html_entity_decode($forum_data['forum_name']), 'base64'),
-        'can_post'        => new xmlrpcval($auth->acl_get('f_post', $forum_id), 'boolean'),
+        'can_post'        => new xmlrpcval($can_post, 'boolean'),
         'can_upload'      => new xmlrpcval($allowed, 'boolean'),
         'max_attachment'  => new xmlrpcval($max_attachment, 'int'),
         'max_png_size'    => new xmlrpcval($max_png_size, 'int'),

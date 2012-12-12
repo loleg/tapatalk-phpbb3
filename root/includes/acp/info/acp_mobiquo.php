@@ -9,13 +9,18 @@ class acp_mobiquo_info
         return array(
             'filename'  => 'acp_mobiquo',
             'title'     => 'Tapatalk',    
-        	'version'	=> '3.5.0',  
+        	'version'	=> '3.6.0',  
             'modes'     => array(
             	'mobiquo'  => array(
             		'title' => 'ACP_MOBIQUO_SETTINGS', 
-            		'auth' => 'acl_a_mobiquo', 
+            		'auth' => 'acl_a_board', 
             		'cat' => array('ACP_MOBIQUO')
         		),
+        		'mobiquo_rebranding' => array(
+					'title'	=> 'ACP_TAPATALK_REBRANDING',
+					'auth'  => 'acl_a_board',
+        			'cat'   => array('ACP_MOBIQUO')
+        		)
             ),
         );
     }

@@ -115,10 +115,8 @@ $versions = array(
 
 		// Admins can do anything with mobiquo
 		'permission_set' => array(
-		    // Global Group permissions
-			array('ADMINISTRATORS', 'a_mobiquo', 'group' ,true),
 			// Global Role permissions for admins
-			array('ROLE_ADMIN_FULL', 'a_mobiquo' ,true),
+			array('ROLE_ADMIN_FULL', 'a_mobiquo'),
 		),
 	),
 	'3.4.2' => array(
@@ -159,6 +157,42 @@ $versions = array(
 			)
 		),
 	),
+	'3.6.0' => array(
+		'config_add' => array(
+			array('tapatalk_android_msg' , 'This forum has an app for Android. Click OK to learn more about Tapatalk.'),
+			array('tapatalk_android_url','market://details?id=com.quoord.tapatalkpro.activity'),
+			array('tapatalk_iphone_msg','This forum has an app for iPhone ! Click OK to learn more about Tapatalk.'),
+			array('tapatalk_iphone_url','http://itunes.apple.com/us/app/tapatalk-forum-app/id307880732?mt=8'),
+			array('tapatalk_ipad_msg','This forum has an app for iPad! Click OK to learn more about Tapatalk.'),
+			array('tapatalk_ipad_url','http://itunes.apple.com/us/app/tapatalk-hd-for-ipad/id481579541?mt=8'),
+			array('tapatalk_kindle_msg','This forum has an app for Kindle Fire! Click OK to learn more about Tapatalk.'),
+			array('tapatalk_kindle_url','http://www.amazon.com/gp/mas/dl/android?p=com.quoord.tapatalkpro.activity'),
+			array('tapatalk_forum_read_only',''),
+		),
+		'module_remove' => array(
+            array('acp', 'ACP_MOBIQUO', 'ACP_MOBIQUO_SETTINGS'),
+		),
+		'module_add'  =>array(
+			array('acp', 'ACP_MOBIQUO', array(
+					'module_basename'	=> 'mobiquo',
+					'module_langname'	=> 'ACP_MOBIQUO_SETTINGS',
+					'module_mode'		=> 'mobiquo',
+					'module_auth'		=> 'acl_a_board',
+				),
+			),
+			array('acp', 'ACP_MOBIQUO', array(
+					'module_basename'	=> 'mobiquo',
+					'module_langname'	=> 'ACP_TAPATALK_REBRANDING',
+					'module_mode'		=> 'rebranding',
+					'module_auth'		=> 'acl_a_board',
+				),
+			),
+			
+		),
+		'permission_remove' => array(
+			array('a_mobiquo'),
+		),
+	)
 );		
 
 		

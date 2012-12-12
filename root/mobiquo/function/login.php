@@ -91,7 +91,20 @@ function login_func($xmlrpc_params)
     $can_search = $auth->acl_get('u_search') && $auth->acl_getf_global('f_search') && $config['load_search'];
     $can_whosonline = $auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel');
     $max_filesize   = ($config['max_filesize'] === '0' || $config['max_filesize'] > 10485760) ? 10485760 : $config['max_filesize'];
-    
+    $userPushType = array();
+    $push_type = array();
+    if(file_exists("push_hook.php"))
+    {
+    	require_once 'push_hook.php';
+    	$userPushType = tt_get_user_push_type($user->data['user_id']);
+    }
+ 	foreach ($userPushType as $name=>$value)
+    {
+    	$push_type[] = new xmlrpcval(array(
+            'name'  => new xmlrpcval($name,'string'),
+    		'value' => new xmlrpcval($value,'string'),                    
+            ), 'struct');
+    }
     $response = new xmlrpcval(array(
         'result'        => new xmlrpcval(true, 'boolean'),
         'user_id'       => new xmlrpcval($user->data['user_id'], 'string'),
@@ -109,6 +122,7 @@ function login_func($xmlrpc_params)
         'can_search'    => new xmlrpcval($can_search, 'boolean'),
         'can_whosonline'    => new xmlrpcval($can_whosonline, 'boolean'),
         'can_upload_avatar' => new xmlrpcval($can_upload, 'boolean'),
+    	'push_type'         => new xmlrpcval($push_type, 'array'),
     ), 'struct');
     
     return new xmlrpcresp($response);

@@ -76,9 +76,8 @@ function create_message_func($xmlrpc_params)
     $address_list = array('u' => array());
     
     foreach($user_name as $msg_to_name)
-    {
+    { 	
         $user_id = get_user_id_by_name(trim($msg_to_name));
-
         if ($user_id)
         {
             $address_list['u'][$user_id] = 'to';

@@ -261,4 +261,16 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
     //error_log("return----" . print_r($return_status, true) . "----\n", 3, 'push.log');
     return $return_status;
 }
+function tt_get_user_push_type($userid)
+{
+	global $table_prefix,$db;
+	if(!check_push())
+	{
+		return array();
+	}
+	$sql = "SELECT pm,subscribe as sub,quote,newtopic,tag FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$userid."'";
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    return $row;
+}
 ?>

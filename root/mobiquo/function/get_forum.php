@@ -135,6 +135,16 @@ function get_forum_func($xmlrpc_params)
             foreach($leaves as $forum_id)
             {
                 $forum =& $forum_rows[$forum_id];
+            	if (function_exists('get_unread_topics'))
+                    $unread_count = count(get_unread_topics(false, "AND t.forum_id = $forum_id"));
+                else
+                    $unread_count = count(tt_get_unread_topics(false, "AND t.forum_id = $forum_id"));
+                
+                $forum['unread_count'] += $unread_count;
+                if ($forum['unread_count'])
+                {
+                    $forum_rows[$forum['parent_id']]['unread_count'] += $forum['unread_count'];
+                }
                 $logo_url = '';
 	            //@todo
 				global $tapatalk_forum_icon_dir,$tapatalk_forum_icon_url;
@@ -156,30 +166,19 @@ function get_forum_func($xmlrpc_params)
 				{
 					$logo_url = get_forum_icon($forum_id,$forum_type);
 				}
-				else if (!empty($forum['forum_password']))
-				{
-					$logo_url = get_forum_icon($forum_id,$forum_type,true);
-				}
-				else if(!empty($forum['unread_count']))
-				{
-					$logo_url = get_forum_icon($forum_id,$forum_type,false,true);
-				}
-                else if ($forum['forum_image'])
+            	else if ($forum['forum_image'])
                 {
                     $logo_url = $phpbb_home.$forum['forum_image'];
                 }
-                
-                if (function_exists('get_unread_topics'))
-                    $unread_count = count(get_unread_topics(false, "AND t.forum_id = $forum_id"));
-                else
-                    $unread_count = count(tt_get_unread_topics(false, "AND t.forum_id = $forum_id"));
-                
-                $forum['unread_count'] += $unread_count;
-                if ($forum['unread_count'])
-                {
-                    $forum_rows[$forum['parent_id']]['unread_count'] += $forum['unread_count'];
-                }
-                
+            	if(!empty($forum['unread_count']))
+				{
+					$logo_url = get_forum_icon($forum_id,$forum_type,false,true);
+				}
+				if (!empty($forum['forum_password']))
+				{
+					$logo_url = get_forum_icon($forum_id,$forum_type,true);
+				}
+               
                 $xmlrpc_forum = array(
                     'forum_id'      => new xmlrpcval($forum_id),
                     'forum_name'    => new xmlrpcval(basic_clean($forum['forum_name']), 'base64'),

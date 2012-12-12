@@ -458,13 +458,14 @@ function process_bbcode($message, $uid)
             if ($quote_level <= 1) $message .= $block;
         }
     }
-    
+
+   
     // prcess bbcode: list
     $message = preg_replace('/\[\*:'.$uid.'\]/si', '[*]', $message);
     $message = preg_replace('/\[\/\*:(m:)?'.$uid.'\]/si', '', $message);
     $message = tt_covert_list($message, '/\[list:'.$uid.'\](.*?)\[\/list:u:'.$uid.'\]/si', '1', $uid);
     $message = tt_covert_list($message, '/\[list=[^\]]*?:'.$uid.'\](.*?)\[\/list:o:'.$uid.'\]/si', '2', $uid);
-    // process video bbcode\
+    // process video bbcode\    
     $message = preg_replace('/\[(youtube|yt|video|googlevideo|gvideo):'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/sie', "video_bbcode_format('$1', '$2')", $message);
     $message = preg_replace('/\[(BBvideo)[\d, ]+:'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/si', "[url=$2]YouTube Video[/url]", $message);
     $message = preg_replace('/\[(spoil|spoiler):'.$uid.'\](.*?)\[\/\1:'.$uid.'\]/si', "[spoiler]$2[/spoiler]", $message);
@@ -474,7 +475,7 @@ function process_bbcode($message, $uid)
     $message = preg_replace('/\[u:'.$uid.'\](.*?)\[\/u:'.$uid.'\]/si', '[u]$1[/u]', $message);
     $message = preg_replace('/\[color=(\#[\da-fA-F]{3}|\#[\da-fA-F]{6}|[A-Za-z]{1,20}|rgb\(\d{1,3}, ?\d{1,3}, ?\d{1,3}\)):'.$uid.'\](.*?)\[\/color:'.$uid.'\]/si', '[color=$1]$2[/color]', $message);
     $message = preg_replace('/\[mp3preview:'.$uid.'\](.*?)\[\/mp3preview:'.$uid.'\]/si', '[url=$1]MP3 Preview[/url]', $message);
-    
+	 
     return $message;
 }
 function tt_covert_list($message,$preg,$type,$uid)
@@ -595,16 +596,14 @@ function get_user_id_by_name($username)
     {
         return false;
     }
-    
     $username_clean = $db->sql_escape(utf8_clean_string($username));
-    
+    $username_clean = htmlspecialchars($username_clean, ENT_COMPAT, 'UTF-8');
     $sql = 'SELECT user_id
             FROM ' . USERS_TABLE . "
             WHERE username_clean = '$username_clean'";
     $result = $db->sql_query($sql);
     $user_id = $db->sql_fetchfield('user_id');
     $db->sql_freeresult($result);
-    
     return $user_id;
 }
 
@@ -669,7 +668,7 @@ function cut_quote($str, $keep_size)
 function video_bbcode_format($type, $url)
 {
     $url = trim($url);
-    
+    $url = html_entity_decode($url);
     switch (strtolower($type)) {
         case 'yt':
         case 'youtube':

@@ -11,7 +11,28 @@ defined('IN_MOBIQUO') or exit;
 function get_thread_func()
 {
     global $template, $user, $auth, $phpbb_home, $config, $attachment_by_id, $forum_id, $topic_id, $support_post_thanks, $topic_data, $total_posts, $can_subscribe;
-    
+    /*
+    generate_forum_nav($topic_data);
+    $navgation_arr = $template->_tpldata['navlinks'];
+	if(is_array($navgation_arr) && count($navgation_arr) > 0)
+    {
+        global $app_version;
+        foreach ($navgation_arr as $navigation)
+        {
+        	$forum_id = $navigation['FORUM_ID'];
+        	$sub_only = false;
+        	if($navigation['S_IS_POST'] != FORUM_POST)
+        	{
+        		$sub_only = true;
+        	}
+            $breadcrumb[] = new xmlrpcval(array(
+                'forum_id'    => new xmlrpcval($forum_id, 'string'),
+                'forum_name'  => new xmlrpcval($navigation['FORUM_NAME'], 'base64'),
+				'sub_only' => new xmlrpcval($sub_only, 'boolean'),
+                ), 'struct');
+        }
+    }
+    */
     $post_list = array();
     foreach($template->_tpldata['postrow'] as $row)
     {
@@ -123,7 +144,14 @@ function get_thread_func()
 
         $post_list[] = new xmlrpcval($xmlrpc_post, 'struct');
     }
-    
+    //add show first post only to guest support
+    if((!empty($topic_data['sfpo_guest_enable']) && ($user->data['user_id'] == ANONYMOUS) && ($total_posts > 1)))
+    {
+    	$post_list_temp[] = $post_list[0];
+    	unset($post_list);
+    	$post_list = $post_list_temp;
+    	$total_posts = 1;
+    }
     $allow_change_type = ($auth->acl_get('m_', $forum_id) || ($user->data['is_registered'] && $user->data['user_id'] == $topic_data['topic_poster'])) ? true : false;
     $allowed = $config['max_attachments'] && $auth->acl_get('f_attach', $forum_id) && $auth->acl_get('u_attach') && $config['allow_attachments'] && @ini_get('file_uploads') != '0' && strtolower(@ini_get('file_uploads')) != 'off';
     $max_attachment = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 99 : ($allowed ? $config['max_attachments'] : 0);
@@ -154,10 +182,14 @@ function get_thread_func()
         'max_attachment' => new xmlrpcval($max_attachment, 'int'),
         'max_png_size'   => new xmlrpcval($max_png_size, 'int'),
         'max_jpg_size'   => new xmlrpcval($max_jpg_size, 'int'),
+    	
 
         'posts'          => new xmlrpcval($post_list, 'array'),
     );
-    
+	if (!empty($breadcrumb))
+    {
+    	$result['breadcrumb'] = new xmlrpcval($breadcrumb, 'array');
+    }
     
     
     return new xmlrpcresp(new xmlrpcval($result, 'struct'));
