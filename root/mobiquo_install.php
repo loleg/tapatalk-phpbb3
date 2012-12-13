@@ -28,17 +28,6 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 	trigger_error('Please download the latest UMIL (Unified MOD Install Library) from: <a href="http://www.phpbb.com/mods/umil/">phpBB.com/mods/umil</a>', E_USER_ERROR);
 }
 
-/*
-* The language file which will be included when installing
-* Language entries that should exist in the language file for UMIL (replace $mod_name with the mod's name you set to $mod_name above)
-* $mod_name
-* 'INSTALL_' . $mod_name
-* 'INSTALL_' . $mod_name . '_CONFIRM'
-* 'UPDATE_' . $mod_name
-* 'UPDATE_' . $mod_name . '_CONFIRM'
-* 'UNINSTALL_' . $mod_name
-* 'UNINSTALL_' . $mod_name . '_CONFIRM'
-*/
 
 $language_file = 'mods/info_acp_mobiquo';
 

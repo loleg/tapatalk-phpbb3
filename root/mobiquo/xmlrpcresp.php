@@ -365,6 +365,37 @@ function get_alert_func()
 	),'struct');
 	return $result;
 }
+
+function register_func()
+{
+	 global $result, $result_text;
+	 $response = new xmlrpcval(array(
+        'result'            => new xmlrpcval($result, 'boolean'),
+        'result_text'       => new xmlrpcval($result_text, 'base64'),
+	 ), 'struct');
+	 return new xmlrpcresp($response);
+}
+function update_password_func()
+{
+	 global $result , $result_text;
+	 $response = new xmlrpcval(array(
+        'result'            => new xmlrpcval($result, 'boolean'),
+        'result_text'       => new xmlrpcval($result_text, 'base64'),
+	 ), 'struct');
+	 return new xmlrpcresp($response);
+}
+
+function forget_password_func()
+{
+	 global $result , $result_text ,$verified;
+	 $response = new xmlrpcval(array(
+        'result'            => new xmlrpcval($result, 'boolean'),
+        'result_text'       => new xmlrpcval($result_text, 'base64'),
+	 	'verified'          => new xmlrpcval($verified, 'boolean'),
+	 ), 'struct');
+	 return new xmlrpcresp($response);
+}
+
 function xmlresptrue()
 {
     $result = new xmlrpcval(array(

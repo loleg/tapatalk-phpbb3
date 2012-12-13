@@ -375,6 +375,42 @@ switch ($request_method)
         $_GET['i'] = 'reports';
         $_GET['mode'] = 'reports';
         break;
+    case 'register':
+    	$_POST['creation_time'] = time();
+    	$_POST['token'] = $request_params[2];
+    	$_POST['code'] = $request_params[3];
+    	$_POST['new_password'] = $request_params[1];
+    	$_POST['password_confirm'] = $request_params[1];
+    	$_POST['submit'] = 'Submit';
+    	$_POST['username'] = $request_params[0];
+    case 'update_password':
+    	$_POST['creation_time'] = time();
+		$_POST['cur_password'] = !isset($request_params[2]) ? $request_params[0] : 'true';
+    	$_POST['new_password'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
+    	$_POST['password_confirm'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
+    	if(isset($request_params[2]))
+    	{
+    		$_POST['token'] = $request_params[1];
+    		$_POST['code'] = $request_params[2]; 
+    	}
+    	break;
+    case 'update_email':
+    	$request_file = "update_password";
+    	$_POST['creation_time'] = time();
+		$_POST['cur_password'] = !isset($request_params[2]) ? $request_params[0] : 'true';
+    	$_POST['email'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
+    	$_POST['email_confirm'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
+    	if(isset($request_params[2]))
+    	{
+    		$_POST['token'] = $request_params[1];
+    		$_POST['code'] = $request_params[2]; 
+    	}
+    	break;
+    case 'forget_password':
+    	$_POST['username'] = $request_params[0];
+    	$_POST['token'] = $request_params[1];
+    	$_POST['code'] = $request_params[2];
+    	break;
 }
 
 foreach($_GET  as $key => $value) $_REQUEST[$key] = $value;
