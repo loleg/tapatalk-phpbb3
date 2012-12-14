@@ -171,14 +171,14 @@
 				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => isset($config['tapatalkdir']) ? $phpbb_root_path . $config['tapatalkdir'] : '',
 		'TAPATALKDETECT_JS' => $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect.js' ,
 		'TAPATALK_CHROME_ENABLE' => isset($config['mobiquo_is_chrome']) ? $config['mobiquo_is_chrome'] : true,
-		'tapatalk_ipad_msg' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
-		'tapatalk_ipad_url' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
-		'tapatalk_iphone_msg' => isset($config['tapatalk_iphone_msg']) ? $config['tapatalk_iphone_msg'] : '' ,
-		'tapatalk_iphone_url' => isset($config['tapatalk_iphone_url']) ? $config['tapatalk_iphone_url'] : '' ,
-		'tapatalk_android_msg' => isset($config['tapatalk_android_msg']) ? $config['tapatalk_android_msg'] : '' ,
-		'tapatalk_android_url' => isset($config['tapatalk_android_url']) ? $config['tapatalk_android_url'] : '' ,
-		'tapatalk_kindle_msg' => isset($config['tapatalk_kindle_msg']) ? $config['tapatalk_kindle_msg'] : '' ,
-		'tapatalk_kindle_url' => isset($config['tapatalk_kindle_url']) ? $config['tapatalk_kindle_url'] : '' ,]]></action>
+		'TAPATALK_IPAD_MSG' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
+		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
+		'TAPATALK_IPHONE_MSG' => isset($config['tapatalk_iphone_msg']) ? $config['tapatalk_iphone_msg'] : '' ,
+		'TAPATALK_IPHONE_URL' => isset($config['tapatalk_iphone_url']) ? $config['tapatalk_iphone_url'] : '' ,
+		'TAPATALK_ANDROID_MSG' => isset($config['tapatalk_android_msg']) ? $config['tapatalk_android_msg'] : '' ,
+		'TAPATALK_ANDROID_URL' => isset($config['tapatalk_android_url']) ? $config['tapatalk_android_url'] : '' ,
+		'TAPATALK_KINDLE_MSG' => isset($config['tapatalk_kindle_msg']) ? $config['tapatalk_kindle_msg'] : '' ,
+		'TAPATALK_KINDLE_URL' => isset($config['tapatalk_kindle_url']) ? $config['tapatalk_kindle_url'] : '' ,]]></action>
 			</edit>
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
@@ -186,14 +186,14 @@
 				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
 				<action type="after-add"><![CDATA[<script type="text/javascript">
 var tapatalkdir="{MOBIQUO_NAME}";
-var tapatalk_ipad_msg = '{tapatalk_ipad_msg}';
-var tapatalk_ipad_url  = '{tapatalk_ipad_url}';
-var tapatalk_iphone_msg = '{tapatalk_iphone_msg}';
-var tapatalk_iphone_url  = '{tapatalk_iphone_url}';
-var tapatalk_android_msg = '{tapatalk_android_msg}';
-var tapatalk_android_url  = 'tapatalk_android_url}';
-var tapatalk_kindle_msg = '{tapatalk_kindle_msg}';
-var tapatalk_kindle_url  = '{tapatalk_kindle_url}';
+var tapatalk_ipad_msg = '{TAPATALK_IPAD_MSG}';
+var tapatalk_ipad_url  = '{TAPATALK_IPAD_URL}';
+var tapatalk_iphone_msg = '{TAPATALK_IPHONE_MSG}';
+var tapatalk_iphone_url  = '{TAPATALK_ANDROID_URL}';
+var tapatalk_android_msg = '{TAPATALK_ANDROID_MSG}';
+var tapatalk_android_url  = '{TAPATALK_ANDROID_URL}';
+var tapatalk_kindle_msg = '{TAPATALK_KINDLE_MSG}';
+var tapatalk_kindle_url  = '{TAPATALK_KINDLE_URL}';
 var tapatalk_chrome_enable = '{TAPATALK_CHROME_ENABLE}';
 </script>
 <script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
