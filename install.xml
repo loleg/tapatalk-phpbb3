@@ -168,7 +168,7 @@
 			</edit>
 			<edit>
 				<find><![CDATA['ROOT_PATH'			=> $phpbb_root_path,]]></find>
-				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : '',
+				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => isset($config['tapatalkdir']) ? $phpbb_root_path . $config['tapatalkdir'] : '',
 		'TAPATALKDETECT_JS' => $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect.js' ,
 		'TAPATALK_CHROME_ENABLE' => isset($config['mobiquo_is_chrome']) ? $config['mobiquo_is_chrome'] : true,
 		'tapatalk_ipad_msg' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
