@@ -1,4 +1,17 @@
 function detectTapatalk() {
+	if(typeof(tapatalkdir) == 'undefined' || tapatalkdir == '')
+	{
+		tapatalkdir = 'mobiquo';
+		tapatalk_chrome_enable = true;
+		tapatalk_iphone_msg = "This forum has an app for iPhone and iPod Touch! Click OK to learn more about Tapatalk.";
+		tapatalk_iphone_url = "http://itunes.apple.com/us/app/tapatalk-forum-app/id307880732?mt=8";
+		tapatalk_ipad_msg = "This forum has an app for iPad! Click OK to learn more about Tapatalk.";
+		tapatalk_ipad_url = "http://itunes.apple.com/us/app/tapatalk-hd-for-ipad/id481579541?mt=8";
+		tapatalk_kindle_msg = "This forum has an app for Kindle Fire! Click OK to learn more about Tapatalk.";
+		tapatalk_kindle_url = "http://www.amazon.com/gp/mas/dl/android?p=com.quoord.tapatalkpro.activity";
+		tapatalk_android_msg = "This forum has an app for Android. Click OK to learn more about Tapatalk.";
+		tapatalk_android_url = "market://details?id=com.quoord.tapatalkpro.activity";
+	}
     if (document.cookie.indexOf("tapatalk_redirect4=false") < 0) {
         if (!navigator.userAgent.match(/Opera/i)) {
             if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
