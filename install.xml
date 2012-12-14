@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.5.0</mod-version>
+		<mod-version>3.6.0</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -86,13 +86,26 @@
 					<change>Some minor bugs fix</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2012-12-18</date>
+				<rev-version>3.6.0</rev-version>
+				<changelog lang="en">
+					<change>Display optimization for all native bbcode </change>
+					<change>Add push notification key in tapatalk option</change>
+					<change>Optimize plugin entry file interface from browser</change>
+					<change>Add alerts data for tapatalk user (need app support)</change>
+					<change>Add advanced custom forum icon configuration support</change>
+					<change>Some minor bugs fix</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
 			<link type="contrib" href="./contrib/update_tapatalk_340_341.xml" lang="en">Update from 340 to 341</link>
 			<link type="contrib" href="./contrib/update_tapatalk_341_342.xml" lang="en">Update from 341 to 342</link>
 			<link type="contrib" href="./contrib/update_tapatalk_342_343.xml" lang="en">Update from 342 to 343</link>
-			<link type="contrib" href="./contrib/update_tapatalk_343_350.xml" lang="en">Update from 342 to 343</link>
+			<link type="contrib" href="./contrib/update_tapatalk_343_350.xml" lang="en">Update from 343 to 350</link>
+			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 350 to 360</link>
 		</link-group>
 	</header>
 	<action-group>
