@@ -43,3 +43,4 @@ get_alert = 1
 alert = 1
 push = 0
 push_type = pm,sub,quote,newtopic,tag
+register = 1
