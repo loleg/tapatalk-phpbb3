@@ -8,12 +8,13 @@
 function tapatalk_push_reply($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
-	if(!check_push())
+	$is_only_alert = false;
+	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
 	{
-		return false;
+		$is_only_alert = true;
 	}
 	$return_status = false;
-    if (!empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
+    if (!empty($data))// mobi_table_exists('tapatalk_users')
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .TOPICS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
@@ -22,7 +23,7 @@ function tapatalk_push_reply($data)
     	while($row = $db->sql_fetchrow($result))
     	{
     		if ($row['userid'] == $user->data['user_id']) continue;
-            $return_status = tt_send_push_data($row['userid'], 'sub', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username']);
+            $return_status = tt_send_push_data($row['userid'], 'sub', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username'],$is_only_alert);
     	}
     }
     return $return_status;
@@ -36,11 +37,12 @@ function tapatalk_push_newtopic($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$return_status = false;
-	if(!check_push())
+	$is_only_alert = false;
+	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
 	{
-		return false;
+		$is_only_alert = true;
 	}
-    if (!empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
+    if (!empty($data))// mobi_table_exists('tapatalk_users')
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .FORUMS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
@@ -50,7 +52,7 @@ function tapatalk_push_newtopic($data)
     	{
     		if ($row['userid'] == $user->data['user_id']) continue;
     		if ($row['userid'] == $data['poster_id']) continue;
-            $return_status = tt_send_push_data($row['userid'], 'newtopic', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username']);
+            $return_status = tt_send_push_data($row['userid'], 'newtopic', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username'],$is_only_alert);
     	}
     }
     return $return_status;
@@ -65,12 +67,13 @@ function tapatalk_push_newtopic($data)
 function tapatalk_push_pm($userid,$pm_id,$subject)
 {
     global $db, $user, $config,$table_prefix,$boardurl,$phpbb_root_path,$phpEx;
-	if(!check_push())
+    $is_only_alert = false;
+	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
 	{
-		return false;
+		$is_only_alert = true;
 	}
 	$return_status = false;
-    if ($userid && !empty($subject) && (function_exists('curl_init') || ini_get('allow_url_fopen')))// mobi_table_exists('tapatalk_users')
+    if ($userid)// mobi_table_exists('tapatalk_users')
     {         
          $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$userid."' and pm =1";
          $result = $db->sql_query($sql);
@@ -79,7 +82,7 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
          $db->sql_freeresult($result);
          if(!empty($row))
          {
-        	 $return_status = tt_send_push_data($row['userid'], 'pm', $pm_id, '', $subject, $user->data['username']);
+        	 $return_status = tt_send_push_data($row['userid'], 'pm', $pm_id, '', $subject, $user->data['username'],$is_only_alert);
          }
     }
     return $return_status;     
@@ -88,11 +91,12 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$return_status = false;
-	if(!check_push())
+	$is_only_alert = false;
+	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
 	{
-		return false;
+		$is_only_alert = true;
 	}
-	if(!empty($user_name_arr) && !empty($data) && (function_exists('curl_init') || ini_get('allow_url_fopen')))
+	if(!empty($user_name_arr) && !empty($data))
 	{
 		foreach ($user_name_arr as $username)
 		{			
@@ -107,7 +111,7 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 	        if(!empty($row))
 	        {
 	            $id = empty($data['topic_id']) ? $data['forum_id'] : $data['topic_id'];
-	            $return_status = tt_send_push_data($row['userid'], $type, $id, $data['post_id'], $data['topic_title'], $user->data['username']);
+	            $return_status = tt_send_push_data($row['userid'], $type, $id, $data['post_id'], $data['topic_title'], $user->data['username'],$is_only_alert);
 	        }
 			
 		}
@@ -212,7 +216,7 @@ function tt_get_tag_list($str)
 
 function tt_insert_push_data($data)
 {
-	global $table_prefix,$db;
+	global $table_prefix,$db;	
 	if($data['type'] == 'pm')
 	{
 		$data['subid'] = $data['id'];
@@ -230,7 +234,7 @@ function tt_insert_push_data($data)
 	$db->sql_query($sql);	
 }
 
-function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
+function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author,$is_only_alert=false)
 {
 	global $config;
     $boardurl = generate_board_url();
@@ -247,6 +251,10 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author)
     );
     if(push_data_table_exists())
     	tt_insert_push_data($ttp_data);
+    if($is_only_alert)
+    {
+    	return ;
+    }
     $ttp_post_data = array(
           'url'  => $boardurl,
           'data' => base64_encode(serialize(array($ttp_data))),

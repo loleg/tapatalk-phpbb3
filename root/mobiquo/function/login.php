@@ -31,7 +31,7 @@ function login_func($xmlrpc_params)
     {
         $auth->acl($user->data);
         //add tapatalk_users here,for push service
-        if(($params[3]  == '1') && push_table_exists())
+        if(push_table_exists())
         {
         	global $table_prefix;
         	$sql = "SELECT * FROM " . $table_prefix . "tapatalk_users where userid = '".$user->data['user_id']."'";
