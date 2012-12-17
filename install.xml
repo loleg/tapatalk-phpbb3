@@ -6,7 +6,7 @@
 		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
 			<title lang="en">Tapatalk</title>
 				<description lang="en">Tapatalk for the forum index and seperate page.</description>
-				<author-notes lang="en">It took considerable time in creating this modification.  If you appreciate the time involved and are enjoying the mod, please consider making a "donation" via paypal to jack15083@gmail.com.
+				<author-notes lang="en">It took considerable time in creating this modification.  If you appreciate the time involved and are enjoying the mod, please consider making a "donation" via paypal to admin@tapatalk.com.
 				Thanks and enjoy the mod!!
 				</author-notes>
 		<author-group>
@@ -90,12 +90,14 @@
 				<date>2012-12-18</date>
 				<rev-version>3.6.0</rev-version>
 				<changelog lang="en">
-					<change>Display optimization for all native bbcode </change>
-					<change>Add push notification key in tapatalk option</change>
-					<change>Optimize plugin entry file interface from browser</change>
-					<change>Add alerts data for tapatalk user (need app support)</change>
-					<change>Add advanced custom forum icon configuration support</change>
-					<change>Some minor bugs fix</change>
+					<change>fix If a user's nickname has a special char In it, Can not send PMs to him</change>
+					<change>fix don not show captcha when login more than three times</change>
+					<change>fix push notification being sent for moderated postings </change>
+					<change>fix "Show First Post Only to Guest" not work with Tapatalk plugin</change>
+					<change>Add read only control based on forum id</change>
+					<change>enhance attachment type</change>
+					<change>Add register function (need app side support) .</change>
+					<change>add separate detect display words from js .</change>
 				</changelog>
 			</entry>
 		</history>
@@ -121,7 +123,8 @@
 			<edit>
 				<find><![CDATA[	$url = append_sid($url, 'f=' . $data['forum_id'] . $params) . $add_anchor;]]></find>
 				<action type="after-add"><![CDATA[	// BEGIN mobiquo Mod push service
-	if ($url && isset($config['mobiquo_push']) && $post_approval)
+	$tapatalk_push_run = true;
+	if ($url && isset($config['mobiquo_push']) && $post_approval && $tapatalk_push_run)
     {
         require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
         $user_name_tag_arr = tt_get_tag_list($data['message']);
@@ -145,6 +148,7 @@
         		break;
         }		   
     }
+    $tapatalk_push_run = false;
 	// END mobiquo Mod]]></action>
 			</edit>		
 		</open>
@@ -152,11 +156,13 @@
 			<edit>
 				<find><![CDATA[// Send Notifications]]></find>
 				<action type="after-add"><![CDATA[// BEGIN mobiquo Mod push service
-	if(!empty($data['msg_id']) && isset($config['mobiquo_push']) && ($mode != 'edit'))
+	$tapatalk_push_run = true;
+	if(!empty($data['msg_id']) && isset($config['mobiquo_push']) && ($mode != 'edit') && $tapatalk_push_run)
 	{
 		require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
     	tapatalk_push_pm($user_id, $data['msg_id'], $subject);
 	}
+	$tapatalk_push_run = false;
 // END mobiquo Mod]]></action>
 			</edit>		
 		</open>

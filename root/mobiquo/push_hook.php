@@ -14,7 +14,7 @@ function tapatalk_push_reply($data)
 		$is_only_alert = true;
 	}
 	$return_status = false;
-    if (!empty($data))// mobi_table_exists('tapatalk_users')
+    if (!empty($data))
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .TOPICS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
@@ -259,14 +259,11 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author,$is_only_al
           'url'  => $boardurl,
           'data' => base64_encode(serialize(array($ttp_data))),
        );
-    //error_log(print_r($ttp_post_data, true) ."1\n", 3, 'push.log');
     if(!empty($config['tapatalk_push_key']))
     {
     	$ttp_post_data['key'] = $config['tapatalk_push_key'];
     }
-    //error_log(print_r($ttp_post_data, true) ."2\n", 3, 'push.log');
     $return_status = tt_do_post_request($ttp_post_data);
-    //error_log("return----" . print_r($return_status, true) . "----\n", 3, 'push.log');
     return $return_status;
 }
 function tt_get_user_push_type($userid)

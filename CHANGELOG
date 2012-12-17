@@ -55,9 +55,22 @@ phpBB 3.0.X - Version 3.5.0 released
 
 Update note:
 
-	1.Display optimization for all native bbcode
-	2.Add push notification key in tapatalk option
-	3.Optimize plugin entry file interface from browser
-	4.Add alerts data for tapatalk user (need app support)
-	5.Add advanced custom forum icon configuration support
-	6.Some minor bugs fix
+1.Display optimization for all native bbcode
+2.Add push notification key in tapatalk option
+3.Optimize plugin entry file interface from browser
+4.Add alerts data for tapatalk user (need app support)
+5.Add advanced custom forum icon configuration support
+6.Some minor bugs fix
+
+phpBB 3.0.X - Version 3.6.0 released
+
+Update note:
+
+1.fix If a user's nickname has a special char In it, Can not send PMs to him
+2.fix don not show captcha when login more than three times
+3.fix push notification being sent for moderated postings 
+4.fix "Show First Post Only to Guest" not work with Tapatalk plugin
+5.Add read only control based on forum id
+6.enhance attachment type
+7.Add register function (need app side support) .
+8.add separate detect display words from js .
