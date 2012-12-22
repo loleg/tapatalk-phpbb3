@@ -24,7 +24,7 @@ class mobi_ucp_register
 		$error = $cp_data = $cp_error = array();
 		$is_dst = $config['board_dst'];
 		$timezone = $config['board_timezone'];
-		$email = tt_register_verify($_POST['token'], $_POST['code']);
+		$email = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);
 		if(empty($email))
 		{
 			$this->result = false;
@@ -40,7 +40,6 @@ class mobi_ucp_register
 			'lang'				=> basename(request_var('lang', $user->lang_name)),
 			'tz'				=> request_var('tz', (float) $timezone),
 		);
-		
 		$error = validate_data($data, array(
 			'username'			=> array(
 				array('string', false, $config['min_name_chars'], $config['max_name_chars']),

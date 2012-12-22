@@ -12,7 +12,7 @@ class mobi_ucp_remind
 		global $db, $user, $auth, $template;
 
 		$username	= request_var('username', '', true);
-		$email		= tt_register_verify($_POST['token'], $_POST['code']);
+		$email		= tt_register_verify($_POST['tt_token'], $_POST['tt_code']);
 		if(empty($email))
 		{
 			$this->verify = false;

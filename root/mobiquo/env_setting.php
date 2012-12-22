@@ -377,12 +377,13 @@ switch ($request_method)
         break;
     case 'register':
     	$_POST['creation_time'] = time();
-    	$_POST['token'] = $request_params[2];
-    	$_POST['code'] = $request_params[3];
+    	$_POST['tt_token'] = $request_params[2];
+    	$_POST['tt_code'] = $request_params[3];
+    	$_POST['username'] = $request_params[0];
     	$_POST['new_password'] = $request_params[1];
     	$_POST['password_confirm'] = $request_params[1];
     	$_POST['submit'] = 'Submit';
-    	$_POST['username'] = $request_params[0];
+    	break;
     case 'update_password':
     	$_POST['creation_time'] = time();
 		$_POST['cur_password'] = !isset($request_params[2]) ? $request_params[0] : 'true';
@@ -390,8 +391,8 @@ switch ($request_method)
     	$_POST['password_confirm'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
     	if(isset($request_params[2]))
     	{
-    		$_POST['token'] = $request_params[1];
-    		$_POST['code'] = $request_params[2]; 
+    		$_POST['tt_token'] = $request_params[1];
+    		$_POST['tt_code'] = $request_params[2]; 
     	}
     	break;
     case 'update_email':
@@ -402,14 +403,14 @@ switch ($request_method)
     	$_POST['email_confirm'] = !isset($request_params[2]) ? $request_params[1] : $request_params[0] ;
     	if(isset($request_params[2]))
     	{
-    		$_POST['token'] = $request_params[1];
-    		$_POST['code'] = $request_params[2]; 
+    		$_POST['tt_token'] = $request_params[1];
+    		$_POST['tt_code'] = $request_params[2]; 
     	}
     	break;
     case 'forget_password':
     	$_POST['username'] = $request_params[0];
-    	$_POST['token'] = $request_params[1];
-    	$_POST['code'] = $request_params[2];
+    	$_POST['tt_token'] = $request_params[1];
+    	$_POST['tt_code'] = $request_params[2];
     	break;
 }
 
