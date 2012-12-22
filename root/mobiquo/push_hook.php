@@ -14,7 +14,7 @@ function tapatalk_push_reply($data)
 		$is_only_alert = true;
 	}
 	$return_status = false;
-    if (!empty($data))
+    if (!empty($data))// mobi_table_exists('tapatalk_users')
     {
     	$sql = "SELECT t.userid FROM " . $table_prefix . "tapatalk_users AS t  LEFT JOIN " .TOPICS_WATCH_TABLE . " AS w 
     	ON t.userid = w.user_id
@@ -51,7 +51,6 @@ function tapatalk_push_newtopic($data)
     	while($row = $db->sql_fetchrow($result))
     	{
     		if ($row['userid'] == $user->data['user_id']) continue;
-    		if ($row['userid'] == $data['poster_id']) continue;
             $return_status = tt_send_push_data($row['userid'], 'newtopic', $data['topic_id'], $data['post_id'], $data['topic_title'], $user->data['username'],$is_only_alert);
     	}
     }
@@ -73,7 +72,7 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
 		$is_only_alert = true;
 	}
 	$return_status = false;
-    if ($userid)// mobi_table_exists('tapatalk_users')
+    if ($userid)
     {         
          $sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$userid."' and pm =1";
          $result = $db->sql_query($sql);
@@ -102,7 +101,6 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 		{			
 			$user_id = tt_get_user_id($username);
 			if ($user_id == $user->data['user_id']) continue;
-			if ($user_id == $data['poster_id']) continue;
 			if (empty($user_id)) continue;
 			$sql = "SELECT userid FROM " . $table_prefix . "tapatalk_users WHERE userid = '".$user_id."' AND " . $type . " = 1" ;
 	        $result = $db->sql_query($sql);

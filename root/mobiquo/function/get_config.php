@@ -24,7 +24,10 @@ function get_config_func()
             $config_list[$key] = new xmlrpcval($value, 'string');
         }
     }
-    
+    if(isset($config['mobiquo_push']))
+    {
+    	$config_list['alert'] = new xmlrpcval(1, 'string');
+    }
     if ($auth->acl_get('u_search') && $auth->acl_getf_global('f_search') && $config['load_search'])
     {
         $config_list['guest_search'] = new xmlrpcval('1', 'string');

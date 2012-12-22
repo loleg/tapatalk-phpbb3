@@ -97,9 +97,19 @@
 		</copy>
 		<open src="styles/subsilver2/template/overall_header.html">
 			<edit>
-				<find><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
-<head>]]></find>
-				<action type="after-add"><![CDATA[<script type="text/javascript">var tapatalkdir="{MOBIQUO_NAME}";</script>
+				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
+				<action type="after-add"><![CDATA[<script type="text/javascript">
+var tapatalkdir="{MOBIQUO_NAME}";
+var tapatalk_ipad_msg = '{TAPATALK_IPAD_MSG}';
+var tapatalk_ipad_url  = '{TAPATALK_IPAD_URL}';
+var tapatalk_iphone_msg = '{TAPATALK_IPHONE_MSG}';
+var tapatalk_iphone_url  = '{TAPATALK_ANDROID_URL}';
+var tapatalk_android_msg = '{TAPATALK_ANDROID_MSG}';
+var tapatalk_android_url  = '{TAPATALK_ANDROID_URL}';
+var tapatalk_kindle_msg = '{TAPATALK_KINDLE_MSG}';
+var tapatalk_kindle_url  = '{TAPATALK_KINDLE_URL}';
+var tapatalk_chrome_enable = '{TAPATALK_CHROME_ENABLE}';
+</script>
 <script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
 			</edit>		
 		</open>	
