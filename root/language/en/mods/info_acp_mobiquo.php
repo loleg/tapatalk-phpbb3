@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'ACP_TAPATALK_REBRANDING'          => 'Taptalk Rebranding',
 	'ACP_TAPATALK_REBRANDING_EXPLAIN'  => 'Default Tapatalk Rebranding settings can be changed here.',
 	'TAPATALK_FORUM_READ_ONLY'         => 'Forum Read Only' ,
-	'TAPATALK_FORUM_READ_ONLY_EXPLAIN' => 'Set forums you don\'t want to user have a new topic',
+	'TAPATALK_FORUM_READ_ONLY_EXPLAIN' => 'Prevent Tapatalk users to create new topic in the selected sub-forums. This feature is useful if certain forums requires additional topic fields or permission that Tapatalk does not support.',
 
 	'TAPATALK_IPAD_MESSAGE'         => 'iPad Product Message',
 	'TAPATALK_IPAD_URL'             => 'iPad Product URL',
