@@ -9,6 +9,11 @@ function tapatalk_push_reply($data)
 {
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$is_only_alert = false;
+	if(!function_exists('push_table_exists'))
+	{
+		define('IN_MOBIQUO', 1);
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+	}
 	if(!push_table_exists())
 		return false;
 	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
@@ -40,6 +45,11 @@ function tapatalk_push_newtopic($data)
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$return_status = false;
 	$is_only_alert = false;
+	if(!function_exists('push_table_exists'))
+	{
+		define('IN_MOBIQUO', 1);
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+	}
 	if(!push_table_exists())
 		return false;
 	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
@@ -71,6 +81,11 @@ function tapatalk_push_pm($userid,$pm_id,$subject)
 {
     global $db, $user, $config,$table_prefix,$boardurl,$phpbb_root_path,$phpEx;
     $is_only_alert = false;
+	if(!function_exists('push_table_exists'))
+	{
+		define('IN_MOBIQUO', 1);
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+	}
     if(!push_table_exists())
 		return false;
 	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
@@ -97,6 +112,11 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 	global $db, $user, $config,$table_prefix,$phpbb_root_path,$phpEx;
 	$return_status = false;
 	$is_only_alert = false;
+	if(!function_exists('push_table_exists'))
+	{
+		define('IN_MOBIQUO', 1);
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+	}
 	if(!push_table_exists())
 		return false;
 	if(!check_push() || !(function_exists('curl_init') || ini_get('allow_url_fopen')))
@@ -128,11 +148,6 @@ function tapatalk_push_quote($data,$user_name_arr,$type="quote")
 function check_push()
 {
 	global $db,$config,$phpbb_root_path,$phpEx;
-	if(!function_exists('push_table_exists'))
-	{
-		define('IN_MOBIQUO', 1);
-		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
-	}
     if(!$config['mobiquo_push'])
         return false;
     return true;
