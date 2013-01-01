@@ -181,7 +181,8 @@ $versions = array(
 		'permission_remove' => array(
 			array('a_mobiquo'),
 		),
-	)
+	),
+	'3.6.1' => array(),
 );		
 
 		

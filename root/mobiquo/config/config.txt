@@ -1,5 +1,5 @@
 api_level = 3
-version = pb30_3.6.0
+version = pb30_3.6.1
 is_open = 1
 guest_okay = 1
 

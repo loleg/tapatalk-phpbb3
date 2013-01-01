@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.6.0</mod-version>
+		<mod-version>3.6.1</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -100,6 +100,15 @@
 					<change>add separate detect display words from js .</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2013-01-02</date>
+				<rev-version>3.6.1</rev-version>
+				<changelog lang="en">
+					<change>fix Popup fails to redirect to iTunes store</change>
+					<change>fix SQL error when tapatalk user table is empty</change>
+					<change>fix some install instruction error</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
@@ -108,6 +117,7 @@
 			<link type="contrib" href="./contrib/update_tapatalk_342_343.xml" lang="en">Update from 342 to 343</link>
 			<link type="contrib" href="./contrib/update_tapatalk_343_350.xml" lang="en">Update from 343 to 350</link>
 			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 350 to 360</link>
+			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 360 to 361</link>
 		</link-group>
 	</header>
 	<action-group>
@@ -123,7 +133,7 @@
 			<edit>
 				<find><![CDATA[	$url = append_sid($url, 'f=' . $data['forum_id'] . $params) . $add_anchor;]]></find>
 				<action type="after-add"><![CDATA[	// BEGIN mobiquo Mod push service
-	$tapatalk_push_run = true;
+	if(!isset(tapatalk_push_run)) $tapatalk_push_run = true;
 	if ($url && isset($config['mobiquo_push']) && $post_approval && $tapatalk_push_run)
     {
         require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
@@ -156,7 +166,7 @@
 			<edit>
 				<find><![CDATA[// Send Notifications]]></find>
 				<action type="after-add"><![CDATA[// BEGIN mobiquo Mod push service
-	$tapatalk_push_run = true;
+	if(!isset(tapatalk_push_run)) $tapatalk_push_run = true;
 	if(!empty($data['msg_id']) && isset($config['mobiquo_push']) && ($mode != 'edit') && $tapatalk_push_run)
 	{
 		require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
@@ -178,7 +188,7 @@
 		'TAPATALKDETECT_JS' => $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect.js' ,
 		'TAPATALK_CHROME_ENABLE' => isset($config['mobiquo_is_chrome']) ? $config['mobiquo_is_chrome'] : true,
 		'TAPATALK_IPAD_MSG' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
-		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
+		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_url']) ? $config['tapatalk_ipad_url'] : '' ,
 		'TAPATALK_IPHONE_MSG' => isset($config['tapatalk_iphone_msg']) ? $config['tapatalk_iphone_msg'] : '' ,
 		'TAPATALK_IPHONE_URL' => isset($config['tapatalk_iphone_url']) ? $config['tapatalk_iphone_url'] : '' ,
 		'TAPATALK_ANDROID_MSG' => isset($config['tapatalk_android_msg']) ? $config['tapatalk_android_msg'] : '' ,
@@ -195,7 +205,7 @@ var tapatalkdir="{MOBIQUO_NAME}";
 var tapatalk_ipad_msg = '{TAPATALK_IPAD_MSG}';
 var tapatalk_ipad_url  = '{TAPATALK_IPAD_URL}';
 var tapatalk_iphone_msg = '{TAPATALK_IPHONE_MSG}';
-var tapatalk_iphone_url  = '{TAPATALK_ANDROID_URL}';
+var tapatalk_iphone_url  = '{TAPATALK_IPHONE_URL}';
 var tapatalk_android_msg = '{TAPATALK_ANDROID_MSG}';
 var tapatalk_android_url  = '{TAPATALK_ANDROID_URL}';
 var tapatalk_kindle_msg = '{TAPATALK_KINDLE_MSG}';

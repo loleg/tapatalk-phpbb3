@@ -74,3 +74,12 @@ Update note:
 6.enhance attachment type
 7.Add register function (need app side support) .
 8.add separate detect display words from js .
+
+phpBB 3.0.X - Version 3.6.1 released
+
+Update note:
+
+1.fix Popup fails to redirect to iTunes store
+2.fix SQL error when tapatalk user table is empty
+3.fix some install instruction error
+4.fix can't add More than 100 characters to Product URL (no more than 250 characters)
