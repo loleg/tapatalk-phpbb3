@@ -123,7 +123,7 @@
 			<edit>
 				<find><![CDATA[	$url = append_sid($url, 'f=' . $data['forum_id'] . $params) . $add_anchor;]]></find>
 				<action type="after-add"><![CDATA[	// BEGIN mobiquo Mod push service
-	$tapatalk_push_run = true;
+	if(!isset($tapatalk_push_run)) $tapatalk_push_run = true;
 	if ($url && isset($config['mobiquo_push']) && $post_approval && $tapatalk_push_run)
     {
         require_once($phpbb_root_path . $config['tapatalkdir'].'/push_hook.' . $phpEx);
