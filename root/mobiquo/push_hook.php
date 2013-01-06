@@ -287,7 +287,16 @@ function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author,$is_only_al
 }
 function tt_get_user_push_type($userid)
 {
-	global $table_prefix,$db;
+	global $table_prefix,$db,$phpbb_root_path,$config,$phpEx;
+	if(!function_exists('push_table_exists'))
+	{
+		define('IN_MOBIQUO', 1);
+		require_once $phpbb_root_path . $config['tapatalkdir'] . '/xmlrpcresp.' . $phpEx;
+	}
+	if(!push_table_exists())
+	{
+		return array();
+	}
 	if(!check_push())
 	{
 		return array();
