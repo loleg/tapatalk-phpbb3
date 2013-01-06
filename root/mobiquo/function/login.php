@@ -102,7 +102,7 @@ function login_func($xmlrpc_params)
     {
     	$push_type[] = new xmlrpcval(array(
             'name'  => new xmlrpcval($name,'string'),
-    		'value' => new xmlrpcval($value,'string'),                    
+    		'value' => new xmlrpcval($value,'boolean'),                    
             ), 'struct');
     }
     $response = new xmlrpcval(array(
