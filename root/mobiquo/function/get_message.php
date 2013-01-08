@@ -11,7 +11,10 @@ defined('IN_MOBIQUO') or exit;
 function get_message_func($xmlrpc_params)
 {
     global $db, $auth, $user, $config, $template, $phpbb_root_path, $phpEx;
-    
+    if(file_exists($phpbb_root_path . 'includes/functions_profile_control.' . $phpEx))
+    {
+    	require_once ($phpbb_root_path . 'includes/functions_profile_control.' . $phpEx);
+    }
     $user->setup('ucp');
     
     $params = php_xmlrpc_decode($xmlrpc_params);
