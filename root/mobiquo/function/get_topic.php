@@ -150,12 +150,22 @@ function get_topic_func($xmlrpc_params)
     $store_reverse = false;
     
     $unread_sticky_num = $unread_announce_count = 0;
+    
+    //get subscribe users
+    $user_watch_row = array();
+    $sql = 'SELECT * FROM ' . TOPICS_WATCH_TABLE .' WHERE user_id = ' . $user->data['user_id'];
+    $result = $db->sql_query($sql);
+    while ($row = $db->sql_fetchrow($result))
+    {
+    	$user_watch_row[$row['topic_id']] = $row['notify_status'];
+    }
+    $db->sql_freeresult($result);
+    
     if (!empty($topic_type)) // get top 20 announce/sticky topics only if need
     {
-        $sql = 'SELECT t.*, u.user_avatar, u.user_avatar_type, tw.notify_status, bm.topic_id as bookmarked
+        $sql = 'SELECT t.*, u.user_avatar, u.user_avatar_type,bm.topic_id as bookmarked
                 FROM ' . TOPICS_TABLE . ' t
                     LEFT JOIN ' . USERS_TABLE . ' u ON (t.topic_poster = u.user_id)
-                    LEFT JOIN ' . TOPICS_WATCH_TABLE . ' tw ON (tw.user_id = ' . $user->data['user_id'] . ' AND t.topic_id = tw.topic_id) 
                     LEFT JOIN ' . BOOKMARKS_TABLE . ' bm ON (bm.user_id = ' . $user->data['user_id'] . ' AND t.topic_id = bm.topic_id) 
                 WHERE t.forum_id IN (' . $forum_id . ', 0)
                 AND t.topic_type IN (' . $topic_type . ') ' .
@@ -226,10 +236,9 @@ function get_topic_func($xmlrpc_params)
             $start = max(0, $topics_count - $sql_limit - $start);
         }
         
-        $sql = 'SELECT t.*, u.user_avatar, u.user_avatar_type, tw.notify_status, bm.topic_id as bookmarked
+        $sql = 'SELECT t.*, u.user_avatar, u.user_avatar_type,bm.topic_id as bookmarked
                 FROM ' . TOPICS_TABLE . ' t
                     LEFT JOIN ' . USERS_TABLE . ' u ON (t.topic_poster = u.user_id)
-                    LEFT JOIN ' . TOPICS_WATCH_TABLE . ' tw ON (tw.user_id = ' . $user->data['user_id'] . ' AND t.topic_id = tw.topic_id) 
                     LEFT JOIN ' . BOOKMARKS_TABLE . ' bm ON (bm.user_id = ' . $user->data['user_id'] . ' AND t.topic_id = bm.topic_id) 
                 WHERE t.forum_id = ' . $forum_id.'
                 AND t.topic_type = ' . POST_NORMAL . ' ' .
@@ -294,7 +303,7 @@ function get_topic_func($xmlrpc_params)
             'can_delete'        => new xmlrpcval($auth->acl_get('m_delete', $forum_id), 'boolean'),
             'can_move'          => new xmlrpcval($auth->acl_get('m_move', $forum_id), 'boolean'),
             'can_subscribe'     => new xmlrpcval(($config['email_enable'] || $config['jab_enable']) && $config['allow_topic_notify'] && $user->data['is_registered'], 'boolean'), 
-            'is_subscribed'     => new xmlrpcval(!is_null($row['notify_status']) && $row['notify_status'] !== '' ? true : false, 'boolean'),
+            'is_subscribed'     => new xmlrpcval(isset($user_watch_row[$topic_id]) ? true : false, 'boolean'),
             'can_close'         => new xmlrpcval($auth->acl_get('m_lock', $forum_id) || ($auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && $user->data['user_id'] == $row['topic_poster']), 'boolean'),
             'is_closed'         => new xmlrpcval($row['topic_status'] == ITEM_LOCKED, 'boolean'),
             'can_stick'         => new xmlrpcval($allow_change_type && $auth->acl_get('f_sticky', $forum_id), 'boolean'),
