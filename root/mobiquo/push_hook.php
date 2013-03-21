@@ -192,9 +192,10 @@ function tt_do_post_request($data)
 
 function tt_push_clean($str)
 {
+	global $db;
     $str = strip_tags($str);
-    $str = trim($str);
-    return html_entity_decode($str, ENT_QUOTES, 'UTF-8');
+    $str = $db->sql_escape($str);
+    return utf8_decode($str);
 }
 
 function tt_get_user_id($username)
@@ -255,7 +256,7 @@ function tt_insert_push_data($data)
 
 function tt_send_push_data($user_id,$type,$id,$sub_id,$title,$author,$is_only_alert=false)
 {
-	global $config;
+	global $config,$db;
     $boardurl = generate_board_url();
 	$title = tt_push_clean($title);
 	$author = tt_push_clean($author);

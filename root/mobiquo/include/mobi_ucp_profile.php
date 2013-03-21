@@ -8,21 +8,29 @@ class mobi_ucp_profile
 	public function main()
 	{
 		global $config, $db, $user, $auth, $template, $phpbb_root_path, $phpEx;
-
+		$verify_result = false;
 		$user->add_lang('posting');
 
 		$error = $data = array();
 		$s_hidden_fields = '';
-		$email = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);
-		if(empty($email) && (!$user->data['is_registered']))
+		
+		if(!empty($_POST['tt_token']) && !empty($_POST['tt_code']) && !$user->data['is_registered'])
 		{
-			$this->result = false;
-			$this->result_text = "No permission to update your profie info";
-			return ;
+			$result = tt_register_verify($_POST['tt_token'], $_POST['tt_code']); 
+			if($result->result && $result->email)
+			{
+				$verify_result = true;
+				$email = $result->email;
+			}
+			else
+			{
+				$this->result = false;
+				$this->result_text = "No permission to update your profie info";
+			}
 		}
 		if(!$user->data['is_registered'] && !empty($email))
 		{
-			$sql = 'SELECT user_id, username, user_password, user_passchg, user_pass_convert, user_email, user_type, user_login_attempts
+			$sql = 'SELECT user_id, username,username_clean, user_password, user_email_hash,user_passchg, user_pass_convert, user_email, user_type, user_login_attempts
 				FROM ' . USERS_TABLE . "
 				WHERE user_email = '" . $db->sql_escape($email) . "'";
 			$result = $db->sql_query($sql);
@@ -31,6 +39,7 @@ class mobi_ucp_profile
 			if(!empty($row))
 			{
 				$user->data = $row;
+				$auth->acl($user->data);
 			}
 			else 
 			{
@@ -86,7 +95,7 @@ class mobi_ucp_profile
 			$error[] = 'SAME_PASSWORD_ERROR';
 		}
 
-		if (!phpbb_check_hash($data['cur_password'], $user->data['user_password']))
+		if (!$verify_result && !phpbb_check_hash($data['cur_password'], $user->data['user_password']))
 		{
 			$error[] = ($data['cur_password']) ? 'CUR_PASSWORD_ERROR' : 'CUR_PASSWORD_EMPTY';
 		}

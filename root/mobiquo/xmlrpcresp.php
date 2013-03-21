@@ -264,7 +264,6 @@ function search_func()
             
             $can_subscribe = ($config['email_enable'] || $config['jab_enable']) && $config['allow_topic_notify'] && $user->data['is_registered'];
             $is_subscribed = in_array($item['TOPIC_ID'], $subscribed_tids);
-            
             if ($can_close)     $return_item['can_close']     = new xmlrpcval(true, 'boolean');
             if ($can_delete)    $return_item['can_delete']    = new xmlrpcval(true, 'boolean');
             if ($can_stick)     $return_item['can_stick']     = new xmlrpcval(true, 'boolean');

@@ -183,6 +183,23 @@ $versions = array(
 		),
 	),
 	'3.6.1' => array(),
+	'3.7.0' => array(
+		'config_add' => array(
+			array('tapatalk_allow_register','1'),
+			array('tapatalk_iphone_app_id',''),
+			array('tapatalk_kindle_hd_msg','This forum has an app for Kindle Fire HD! Click OK to learn more about Tapatalk.'),
+			array('tapatalk_kindle_hd_url',''),
+			array('tapatalk_android_hd_msg','This forum has an app for Android HD! Click OK to learn more about Tapatalk.'),
+			array('tapatalk_android_hd_url',''),
+			array('tapatalk_app_icon_url','mobiquo/smartbanner/tapatalk2.png'),
+			array('tapatalk_custom_replace',""),
+			array('tapatalk_app_desc',''),
+			array('tapatalk_app_name',''),
+		),
+		'config_remove' => array(
+			array('mobiquo_is_chrome'),
+		)
+	)
 );		
 
 		

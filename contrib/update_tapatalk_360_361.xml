@@ -4,8 +4,8 @@
 		<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
 	<header>
 		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
-			<title lang="en">Tapatalk 3.5.0 to 3.6.0</title>
-				<description lang="en">Updates mod to 3.6.0 from 3.5.0</description>
+			<title lang="en">Tapatalk 3.6.0 to 3.6.1</title>
+				<description lang="en">Updates mod to 3.6.1 from 3.6.0</description>
 		<author-group>
 			<author>
 				<realname>tapatalk</realname>
@@ -16,7 +16,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.6.0</mod-version>
+		<mod-version>3.6.1</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>

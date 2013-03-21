@@ -47,7 +47,11 @@ $exclude_forum	= request_var('exclude', array(0));
 
 // We put login boxes for the case if search_id is newposts, egosearch or unreadposts
 // because a guest should be able to log in even if guests search is not permitted
-
+if($request_method == 'get_latest_topic' || $request_method == 'get_unread_topic' || $request_method == 'get_participated_topic' || 
+$request_method == 'get_user_topic' || $request_method == 'get_user_reply_post' || $request_method == 'get_subscribed_topic')
+{
+	$config['load_search'] = 1;
+}
 switch ($search_id)
 {
 	// Egosearch is an author search

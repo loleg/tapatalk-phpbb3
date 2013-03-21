@@ -86,6 +86,42 @@
 					<change>Some minor bugs fix</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2012-12-18</date>
+				<rev-version>3.6.0</rev-version>
+				<changelog lang="en">
+					<change>fix If a user's nickname has a special char In it, Can not send PMs to him</change>
+					<change>fix don not show captcha when login more than three times</change>
+					<change>fix push notification being sent for moderated postings </change>
+					<change>fix "Show First Post Only to Guest" not work with Tapatalk plugin</change>
+					<change>Add read only control based on forum id</change>
+					<change>enhance attachment type</change>
+					<change>Add register function (need app side support) .</change>
+					<change>add separate detect display words from js .</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2013-01-02</date>
+				<rev-version>3.6.1</rev-version>
+				<changelog lang="en">
+					<change>fix Popup fails to redirect to iTunes store</change>
+					<change>fix SQL error when tapatalk user table is empty</change>
+					<change>fix some install instruction error</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2013-03-22</date>
+				<rev-version>3.7.0</rev-version>
+				<changelog lang="en">
+					<change>optimize online user display</change>
+					<change>add custom content replacement</change>
+					<change>add rename topic function</change>
+					<change>add update password function</change>
+					<change>add forget password function</change>
+					<change>add update email function</change>
+					<change>some bugs fixed</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="parent" href="../install.xml" lang="en">Main Install File</link>
@@ -99,18 +135,34 @@
 			<edit>
 				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
 				<action type="after-add"><![CDATA[<script type="text/javascript">
-var tapatalkdir="{MOBIQUO_NAME}";
-var tapatalk_ipad_msg = '{TAPATALK_IPAD_MSG}';
-var tapatalk_ipad_url  = '{TAPATALK_IPAD_URL}';
-var tapatalk_iphone_msg = '{TAPATALK_IPHONE_MSG}';
-var tapatalk_iphone_url  = '{TAPATALK_IPHONE_URL}';
-var tapatalk_android_msg = '{TAPATALK_ANDROID_MSG}';
-var tapatalk_android_url  = '{TAPATALK_ANDROID_URL}';
-var tapatalk_kindle_msg = '{TAPATALK_KINDLE_MSG}';
-var tapatalk_kindle_url  = '{TAPATALK_KINDLE_URL}';
-var tapatalk_chrome_enable = '{TAPATALK_CHROME_ENABLE}';
+var byo_ios_app_id      = '{TAPATALK_IPHONE_APP_ID}';
+var byo_app_name        = '{TAPATALK_APP_NAME}';
+var byo_app_desc        = '{TAPATALK_APP_DESC}';
+var byo_app_icon_url    = '{TAPATALK_APP_ICON_URL}';
+var app_ios_msg         = '{TAPATALK_IPHONE_MSG}';
+var app_ios_url         = '{TAPATALK_IPHONE_URL}';;
+var app_ios_hd_msg      = '{TAPATALK_IPAD_MSG}';
+var app_ios_hd_url      = '{TAPATALK_IPAD_URL}';
+var app_android_msg     = '{TAPATALK_ANDROID_MSG}';
+var app_android_url     = '{TAPATALK_ANDROID_URL}';
+var app_android_hd_msg  = '{TAPATALK_ANDROID_HD_MSG}';
+var app_android_hd_url  = '{TAPATALK_ANDROID_HD_URL}';
+var app_kindle_msg      = '{TAPATALK_KINDLE_MSG}';
+var app_kindle_url      = '{TAPATALK_KINDLE_URL}';
+var app_kindle_hd_msg   = '{TAPATALK_KINDLE_HD_MSG}';
+var app_kindle_hd_url   = '{TAPATALK_KINDLE_HD_URL}';
+var tapatalk_dir_url    = '{TAPATALK_DIR}';
+var app_location_url    = '{TAPATALK_LOCATION_URL}';
 </script>
-<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
+<link href="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.css" rel="stylesheet" type="text/css" media="screen">
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.js"></script>]]></action>
+			</edit>	
+			<edit>
+				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
+				<action type="after-add"><![CDATA[<!-- Tapatalk Detect body start --> 
+<script type="text/javascript">tapatalkDetect()</script>
+<!-- Tapatalk Detect banner body end -->]]></action>
 			</edit>		
 		</open>	
 	<diy-instructions lang="en"><![CDATA[

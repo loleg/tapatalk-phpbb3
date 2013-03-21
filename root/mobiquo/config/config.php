@@ -13,7 +13,6 @@ foreach($_COOKIE as $key => $value) $_REQUEST[$key] = $value;
 $mobiquo_config = get_mobiquo_config();
 $phpEx = $mobiquo_config['php_extension'];
 $phpbb_root_path = dirname(dirname(dirname(__FILE__))).'/';
-
 define('PHPBB_ROOT_PATH',$phpbb_root_path);
 
 function get_mobiquo_config() 

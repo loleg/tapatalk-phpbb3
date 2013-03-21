@@ -38,7 +38,6 @@ class acp_mobiquo
 					'title'	=> 'ACP_MOBIQUO_SETTINGS',
 					'vars'	=> array(
 					'legend'				=> 'GENERAL_OPTIONS',
-					'mobiquo_is_chrome'		=> array('lang' => 'MOBIQUO_IS_CHROME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 					'mobiquo_guest_okay'	=> array('lang' => 'MOBIQUO_GUEST_OKAY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 					'mobiquo_hide_forum_id'	=> array('lang' => 'MOBIQUO_HIDE_FORUM_ID', 'validate' => 'string',	'type' => 'custom',	'explain' => true,	'method' => 'select_box'),
 					'tapatalkdir'			=> array('lang' => 'MOBIQUO_NAME', 'validate' => 'string', 'type' => 'text:10:12', 'explain' => true),
@@ -46,6 +45,8 @@ class acp_mobiquo
 					'mobiquo_push'			=> array('lang' => 'MOBIQUO_PUSH', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),	
 				    'tapatalk_push_key'		=> array('lang' => 'TAPATALK_PUSH_KEY', 'validate' => 'string','type' => 'text:40:60','explain' => true),
 					'tapatalk_forum_read_only'	=> array('lang' => 'TAPATALK_FORUM_READ_ONLY', 'validate' => 'string',	'type' => 'custom',	'explain' => true,	'method' => 'select_box'),
+					'tapatalk_allow_register'		=> array('lang' => 'TAPATALK_ALLOW_REGISTER', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+					'tapatalk_custom_replace'  => array('lang' => 'TAPATALK_CUSTOM_REPLACE', 'validate' => 'string', 'type' => 'textarea:4:250', 'explain' => true),
 					)
 				);
 				break;
@@ -54,6 +55,10 @@ class acp_mobiquo
 					'title'	=> 'ACP_TAPATALK_REBRANDING',
 					'vars'	=> array(
 					'legend'				=> 'GENERAL_OPTIONS',
+					'tapatalk_iphone_app_id'=> array('lang' => 'TAPATALK_IPHONE_APP_ID', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
+					'tapatalk_app_name'     => array('lang' => 'TAPATALK_APP_NAME', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
+					'tapatalk_app_desc'     => array('lang' => 'TAPATALK_APP_DESC', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
+					'tapatalk_app_icon_url' => array('lang' => 'TAPATALK_APP_ICON_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
 					'tapatalk_ipad_msg'		=> array('lang' => 'TAPATALK_IPAD_MESSAGE', 'validate' => 'string', 'type' => 'textarea:4:250', 'explain' => true),
 					'tapatalk_ipad_url'	    => array('lang' => 'TAPATALK_IPAD_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
 					'tapatalk_android_msg'	=> array('lang' => 'TAPATALK_ANDROID_MESSAGE', 'validate' => 'string',	'type' => 'textarea:4:250',	'explain' => true),
@@ -62,6 +67,10 @@ class acp_mobiquo
 					'tapatalk_iphone_url'	=> array('lang' => 'TAPATALK_IPHONE_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),	
 				    'tapatalk_kindle_msg'	=> array('lang' => 'TAPATALK_KINDLE_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
 					'tapatalk_kindle_url'   => array('lang' => 'TAPATALK_KINDLE_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
+					'tapatalk_android_hd_msg'	=> array('lang' => 'TAPATALK_ANDROID_HD_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
+					'tapatalk_android_hd_url'   => array('lang' => 'TAPATALK_ANDROID_HD_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
+					'tapatalk_kindle_hd_msg'	=> array('lang' => 'TAPATALK_KINDLE_HD_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
+					'tapatalk_kindle_hd_url'   => array('lang' => 'TAPATALK_KINDLE_HD_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
 					)
 				);
 				break;

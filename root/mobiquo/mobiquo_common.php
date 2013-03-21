@@ -257,12 +257,13 @@ function process_short_content($post_text, $length = 200)
 function post_html_clean($str)
 {
 	
-    global $phpbb_root_path, $phpbb_home, $mobiquo_config;
+    global $phpbb_root_path, $phpbb_home, $mobiquo_config,$config;
     
     $search = array(
         "/<strong>(.*?)<\/strong>/si",
+        "/<em>(.*?)<\/em>/si",
         "/<img .*?src=\"(.*?)\".*?\/?>/si",
-        "/<a .*?href=\"(.*?)\".*?>(.*?)<\/a>/sei",
+        "/<a .*?href=\"(.*?)\"(.*?[^\/])?>(.*?)<\/a>/sei",
         "/<br\s*\/?>|<\/cite>|<\/dt>|<\/dd>/si",
         "/<object .*?data=\"(http:\/\/www\.youtube\.com\/.*?)\" .*?>.*?<\/object>/si",
         "/<object .*?data=\"(http:\/\/video\.google\.com\/.*?)\" .*?>.*?<\/object>/si",
@@ -273,8 +274,9 @@ function post_html_clean($str)
     
     $replace = array(
         '[b]$1[/b]',
+        '[i]$1[/i]',
         '[img]$1[/img]',
-        "'[url='.url_encode('$1').']$2[/url]'",
+        "'[url='.url_encode('$1').']$3[/url]'",
         "\n",
         '[url=$1]YouTube Video[/url]',
         '[url=$1]Google Video[/url]',
@@ -321,6 +323,7 @@ function post_html_clean($str)
 
 function parse_bbcode($str)
 {
+	global $config;
     $search = array(
         '#\[(b)\](.*?)\[/b\]#si',
         '#\[(u)\](.*?)\[/u\]#si',
@@ -341,7 +344,25 @@ function parse_bbcode($str)
         $replace = array('$2', '$2', '$2', "'$2'");
     }
     
-    return preg_replace($search, $replace, $str);
+    $str = preg_replace($search, $replace, $str);
+	if(!empty($config['tapatalk_custom_replace']))
+	{
+		$replace_arr = explode("\n", $config['tapatalk_custom_replace']);
+		foreach ($replace_arr as $replace)
+		{
+			preg_match('/^\s*(\'|")((\#|\/|\!).+\3[ismexuADUX]*?)\1\s*,\s*(\'|")(.*?)\4\s*$/', $replace,$matches);
+			if(count($matches) == 6)
+			{
+				$temp_str = $str;
+				$str = @preg_replace($matches[2], $matches[5], $str);
+				if(empty($str))
+				{
+					$str = $temp_str;
+				}
+			}	
+		}
+	}
+	return $str;
 }
 
 function mobi_color_convert($color, $str)
@@ -1120,24 +1141,17 @@ function tt_register_verify($tt_token,$tt_code)
 	$url = "http://directory.tapatalk.com/au_reg_verify.php?token=".$tt_token."&code=".$tt_code."&key=" . $config['tapatalk_push_key'];
 	$error_msg = '';
 	$response = getContentFromRemoteServer($url, 10 , $error_msg);
+	$response = getContentFromRemoteServer($url, 10 , $error_msg);
 	if(!empty($error_msg))
 	{
-		trigger_error($error_msg);
+		$response = '{"result":false,"result_text":"Contect timeout , please try again"}';
 	}
 	if(empty($response))
 	{
-		trigger_error("Contect timeout , please try again");
+		$response = '{"result":false,"result_text":"Contect timeout , please try again"}';
 	}
 	$result = json_decode($response);
-	if($result->result === false)
-	{
-		return false;
-	}
-	if(!empty($result->email))
-	{
-		return $result->email;
-	}
-	return false;
+	return $result;
 }
 
 /**

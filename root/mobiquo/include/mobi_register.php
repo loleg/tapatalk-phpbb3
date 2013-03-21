@@ -20,17 +20,27 @@ class mobi_ucp_register
 
 		
 		$cp = new custom_profile();
-
+		$verify_result = false;
 		$error = $cp_data = $cp_error = array();
 		$is_dst = $config['board_dst'];
 		$timezone = $config['board_timezone'];
-		$email = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);
-		if(empty($email))
+		$email = request_var('email', '');
+		if(isset($_POST['tt_token']) && isset($_POST['tt_code']))
 		{
-			$this->result = false;
-			$this->result_text = 'Verify false , please confirm that you have registered Tapatalk ID or this forum has enable register function in tapatalk. ';
-			return ;
+			$result = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);   	
+			if($result->result && !empty($result->email) && (empty($mybb->input['email']) || strtolower($mybb->input['email'] == strtolower($result->email))))
+			{
+				$verify_result = $result->result;
+				$email = $result->email;
+				$email = $result->email;
+			}
+			else if(!$result->result && empty($mybb->input['email']) && !empty($result->email))
+			{
+				$email = $result->email;
+				$email = $result->email;
+			}						
 		}
+		
 		$data = array(
 			'username'			=> utf8_normalize_nfc(request_var('username', '', true)),
 			'new_password'		=> request_var('new_password', '', true),
@@ -103,8 +113,8 @@ class mobi_ucp_register
 			}
 
 			$group_id = $row['group_id'];
-			if (($config['require_activation'] == USER_ACTIVATION_SELF ||
-					$config['require_activation'] == USER_ACTIVATION_ADMIN) && $config['email_enable'])
+			if ((($config['require_activation'] == USER_ACTIVATION_SELF ||
+					$config['require_activation'] == USER_ACTIVATION_ADMIN) && $config['email_enable']) && !$verify_result)
 			{
 				$user_actkey = gen_rand_string(mt_rand(6, 10));
 				$user_type = USER_INACTIVE;
@@ -147,6 +157,20 @@ class mobi_ucp_register
 			if ($user_id === false)
 			{
 				trigger_error('NO_USER', E_USER_ERROR);
+			}
+			if(!$verify_result)
+			{
+				$this->sendEmail($data, $user_id, $user_actkey);
+				switch ($config['require_activation'])
+				{
+					case USER_ACTIVATION_SELF:
+						$this->result_text = $user->lang['UCP_EMAIL_ACTIVATE'];
+					break;
+		
+					case USER_ACTIVATION_ADMIN:
+						$this->result_text = $user->lang['UCP_ADMIN_ACTIVATE'];
+					break;
+				}
 			}
 			$this->result = true;
 		}

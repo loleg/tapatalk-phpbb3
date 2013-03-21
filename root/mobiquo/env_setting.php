@@ -5,14 +5,15 @@ $mobiquo_config['guest_okay'] = isset($config['mobiquo_guest_okay']) ? $config['
 $mobiquo_config['reg_url'] = isset($config['mobiquo_reg_url']) ? $config['mobiquo_reg_url'] : $mobiquo_config['reg_url'];
 $mobiquo_config['hide_forum_id'] = !empty($config['mobiquo_hide_forum_id']) ? explode(',', $config['mobiquo_hide_forum_id']) : $mobiquo_config['hide_forum_id'];
 $mobiquo_config['push'] = isset($config['mobiquo_push']) ? $config['mobiquo_push'] : $mobiquo_config['push'];
-if(!isset($config['tapatalkdir'])) $config['tapatalkdir'] = 'mobiquo';
+if(empty($config['tapatalkdir'])) $config['tapatalkdir'] = 'mobiquo';
+
 mobi_parse_requrest();
 
 if (in_array($request_method, array('logout_user', 'get_config')))
 {
     define('IN_CHECK_BAN', 1);
 }
-
+$_SERVER['QUERY_STRING'] = 'method='.$request_method.'&params='.implode('-', $request_params);
 include('./include/user.class.php');
 $user = new tapa_user;
 $user->session_begin();
@@ -377,11 +378,15 @@ switch ($request_method)
         break;
     case 'register':
     	$_POST['creation_time'] = time();
-    	$_POST['tt_token'] = $request_params[2];
-    	$_POST['tt_code'] = $request_params[3];
     	$_POST['username'] = $request_params[0];
     	$_POST['new_password'] = $request_params[1];
     	$_POST['password_confirm'] = $request_params[1];
+    	$_POST['email'] = $request_params[2];
+    	if(count($request_params) == 5)
+    	{
+    		$_POST['tt_token'] = $request_params[3];
+    		$_POST['tt_code'] = $request_params[4];
+    	}
     	$_POST['submit'] = 'Submit';
     	break;
     case 'update_password':

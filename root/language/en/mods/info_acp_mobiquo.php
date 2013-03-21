@@ -40,8 +40,8 @@ $lang = array_merge($lang, array(
 	'TAPATALK_PUSH_KEY' 			=> 'Tapatalk push key',
     'TAPATALK_PUSH_KEY_EXPLAIN' 	=> 'A push_key to verify your forum push certification, you can fill here with the push key you registered in Tapatalk.com. This is not mandatory but if you enter this key, it will make push feature perfect .',
 
-	'ACP_TAPATALK_REBRANDING'          => 'Taptalk Rebranding',
-	'ACP_TAPATALK_REBRANDING_EXPLAIN'  => 'Default Tapatalk Rebranding settings can be changed here.',
+	'ACP_TAPATALK_REBRANDING'          => 'Tapatalk BYO Options',
+	'ACP_TAPATALK_REBRANDING_EXPLAIN'  => 'Tapatalk - Build Your Own - Options',
 	'TAPATALK_FORUM_READ_ONLY'         => 'Disable New Topic' ,
 	'TAPATALK_FORUM_READ_ONLY_EXPLAIN' => 'Prevent Tapatalk users to create new topic in the selected sub-forums. This feature is useful if certain forums requires additional topic fields or permission that Tapatalk does not support.',
 
@@ -62,6 +62,32 @@ $lang = array_merge($lang, array(
 	'TAPATALK_IPHONE_URL_EXPLAIN'           => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Apple App Store',
 	'TAPATALK_KINDLE_MESSAGE_EXPLAIN'       => 'Customize this message if you are Tapatalk Rebranding Customer and has published your App to Amazon App Store',
 	'TAPATALK_KINDLE_URL_EXPLAIN'           => 'Change this URL if you are Tapatalk Rebranding Customer and has obtained your App URL from Amazon App Store',
+	
+	'TAPATALK_ALLOW_REGISTER'               => 'In-app Registration',
+	'TAPATALK_ALLOW_REGISTER_EXPLAIN'       => 'Allows Tapatalk users to create new account, change password and update email address in-app.',
+	
+	'TAPATALK_CUSTOM_REPLACE'               => 'Thread Content Replacement (Advanced)',
+	'TAPATALK_CUSTOM_REPLACE_EXPLAIN'       => 'Ability to match and replace thread content using PHP preg_replace function(http://www.php.net/manual/en/function.preg-replace.php). E.g. "\'pattern\',\'replacement\'" . You can define more than one replace rule on each line.',
+	
+	'TAPATALK_IPHONE_APP_ID'                => 'BYO App ID',
+	'TAPATALK_IPHONE_APP_ID_EXPLAIN'        => 'Enter your product ID in Apple App Store, to be used on iPhone device', 
+	'TAPATALK_APP_NAME'                     => 'BYO App Name',
+	'TAPATALK_APP_NAME_EXPLAIN'             => 'Please limit this name to within 20 characters', 
+	'TAPATALK_APP_DESC'                     => 'BYO App Description',
+	'TAPATALK_APP_DESC_EXPLAIN'             => 'A short description of the product, ideally within five words. Less is better for small screen',
+	'TAPATALK_APP_ICON_URL'                 => 'BYO App Icon URL',
+	'TAPATALK_APP_ICON_URL_EXPLAIN'         => 'Icon URL to be loaded and displayed on Smart App Banner',
+	
+	'TAPATALK_KINDLE_HD_MESSAGE'            => 'Kindle Fire HD Product Message',
+	'TAPATALK_KINDLE_HD_URL'                => 'Kindle Fire HD Product URL',
+	'TAPATALK_KINDLE_HD_MESSAGE_EXPLAIN'    => 'Customize this message if you are Tapatalk BYO Customer and has published your App to Amazon App Store',
+	'TAPATALK_KINDLE_HD_URL_EXPLAIN'        => 'Change this URL if you are Tapatalk BYO Customer and has obtained your App URL from Amazon App Store',
+
+	'TAPATALK_ANDROID_HD_MESSAGE'           => 'Android HD Product Message',
+	'TAPATALK_ANDROID_HD_URL'               => 'Android HD Product URL',
+	'TAPATALK_ANDROID_HD_MESSAGE_EXPLAIN'   => 'Customize this message if you are Tapatalk BYO Customer and has published your App to Google Play',
+	'TAPATALK_ANDROID_HD_URL_EXPLAIN'       => 'Change this URL if you are Tapatalk BYO Customer and has obtained your App URL from Google Play',
+	
 	)
 );
 ?>

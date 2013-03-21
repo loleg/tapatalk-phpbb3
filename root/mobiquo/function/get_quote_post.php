@@ -95,7 +95,7 @@ function get_quote_post_func($xmlrpc_params)
         {
             $message_parser->message = $post_data['post_text'];
             $message_parser->decode_message($post_data['bbcode_uid']);
-            $message_parser->message = '[quote=&quot;' . $post_data['quote_username'] . '&quot;]' . censor_text(trim($message_parser->message)) . "[/quote]\n";
+            $message_parser->message = '[quote=&quot;' . $post_data['quote_username'] . '&quot;]' . censor_text(trim($message_parser->message)) . "[/quote]";
             //$post_data['post_subject'] = ((strpos($post_data['post_subject'], 'Re: ') !== 0) ? 'Re: ' : '') . censor_text($post_data['post_subject']);
             $quote_messages[] = $message_parser->message;
         }
@@ -105,6 +105,6 @@ function get_quote_post_func($xmlrpc_params)
         'post_id'       => new xmlrpcval($params[0]),
         //'post_title'    => new xmlrpcval(basic_clean($post_data['post_subject']), 'base64'),
         'post_title'    => new xmlrpcval('', 'base64'),
-        'post_content'  => new xmlrpcval(html_entity_decode(implode("\n\n", $quote_messages)), 'base64'),
+        'post_content'  => new xmlrpcval(html_entity_decode(implode("\n", $quote_messages)), 'base64'),
     ), 'struct'));
 }

@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.6.1</mod-version>
+		<mod-version>3.7.0</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -109,6 +109,19 @@
 					<change>fix some install instruction error</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2013-03-22</date>
+				<rev-version>3.7.0</rev-version>
+				<changelog lang="en">
+					<change>optimize online user display</change>
+					<change>add custom content replacement</change>
+					<change>add rename topic function</change>
+					<change>add update password function</change>
+					<change>add forget password function</change>
+					<change>add update email function</change>
+					<change>some bugs fixed</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
@@ -162,6 +175,20 @@
 	// END mobiquo Mod]]></action>
 			</edit>		
 		</open>
+		<open src="viewonline.php">
+			<edit>
+				<find><![CDATA[if (!sizeof($on_page))
+	{
+		$on_page[1] = '';
+	}]]></find>
+				<action type="after-add"><![CDATA[	//start taptalk hook
+    if(file_exists($phpbb_root_path.$config['tapatalkdir'].'/include/online_hook.php'))
+    {
+        include  $phpbb_root_path.$config['tapatalkdir'].'/include/online_hook.php';
+    }
+    //end tapatalk hook]]></action>
+			</edit>		
+		</open>
 		<open src="includes/functions_privmsgs.php">
 			<edit>
 				<find><![CDATA[// Send Notifications]]></find>
@@ -180,40 +207,72 @@
 		<open src="includes/functions.php">
 			<edit>
 				<find><![CDATA[	if (strpos($user_lang, '-x-') !== false)]]></find>
-				<action type="before-add"><![CDATA[	$user->add_lang('mods/info_acp_mobiquo');]]></action>
+				<action type="before-add"><![CDATA[	$user->add_lang('mods/info_acp_mobiquo');
+	if(file_exists($phpbb_root_path.$config['tapatalkdir'].'/include/function_hook.php'))
+	{
+		require_once $phpbb_root_path.$config['tapatalkdir'].'/include/function_hook.php';
+		$tapatalk_location_url = get_tapatlk_location();
+	}
+	else 
+	{
+		$tapatalk_location_url = '';
+	}]]></action>
 			</edit>
 			<edit>
 				<find><![CDATA['ROOT_PATH'			=> $phpbb_root_path,]]></find>
-				<action type="after-add"><![CDATA[		'MOBIQUO_NAME'      => isset($config['tapatalkdir']) ? $phpbb_root_path . $config['tapatalkdir'] : '',
-		'TAPATALKDETECT_JS' => $phpbb_root_path . (isset($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ).'/tapatalkdetect.js' ,
-		'TAPATALK_CHROME_ENABLE' => isset($config['mobiquo_is_chrome']) ? $config['mobiquo_is_chrome'] : true,
-		'TAPATALK_IPAD_MSG' => isset($config['tapatalk_ipad_msg']) ? $config['tapatalk_ipad_msg'] : '' ,
-		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_url']) ? $config['tapatalk_ipad_url'] : '' ,
-		'TAPATALK_IPHONE_MSG' => isset($config['tapatalk_iphone_msg']) ? $config['tapatalk_iphone_msg'] : '' ,
-		'TAPATALK_IPHONE_URL' => isset($config['tapatalk_iphone_url']) ? $config['tapatalk_iphone_url'] : '' ,
-		'TAPATALK_ANDROID_MSG' => isset($config['tapatalk_android_msg']) ? $config['tapatalk_android_msg'] : '' ,
-		'TAPATALK_ANDROID_URL' => isset($config['tapatalk_android_url']) ? $config['tapatalk_android_url'] : '' ,
-		'TAPATALK_KINDLE_MSG' => isset($config['tapatalk_kindle_msg']) ? $config['tapatalk_kindle_msg'] : '' ,
-		'TAPATALK_KINDLE_URL' => isset($config['tapatalk_kindle_url']) ? $config['tapatalk_kindle_url'] : '' ,]]></action>
+				<action type="after-add"><![CDATA[		'TAPATALK_IPHONE_APP_ID'      => isset($config['tapatalk_iphone_app_id']) ? $config['tapatalk_iphone_app_id'] : '' ,
+		'TAPATALK_APP_NAME'      => isset($config['tapatalk_app_name']) ? addslashes($config['tapatalk_app_name']) : '' ,
+		'TAPATALK_APP_DESC'      => isset($config['tapatalk_app_desc']) ? addslashes($config['tapatalk_app_desc']) : '' ,
+		'TAPATALK_APP_ICON_URL'      => isset($config['tapatalk_app_icon_url']) ? addslashes($config['tapatalk_app_icon_url']) : '' ,
+		'TAPATALK_ANDROID_HD_MSG' => isset($config['tapatalk_android_hd_msg']) ? addslashes($config['tapatalk_android_hd_msg']) : '' ,
+		'TAPATALK_ANDROID_HD_URL' => isset($config['tapatalk_android_hd_url']) ? addslashes($config['tapatalk_android_hd_url']) : '' ,
+		'TAPATALK_KINDLE_HD_MSG' => isset($config['tapatalk_kindle_hd_msg']) ? addslashes($config['tapatalk_kindle_hd_msg']) : '' ,
+		'TAPATALK_KINDLE_HD_URL' => isset($config['tapatalk_kindle_hd_url']) ? addslashes($config['tapatalk_kindle_hd_url']) : '' ,
+		'TAPATALK_IPAD_MSG' => isset($config['tapatalk_ipad_msg']) ? addslashes($config['tapatalk_ipad_msg']) : '' ,
+		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_url']) ? addslashes($config['tapatalk_ipad_url']) : '' ,
+		'TAPATALK_IPHONE_MSG' => isset($config['tapatalk_iphone_msg']) ? addslashes($config['tapatalk_iphone_msg']) : '' ,
+		'TAPATALK_IPHONE_URL' => isset($config['tapatalk_iphone_url']) ? addslashes($config['tapatalk_iphone_url']) : '' ,
+		'TAPATALK_ANDROID_MSG' => isset($config['tapatalk_android_msg']) ? addslashes($config['tapatalk_android_msg']) : '' ,
+		'TAPATALK_ANDROID_URL' => isset($config['tapatalk_android_url']) ? addslashes($config['tapatalk_android_url']) : '' ,
+		'TAPATALK_KINDLE_MSG' => isset($config['tapatalk_kindle_msg']) ? addslashes($config['tapatalk_kindle_msg']) : '' ,
+		'TAPATALK_KINDLE_URL' => isset($config['tapatalk_kindle_url']) ? addslashes($config['tapatalk_kindle_url']) : '' ,
+		'TAPATALK_DIR' => generate_board_url().'/' . (!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ) ,
+		'TAPATALK_LOCATION_URL' => $tapatalk_location_url,]]></action>
 			</edit>
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
 			<edit>
 				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
 				<action type="after-add"><![CDATA[<script type="text/javascript">
-var tapatalkdir="{MOBIQUO_NAME}";
-var tapatalk_ipad_msg = '{TAPATALK_IPAD_MSG}';
-var tapatalk_ipad_url  = '{TAPATALK_IPAD_URL}';
-var tapatalk_iphone_msg = '{TAPATALK_IPHONE_MSG}';
-var tapatalk_iphone_url  = '{TAPATALK_IPHONE_URL}';
-var tapatalk_android_msg = '{TAPATALK_ANDROID_MSG}';
-var tapatalk_android_url  = '{TAPATALK_ANDROID_URL}';
-var tapatalk_kindle_msg = '{TAPATALK_KINDLE_MSG}';
-var tapatalk_kindle_url  = '{TAPATALK_KINDLE_URL}';
-var tapatalk_chrome_enable = '{TAPATALK_CHROME_ENABLE}';
+var byo_ios_app_id      = '{TAPATALK_IPHONE_APP_ID}';
+var byo_app_name        = '{TAPATALK_APP_NAME}';
+var byo_app_desc        = '{TAPATALK_APP_DESC}';
+var byo_app_icon_url    = '{TAPATALK_APP_ICON_URL}';
+var app_ios_msg         = '{TAPATALK_IPHONE_MSG}';
+var app_ios_url         = '{TAPATALK_IPHONE_URL}';;
+var app_ios_hd_msg      = '{TAPATALK_IPAD_MSG}';
+var app_ios_hd_url      = '{TAPATALK_IPAD_URL}';
+var app_android_msg     = '{TAPATALK_ANDROID_MSG}';
+var app_android_url     = '{TAPATALK_ANDROID_URL}';
+var app_android_hd_msg  = '{TAPATALK_ANDROID_HD_MSG}';
+var app_android_hd_url  = '{TAPATALK_ANDROID_HD_URL}';
+var app_kindle_msg      = '{TAPATALK_KINDLE_MSG}';
+var app_kindle_url      = '{TAPATALK_KINDLE_URL}';
+var app_kindle_hd_msg   = '{TAPATALK_KINDLE_HD_MSG}';
+var app_kindle_hd_url   = '{TAPATALK_KINDLE_HD_URL}';
+var tapatalk_dir_url    = '{TAPATALK_DIR}';
+var app_location_url    = '{TAPATALK_LOCATION_URL}';
 </script>
-<script type="text/javascript" src="{TAPATALKDETECT_JS}"></script>]]></action>
-			</edit>		
+<link href="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.css" rel="stylesheet" type="text/css" media="screen">
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.js"></script>]]></action>
+			</edit>	
+			<edit>
+				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
+				<action type="after-add"><![CDATA[<!-- Tapatalk Detect body start --> 
+<script type="text/javascript">tapatalkDetect()</script>
+<!-- Tapatalk Detect banner body end -->]]></action>
+			</edit>	
 		</open>
 		<php-installer><![CDATA[mobiquo_install.php]]></php-installer>
 <diy-instructions lang="en"><![CDATA[*** NOTE: If you are installing via Automod you may skip to step 2 ***

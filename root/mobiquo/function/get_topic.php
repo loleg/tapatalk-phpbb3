@@ -283,6 +283,12 @@ function get_topic_func($xmlrpc_params)
 //        foreach($topic_users[$topic_id] as $posterid){
 //            $icon_urls[] = new xmlrpcval($user_avatar[$posterid], 'string');
 //        }
+		$can_rename = ($user->data['is_registered'] && ($auth->acl_get('m_edit', $forum_id) || (
+                $user->data['user_id'] == $row['topic_poster'] &&
+                $auth->acl_get('f_edit', $forum_id) &&
+                //!$item['post_edit_locked'] &&
+                ($row['topic_time'] > time() - ($config['edit_time'] * 60) || !$config['edit_time'])
+            )));
         
         $xmlrpc_topic = new xmlrpcval(array(
             'forum_id'          => new xmlrpcval($forum_id),
@@ -310,6 +316,7 @@ function get_topic_func($xmlrpc_params)
             'is_sticky'         => new xmlrpcval($row['topic_type'] == POST_STICKY, 'boolean'),
             'can_approve'       => new xmlrpcval($auth->acl_get('m_approve', $forum_id) && !$row['topic_approved'], 'boolean'),
             'is_approved'       => new xmlrpcval($row['topic_approved'] ? true : false, 'boolean'),
+        	'can_rename'        => new xmlrpcval($can_rename, 'boolean'),
         ), 'struct');
         
         $topic_list[] = $xmlrpc_topic;

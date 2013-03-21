@@ -411,6 +411,14 @@ $server_param = array(
         'signature' => array(array($xmlrpcArray, $xmlrpcBase64, $xmlrpcInt, $xmlrpcBase64)),
         'docstring' => '',
     ),
+    'm_rename_topic' => array(
+        'function'  => 'm_rename_topic_func',
+        'signature' => array(
+    						array($xmlrpcArray,$xmlrpcString,$xmlrpcBase64),
+    						array($xmlrpcArray,$xmlrpcString,$xmlrpcBase64,$xmlrpcString),
+    						),
+        'docstring' => '',
+    ),
     'update_push_status' => array(
         'function' => 'update_push_status_func',
         'signature' => array(array($xmlrpcStruct,$xmlrpcStruct),
@@ -426,7 +434,8 @@ $server_param = array(
     'register' => array (
     	'function' => 'register_func',
     	'signature' => array(array($xmlrpcStruct),
-    						 array($xmlrpcStruct, $xmlrpcBase64,$xmlrpcBase64,$xmlrpcString,$xmlrpcString),
+                             array($xmlrpcStruct, $xmlrpcBase64,$xmlrpcBase64,$xmlrpcBase64),
+    						 array($xmlrpcStruct, $xmlrpcBase64,$xmlrpcBase64,$xmlrpcBase64,$xmlrpcString,$xmlrpcString),
     						 ),
     ),
     

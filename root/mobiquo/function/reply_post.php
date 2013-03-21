@@ -10,7 +10,7 @@ defined('IN_MOBIQUO') or exit;
 function reply_post_func($xmlrpc_params)
 {
     global $db, $auth, $user, $config, $phpbb_root_path, $phpEx, $mobiquo_config, $phpbb_home;
-    require_once 'include/emoji.php';
+    require_once $phpbb_root_path . $config['tapatalkdir'].'/include/emoji.php';
     $user->setup('posting');
     if (!$user->data['is_registered']) trigger_error('LOGIN_EXPLAIN_POST');
     

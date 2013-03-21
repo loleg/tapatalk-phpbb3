@@ -1,5 +1,5 @@
 api_level = 3
-version = pb30_3.6.1
+version = pb30_3.7.0
 is_open = 1
 guest_okay = 1
 
@@ -39,8 +39,8 @@ subscribe_load = 1
 participated_forum = 1
 anonymous = 1
 advanced_search = 1
-get_alert = 1
 alert = 0
 push = 0
 push_type = pm,sub,quote,newtopic,tag
-register = 1
+inappreg = 0
+announcement = 1

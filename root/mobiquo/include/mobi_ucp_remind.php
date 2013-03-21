@@ -4,7 +4,7 @@ class mobi_ucp_remind
 {
 	public $result = false;
 	public $result_text = '';
-	public $verify = true;
+	public $verify = false;
 
 	public function main()
 	{
@@ -12,17 +12,11 @@ class mobi_ucp_remind
 		global $db, $user, $auth, $template;
 
 		$username	= request_var('username', '', true);
-		$email		= tt_register_verify($_POST['tt_token'], $_POST['tt_code']);
-		if(empty($email))
-		{
-			$this->verify = false;
-			$this->result_text = 'Please login Tapatalk first.';
-			return ;
-		}
+		
+		
 		$sql = 'SELECT user_id, username, user_permissions, user_email, user_jabber, user_notify_type, user_type, user_lang, user_inactive_reason
 			FROM ' . USERS_TABLE . "
-			WHERE user_email_hash = '" . $db->sql_escape(phpbb_email_hash($email)) . "'
-			AND username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'";
+			WHERE  username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'";
 		$result = $db->sql_query($sql);
 		$user_row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
@@ -56,9 +50,16 @@ class mobi_ucp_remind
 		{
 			trigger_error('NO_AUTH_PASSWORD_REMINDER');
 		}
+		$result = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);   	
+		if($result->result && ($user_row['user_email'] == $result->email))
+		{
+			$this->result = true;
+			$this->verify = true;
+			return ;
+		}
 		
-		$this->verify = true;
-		$this->result = true;
+		$this->result = false;
+		$this->result_text = 'Email associated with the username does not match current Tapatalk ID account, you can retrieve your password from browser.';
 		return ;
 	}
 }
