@@ -189,7 +189,7 @@ function get_thread_func()
         'can_delete'     => new xmlrpcval($auth->acl_get('m_delete', $forum_id), 'boolean'),
         'can_move'       => new xmlrpcval($auth->acl_get('m_move', $forum_id), 'boolean'),
         'can_subscribe'  => new xmlrpcval($can_subscribe, 'boolean'),
-        'can_reanme'     => new xmlrpcval($can_rename, 'boolean'),
+        'can_rename'     => new xmlrpcval($can_rename, 'boolean'),
         'is_subscribed'  => new xmlrpcval(isset($topic_data['notify_status']) && !is_null($topic_data['notify_status']) && $topic_data['notify_status'] !== '' ? true : false, 'boolean'),
         'can_stick'      => new xmlrpcval($allow_change_type && $auth->acl_get('f_sticky', $forum_id), 'boolean'),
         'is_sticky'      => new xmlrpcval($topic_data['topic_type'] == POST_STICKY, 'boolean'),

@@ -363,7 +363,10 @@ function m_rename_topic_func($xmlrpc_params)
             trigger_error('CANNOT_EDIT_POST_LOCKED');
         }
     }
-
+	if(empty($post_title))
+	{
+		trigger_error('EMPTY_SUBJECT');
+	}
     $sql = "UPDATE " .TOPICS_TABLE ." SET topic_title = '$post_title' WHERE topic_id = '$topic_id' ";
     $db->sql_query($sql);
     $sql = "UPDATE " . POSTS_TABLE . " SET post_subject = '$post_title' WHERE post_id = '$post_id'";
