@@ -83,3 +83,16 @@ Update note:
 2.fix SQL error when tapatalk user table is empty
 3.fix some install instruction error
 4.fix can't add More than 100 characters to Product URL (no more than 250 characters)
+
+phpBB 3.0.X - Version 3.7.0 released
+
+Update note:
+
+optimize online user display
+add custom content replacement
+add rename topic function
+add update password function
+add forget password function
+add update email function
+fix thank post problems ("Just thanks the first post in the topic" option does not work in Tapatalk")
+some other bug fixed

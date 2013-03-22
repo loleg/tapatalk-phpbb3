@@ -141,7 +141,7 @@ $versions = array(
 						'create_time'	=> array('TIMESTAMP',0),
 					),
 					'PRIMARY_KEY'	=> 'push_id',
-					'KEYS'          => array('user_id' => array('INDEX','user_id')),
+					'KEYS'          => array('user_id' => array('INDEX','user_id'),'create_time' => array('INDEX','create_time')),
 				),
 			)
 		),
@@ -198,7 +198,8 @@ $versions = array(
 		),
 		'config_remove' => array(
 			array('mobiquo_is_chrome'),
-		)
+		),
+		'custom'	=> 'push_table_update',
 	)
 );		
 
@@ -237,6 +238,20 @@ function mobiquo_table($action, $version)
 			return 'MOBIQUO_TABLE_DELETED';
 		}
 		return 'MOBIQUO_NOTHING_TO_UPDATE';
+	}
+	
+}
+
+function push_table_update ($action, $version)
+{
+	global $db, $table_prefix, $umil;
+	if($action == 'update')
+	{
+		if ($umil->table_exists($table_prefix.'tapatalk_push_data'))
+		{
+			$sql = "ALTER TABLE  ".$table_prefix.'tapatalk_push_data'." ADD INDEX (create_time)";
+			$db->sql_query($sql);
+		}
 	}
 }
 	

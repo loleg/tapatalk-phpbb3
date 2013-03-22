@@ -59,7 +59,7 @@ class mobi_ucp_remind
 		}
 		
 		$this->result = false;
-		$this->result_text = 'Email associated with the username does not match current Tapatalk ID account, you can retrieve your password from browser.';
+		$this->result_text = 'Sorry, you can only retrieve your password from browser.';
 		return ;
 	}
 }
