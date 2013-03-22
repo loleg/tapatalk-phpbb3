@@ -275,15 +275,16 @@ function get_online_users_func()
         $user_avatar_url = get_user_avatar_url($row['user_avatar'], $row['user_avatar_type']);
         
 	    $row['from'] = 'broswer';
-		if(strpos($row['session_browser'],'Android') !== false || strpos($row['session_browser'],'iPhone') !== false || 
+   		if(!empty($row['is_tapatalk']))
+		{
+			$row['from'] = 'tapatalk';
+		}
+		else if(strpos($row['session_browser'],'Android') !== false || strpos($row['session_browser'],'iPhone') !== false || 
 		strpos($row['session_browser'],'BlackBerry') !== false)
 		{
 			$row['from'] = 'mobile';
 		}
-		if(!empty($row['is_tapatalk']))
-		{
-			$row['from'] = 'tapatalk';
-		}
+		
         $user_list[] = new xmlrpcval(array(
             'user_id'       => new xmlrpcval($row['user_id'], 'string'),
             'username'      => new xmlrpcval($row['username'], 'base64'),

@@ -28,8 +28,7 @@ function get_inbox_stat_func()
             FROM ' . TOPICS_WATCH_TABLE . ' tw
             LEFT JOIN ' . TOPICS_TABLE . ' t ON tw.topic_id=t.topic_id
             WHERE tw.user_id = ' . $user->data['user_id'] . '
-                AND ' . $db->sql_in_set('t.forum_id', $forbidden_forum_ary, true, true) . '
-                AND t.topic_last_post_time > ' . $user->data['user_lastvisit'];
+                AND ' . $db->sql_in_set('t.forum_id', $forbidden_forum_ary, true, true) ;
     $result = $db->sql_query($sql);
     $subscribed_topic_unread_count = 0;
     while ($row = $db->sql_fetchrow($result))

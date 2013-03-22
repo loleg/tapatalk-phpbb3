@@ -3,7 +3,7 @@
     	{
     		
     		$icon_url = $phpbb_root_path.$config['tapatalkdir'].'/images/tapatalk-online.png';
-    		$username_full = $username_full.'&nbsp;<img src="'.$icon_url.'" title="On tapatalk" onclick="window.open(\'http://www.tapatalk.com\')"/ style="vertical-align: middle;cursor:pointer;">';
+    		$username_full = $username_full.'&nbsp;<img src="'.$icon_url.'" title="On Tapatalk" onclick="window.open(\'http://www.tapatalk.com\')"/ style="vertical-align: middle;cursor:pointer;">';
     		$query_str = parse_url($row['session_page']);
     		$param_arr = explode('&', $query_str['query']);
     		$param_method = explode("=", $param_arr[0]);

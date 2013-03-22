@@ -34,7 +34,7 @@ function get_thread_func()
     }
     */
     $post_list = array();
-    foreach($template->_tpldata['postrow'] as $row)
+    foreach($template->_tpldata['postrow'] as $key => $row)
     {
         $attachments = array();
         if ($row['S_HAS_ATTACHMENTS'])
@@ -102,17 +102,30 @@ function get_thread_func()
 
         if ($support_post_thanks)
         {
-            if ((!$row['S_FIRST_POST_ONLY'] || (!$start && $row['S_ROW_COUNT']))
-                && !$row['S_GLOBAL_POST_THANKS']
+            if (
+                !$row['S_GLOBAL_POST_THANKS']
                 && !$row['S_POST_ANONYMOUS']
                 && $auth->acl_get('f_thanks', $forum_id)
                 && $user->data['user_id'] != ANONYMOUS
                 && $user->data['user_id'] != $row['POSTER_ID']
                 && !$row['S_ALREADY_THANKED']
             ) {
-                $xmlrpc_post['can_thank'] = new xmlrpcval(true, 'boolean');
+            	if(!empty($config['thanks_only_first_post']) && $key == 0)
+            	{
+            		
+            		$xmlrpc_post['can_thank'] = new xmlrpcval(true, 'boolean');
+            	}
+            	else if(!empty($config['thanks_only_first_post']))
+            	{
+            		$xmlrpc_post['can_thank'] = new xmlrpcval(false, 'boolean');
+            	}
+            	else 
+            	{
+            		$xmlrpc_post['can_thank'] = new xmlrpcval(true, 'boolean');
+            	}
+            	
+                
             }
-
             if ($row['THANKS'] && $row['THANKS_POSTLIST_VIEW'] && !$row['S_POST_ANONYMOUS'] && empty($user->data['is_bot']))
             {
                 global $thankers;
@@ -157,7 +170,12 @@ function get_thread_func()
     $max_attachment = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 99 : ($allowed ? $config['max_attachments'] : 0);
     $max_png_size = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 10485760 : ($allowed ? ($config['max_filesize'] === '0' ? 10485760 : $config['max_filesize']) : 0);
     $max_jpg_size = ($auth->acl_get('a_') || $auth->acl_get('m_', $forum_id)) ? 10485760 : ($allowed ? ($config['max_filesize'] === '0' ? 10485760 : $config['max_filesize']) : 0);
-    
+    $can_rename = ($user->data['is_registered'] && ($auth->acl_get('m_edit', $forum_id) || (
+                $user->data['user_id'] == $row['topic_poster'] &&
+                $auth->acl_get('f_edit', $forum_id) &&
+                //!$item['post_edit_locked'] &&
+                ($topic_data['topic_time'] > time() - ($config['edit_time'] * 60) || !$config['edit_time'])
+            )));
     $result = array(
         'total_post_num' => new xmlrpcval($total_posts, 'int'),
         'forum_id'       => new xmlrpcval($forum_id),
@@ -171,6 +189,7 @@ function get_thread_func()
         'can_delete'     => new xmlrpcval($auth->acl_get('m_delete', $forum_id), 'boolean'),
         'can_move'       => new xmlrpcval($auth->acl_get('m_move', $forum_id), 'boolean'),
         'can_subscribe'  => new xmlrpcval($can_subscribe, 'boolean'),
+        'can_reanme'     => new xmlrpcval($can_rename, 'boolean'),
         'is_subscribed'  => new xmlrpcval(isset($topic_data['notify_status']) && !is_null($topic_data['notify_status']) && $topic_data['notify_status'] !== '' ? true : false, 'boolean'),
         'can_stick'      => new xmlrpcval($allow_change_type && $auth->acl_get('f_sticky', $forum_id), 'boolean'),
         'is_sticky'      => new xmlrpcval($topic_data['topic_type'] == POST_STICKY, 'boolean'),
