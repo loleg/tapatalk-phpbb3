@@ -457,6 +457,7 @@ $server_param = array(
     'forget_password' => array (
     	'function' => 'forget_password_func',
     	'signature' => array(array($xmlrpcStruct),
+    						 array($xmlrpcStruct,$xmlrpcBase64),
     						 array($xmlrpcStruct, $xmlrpcBase64,$xmlrpcString ,$xmlrpcString),
     						 ),
     ),

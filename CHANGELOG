@@ -96,3 +96,12 @@ add forget password function
 add update email function
 fix thank post problems ("Just thanks the first post in the topic" option does not work in Tapatalk")
 some other bug fixed
+
+phpBB 3.0.X - Version 3.7.1 released
+
+Update note:
+
+fix undefine index notice in some pages
+fix sql error when topic_watch table have invalid data
+optimize register function
+fix no No Prompt for App Download

@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.7.0</mod-version>
+		<mod-version>3.7.1</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -122,6 +122,16 @@
 					<change>some bugs fixed</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2013-04-02</date>
+				<rev-version>3.7.1</rev-version>
+				<changelog lang="en">
+					<change>fix undefine index notice in some pages</change>
+					<change>fix sql error when topic_watch table have invalid data</change>
+					<change>optimize register function</change>
+					<change>fix no No Prompt for App Download</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
@@ -130,7 +140,9 @@
 			<link type="contrib" href="./contrib/update_tapatalk_342_343.xml" lang="en">Update from 342 to 343</link>
 			<link type="contrib" href="./contrib/update_tapatalk_343_350.xml" lang="en">Update from 343 to 350</link>
 			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 350 to 360</link>
-			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 360 to 361</link>
+			<link type="contrib" href="./contrib/update_tapatalk_360_361.xml" lang="en">Update from 360 to 361</link>
+			<link type="contrib" href="./contrib/update_tapatalk_361_370.xml" lang="en">Update from 361 to 370</link>
+			<link type="contrib" href="./contrib/update_tapatalk_370_371.xml" lang="en">Update from 370 to 371</link>
 		</link-group>
 	</header>
 	<action-group>
