@@ -18,13 +18,13 @@ function get_tapatlk_location()
             $param_arr['location'] = 'index';
             break;
         case "ucp.php":
-            if($_GET['i'] == "pm")
+            if(!empty($_GET['i']) && ($_GET['i'] == "pm"))
             {
                 $param_arr['location'] = 'message';
                 if(!empty($_GET['p']))
                 $param_arr['mid'] = $_GET['p'];
             }
-            if($_GET['mode'] == 'login')
+            if(!empty($_GET['mode']) && ($_GET['mode'] == 'login'))
             {
             	$param_arr['location'] = 'login';
             }
@@ -41,7 +41,7 @@ function get_tapatlk_location()
             }
             break;
         case "memberlist.php":
-           	if($_GET['mode'] == "viewprofile" && !empty($_GET['u']))
+           	if(!empty($_GET['mode']) && $_GET['mode'] == "viewprofile" && !empty($_GET['u']))
             {
                 $param_arr['location'] = 'profile';
                 $param_arr['uid'] = $_GET['u'];

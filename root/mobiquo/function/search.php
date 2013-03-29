@@ -824,6 +824,10 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 				}
 				else if ($config['load_anon_lastread'] || $user->data['is_registered'])
 				{
+					if(empty($forum_id))
+					{
+						continue;
+					}
 					$topic_tracking_info[$forum_id] = get_complete_topic_tracking($forum_id, $forum['topic_list'], ($forum_id) ? false : $forum['topic_list']);
 
 					if (!$user->data['is_registered'])

@@ -81,8 +81,15 @@ if ($view && !$post_id)
 
 	if ($view == 'unread')
 	{
-		// Get topic tracking info
-		$topic_tracking_info = get_complete_topic_tracking($forum_id, $topic_id);
+		if(!empty($forum_id) && !empty($topic_id))
+		{
+			// Get topic tracking info
+			$topic_tracking_info = get_complete_topic_tracking($forum_id, $topic_id);
+		}
+		else 
+		{
+			$topic_tracking_info = array();
+		}
 
 		$topic_last_read = (isset($topic_tracking_info[$topic_id])) ? $topic_tracking_info[$topic_id] : 0;
 
@@ -422,7 +429,15 @@ if (!isset($topic_tracking_info))
 	if ($config['load_db_lastread'] && $user->data['is_registered'])
 	{
 		$tmp_topic_data = array($topic_id => $topic_data);
-		$topic_tracking_info = get_topic_tracking($forum_id, $topic_id, $tmp_topic_data, array($forum_id => $topic_data['forum_mark_time']));
+		if(!empty($forum_id) && !empty($topic_id))
+		{
+			// Get topic tracking info
+			$topic_tracking_info = get_topic_tracking($forum_id, $topic_id, $tmp_topic_data, array($forum_id => $topic_data['forum_mark_time']));
+		}
+		else 
+		{
+			$topic_tracking_info = array();
+		}
 		unset($tmp_topic_data);
 	}
 	else if ($config['load_anon_lastread'] || $user->data['is_registered'])

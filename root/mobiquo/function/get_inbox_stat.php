@@ -35,6 +35,10 @@ function get_inbox_stat_func()
     {
         $topic_id = $row['topic_id'];
         $forum_id = $row['forum_id'];
+	if(empty($forum_id) || empty($topic_id))
+	{
+	    continue;
+	}
         $topic_tracking = get_complete_topic_tracking($forum_id, $topic_id);
         if ($topic_tracking[$topic_id] < $row['topic_last_post_time'])
         {

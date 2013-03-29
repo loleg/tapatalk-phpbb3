@@ -28,13 +28,22 @@ function get_forum_func($xmlrpc_params)
         $root_forum_id = 0;
     }
     
-    $sql = 'SELECT f.* '. ($user->data['is_registered'] ? ', fw.notify_status' : '') . '
-            FROM ' . FORUMS_TABLE . ' f ' .
-            ($user->data['is_registered'] ? ' LEFT JOIN ' . FORUMS_WATCH_TABLE . ' fw ON (fw.forum_id = f.forum_id AND fw.user_id = ' . $user->data['user_id'] . ')' : '') . 
-            $forum_filter . '
+    $sql = 'SELECT f.*  FROM ' . FORUMS_TABLE . ' f ' . $forum_filter . '
             ORDER BY f.left_id ASC';
     $result = $db->sql_query($sql, 600);
-    
+    $user_watch_array = array();
+    if($user->data['is_registered'])
+    {
+    	$sql = "SELECT notify_status,forum_id FROM " . FORUMS_WATCH_TABLE . " WHERE user_id = '".$user->data['user_id']."'";
+    	$result_watch = $db->sql_query($sql);
+    	while($row_watch = $db->sql_fetchrow($result_watch))
+    	{
+    		if(isset($row_watch['notify_status']) && !is_null($row_watch['notify_status']) && $row_watch['notify_status'] !== '')
+    		{
+    			$user_watch_array[] = $row_watch['forum_id'];
+    		}
+    	}
+    }
     $forum_rows = array();
     $forum_rows[$root_forum_id] = array('forum_id' => $root_forum_id, 'parent_id' => -1, 'child' => array());
     $forum_hide_forum_arr = !empty($mobiquo_config['hide_forum_id']) ? $mobiquo_config['hide_forum_id'] : array();
@@ -78,7 +87,7 @@ function get_forum_func($xmlrpc_params)
         if ($user->data['is_registered'] && ($config['email_enable'] || $config['jab_enable']) && $config['allow_forum_notify'] && $row['forum_type'] == FORUM_POST && $auth->acl_get('f_subscribe', $forum_id))
         {
             $row['can_subscribe'] = true;
-            $row['is_subscribed'] = isset($row['notify_status']) && !is_null($row['notify_status']) && $row['notify_status'] !== '' ? true : false;
+            $row['is_subscribed'] = in_array($row['forum_id'], $user_watch_array) ? true : false;
         } else {
             $row['can_subscribe'] = false;
             $row['is_subscribed'] = false;

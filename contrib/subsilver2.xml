@@ -159,7 +159,7 @@ var app_location_url    = '{TAPATALK_LOCATION_URL}';
 <script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.js"></script>]]></action>
 			</edit>	
 			<edit>
-				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
+				<find><![CDATA[<body class="{S_CONTENT_DIRECTION}">]]></find>
 				<action type="after-add"><![CDATA[<!-- Tapatalk Detect body start --> 
 <script type="text/javascript">tapatalkDetect()</script>
 <!-- Tapatalk Detect banner body end -->]]></action>

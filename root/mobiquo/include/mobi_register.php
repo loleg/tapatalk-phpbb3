@@ -28,15 +28,13 @@ class mobi_ucp_register
 		if(isset($_POST['tt_token']) && isset($_POST['tt_code']))
 		{
 			$result = tt_register_verify($_POST['tt_token'], $_POST['tt_code']);   	
-			if($result->result && !empty($result->email) && (empty($mybb->input['email']) || strtolower($mybb->input['email'] == strtolower($result->email))))
+			if($result->result && !empty($result->email) && (empty($email) || strtolower($email == strtolower($result->email))))
 			{
 				$verify_result = $result->result;
 				$email = $result->email;
-				$email = $result->email;
 			}
-			else if(!$result->result && empty($mybb->input['email']) && !empty($result->email))
+			else if(!$result->result && empty($email) && !empty($result->email))
 			{
-				$email = $result->email;
 				$email = $result->email;
 			}						
 		}

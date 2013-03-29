@@ -200,7 +200,8 @@ $versions = array(
 			array('mobiquo_is_chrome'),
 		),
 		'custom'	=> 'push_table_update',
-	)
+	),
+	'3.7.1' => array(),
 );		
 
 		

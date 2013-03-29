@@ -188,6 +188,10 @@ function get_topic_func($xmlrpc_params)
             $result = $db->sql_query($sql);
             while ($row = $db->sql_fetchrow($result))
             {
+	        if(empty($forum_id) || empty($row['topic_id']))
+	        {
+			continue;
+		}
                 $topic_tracking = get_complete_topic_tracking($forum_id, $row['topic_id']);
                 if (isset($topic_tracking[$row['topic_id']]) && $topic_tracking[$row['topic_id']] < $row['topic_last_post_time'])
                     $unread_sticky_num++;
@@ -204,6 +208,10 @@ function get_topic_func($xmlrpc_params)
             $result = $db->sql_query($sql);
             while ($row = $db->sql_fetchrow($result))
             {
+	    	if(empty($forum_id) || empty($row['topic_id']))
+		{
+	            continue;
+		}
                 $topic_tracking = get_complete_topic_tracking($forum_id, $row['topic_id']);
                 if (isset($topic_tracking[$row['topic_id']]) && $topic_tracking[$row['topic_id']] < $row['topic_last_post_time'])
                     $unread_announce_count++;
@@ -272,6 +280,10 @@ function get_topic_func($xmlrpc_params)
         $new_post = false;
         if ($user->data['user_id'] != ANONYMOUS)
         {
+	    if(empty($forum_id) || empty($row['topic_id']))
+	    {
+	        continue;
+	    }
             $topic_tracking = get_complete_topic_tracking($forum_id, $row['topic_id']);
             $new_post = $topic_tracking[$row['topic_id']] < $row['topic_last_post_time'] ? true : false;
         }
