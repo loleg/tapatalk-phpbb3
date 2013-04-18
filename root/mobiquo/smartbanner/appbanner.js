@@ -39,9 +39,9 @@ if (empty(app_location_url))
 
 if (empty(app_forum_name))
     var app_forum_name = "this forum";
-if (empty(app_banner_message)) {
+
+if (empty(app_banner_message))
     var app_banner_message = "Follow {your_forum_name} <br /> with {app_name} for [os_platform]";
-}
 
 
 // Support native iOS Smartbanner
