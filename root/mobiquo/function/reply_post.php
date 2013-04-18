@@ -329,7 +329,16 @@ function reply_post_func($xmlrpc_params)
     chdir('../');
     $phpbb_root_path_tmp = $phpbb_root_path;
     $phpbb_root_path = './';
-    $redirect_url = submit_post('reply', $post_data['post_subject'], $post_data['username'], $post_data['topic_type'], $poll, $data, $update_message);
+    preg_match_all('/quote=&quot;(.*?)&quot;/is', $data['message'],$quote_matches);
+    if(!empty($quote_matches['1']))
+    {
+    	$mode = 'quote';
+    }
+    else 
+    {
+    	$mode = 'reply';
+    }
+    $redirect_url = submit_post($mode, $post_data['post_subject'], $post_data['username'], $post_data['topic_type'], $poll, $data, $update_message);
     chdir($cwd);
     $phpbb_root_path = $phpbb_root_path_tmp;
     

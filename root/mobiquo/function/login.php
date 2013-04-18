@@ -19,6 +19,8 @@ function login_func($xmlrpc_params)
     $username = $params[0];
     $password = $params[1];
     $viewonline = isset($params[2]) ? !$params[2] : 1;
+    $push = isset($params[3]) ? intval($params[3]) : 1;
+
     set_var($username, $username, 'string', true);
     set_var($password, $password, 'string', true);
     header('Set-Cookie: mobiquo_a=0');
@@ -55,11 +57,18 @@ function login_func($xmlrpc_params)
 				$db->sql_build_array('INSERT', $sql_data[$table_prefix . "tapatalk_users"]['sql']);
 				$db->sql_query($sql);    	
 	        }
-	        else
+	        
+	        if($push == 1)
 	        {
-	        	$sql = "UPDATE " . $table_prefix . "tapatalk_users 
-	        	SET updated= '".time()."' WHERE userid='".$user->data['user_id']."'";
-	        	$db->sql_query($sql);
+	        	$sql = 'UPDATE '. $table_prefix . "tapatalk_users SET announcement = '1',pm='1',
+				subscribe = '1',quote = '1',tag = '1',newtopic='1' ,updated= '".time()."'
+				WHERE userid = '".$user->data['user_id']."'";
+	        }
+	        else 
+	        {
+	        	$sql = 'UPDATE '. $table_prefix . "tapatalk_users SET announcement = '0',pm='0',
+				subscribe = '0',quote = '0',tag = '0',newtopic='0' ,updated= '".time()."'
+				WHERE userid = '".$user->data['user_id']."'";
 	        }
         }
         

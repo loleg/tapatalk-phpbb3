@@ -166,7 +166,10 @@ if ($forum_id)
 
 // Instantiate module system and generate list of available modules
 $module->list_modules('mcp');
-
+if($action == 'move')
+{
+	$_POST['move_leave_shadow'] = true;
+}
 if ($quickmod)
 {
     $mode = 'quickmod';

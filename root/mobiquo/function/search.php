@@ -199,7 +199,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$keywords = implode(' |', explode(' ', preg_replace('#\s+#u', ' ', $keywords))) . ' ' .$add_keywords;
 		}
 	}
-
+	
 	// Which forums should not be searched? Author searches are also carried out in unindexed forums
 	if (empty($keywords) && sizeof($author_id_ary))
 	{
@@ -222,7 +222,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
     // end
 
 	$not_in_fid = (sizeof($ex_fid_ary)) ? 'WHERE ' . $db->sql_in_set('f.forum_id', $ex_fid_ary, true) . " OR (f.forum_password <> '' AND fa.user_id <> " . (int) $user->data['user_id'] . ')' : "";
-
+	
 	$sql = 'SELECT f.forum_id, f.forum_name, f.parent_id, f.forum_type, f.right_id, f.forum_password, f.forum_flags, fa.user_id
 		FROM ' . FORUMS_TABLE . ' f
 		LEFT JOIN ' . FORUMS_ACCESS_TABLE . " fa ON (fa.forum_id = f.forum_id
@@ -246,7 +246,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$ex_fid_ary[] = (int) $row['forum_id'];
 			continue;
 		}
-
+		
 		// Exclude forums from active topics
 		if (!($row['forum_flags'] & FORUM_FLAG_ACTIVE_TOPICS) && ($search_id == 'active_topics'))
 		{
@@ -274,11 +274,23 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 				$ex_fid_ary[] = (int) $row['forum_id'];
 				$reset_search_forum = false;
 			}
+			
+			
+		}
+		
+		if (sizeof($exclude_forum))
+		{
+			//if parent_id in extute add
+			if($row['parent_id'] > 0 && in_array($row['parent_id'], $ex_fid_ary))
+			{
+				$ex_fid_ary[] = (int) $row['forum_id'];
+			}
 		}
 	}
 	$ex_fid_ary = array_unique(array_merge($ex_fid_ary,$hide_forum_arr));
+	
 	$db->sql_freeresult($result);
-
+	$m_approve_fid_ary = array(-1);
 	// find out in which forums the user is allowed to view approved posts
 	if ($auth->acl_get('m_approve'))
 	{
@@ -343,6 +355,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 	// pre-made searches
 	$sql = $field = $l_search_title = '';
+	
 	if ($search_id)
 	{
 		switch ($search_id)
@@ -538,11 +551,11 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	// show_results should not change after this
 	//$per_page = ($show_results == 'posts') ? $config['posts_per_page'] : $config['topics_per_page'];
 	$total_match_count = 0;
-
 	if ($search_id)
 	{
 		if ($sql)
 		{
+			
 			// only return up to 1000 ids (the last one will be removed later)
 			$result = $db->sql_query_limit($sql, 1001 - $start, $start);
 
@@ -568,15 +581,15 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		}
 		else
 		{
+			
 			$search_id = '';
 		}
 	}
-
-	// make sure that some arrays are always in the same order
+	
+	
 	sort($ex_fid_ary);
 	sort($m_approve_fid_ary);
 	sort($author_id_ary);
-
 	if (!empty($search->search_query))
 	{
 		// tapatalk change
@@ -594,7 +607,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		else
 			$total_match_count = $search->author_search($show_results, $firstpost_only, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $m_approve_fid_ary, $topic_id, $author_id_ary, $sql_author_match, $id_ary, $start, $per_page);
 	}
-
+	
 	// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
 	if (!sizeof($id_ary) && !$search_id)
 	{
@@ -747,9 +760,9 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 		$sql .= ' ORDER BY ' . $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 		$result = $db->sql_query($sql);
 		$result_topic_id = 0;
-
+		
 		$rowset = array();
-
+		
 		if ($show_results == 'topics')
 		{
 			$forums = $rowset = $shadow_topic_list = array();
@@ -991,7 +1004,6 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 				// tapatalk add
 				$row['post_text'] = get_context($row['post_text'], array_filter(explode('|', $hilit), 'strlen'), $return_chars);
-
 				$tpl_ary = array(
 					'TOPIC_AUTHOR'				=> get_username_string('username', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
 					'TOPIC_AUTHOR_COLOUR'		=> get_username_string('colour', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
@@ -1000,7 +1012,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 					'LAST_POST_SUBJECT'			=> $row['topic_last_post_subject'],
 					'LAST_POST_TIME'			=> $user->format_date($row['topic_last_post_time']),
 					'LAST_VIEW_TIME'			=> $user->format_date($row['topic_last_view_time']),
-					
+					'LAST_POST_ID'              => $row['topic_last_post_id'],
 					// tapatalk add
 					'TOPIC_AUTHOR_ID'			=> $row['topic_poster'],
 					'FIRST_POST_TIMESTAMP'		=> $row['topic_time'],

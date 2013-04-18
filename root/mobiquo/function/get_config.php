@@ -11,6 +11,7 @@ defined('IN_MOBIQUO') or exit;
 function get_config_func()
 {    
     global $mobiquo_config, $config, $auth;
+    
     $config_list = array(
         'sys_version'=> new xmlrpcval($config['version'], 'string'),
     	'is_open'    => new xmlrpcval($mobiquo_config['is_open'] ? true : false, 'boolean'),

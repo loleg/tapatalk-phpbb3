@@ -13,7 +13,8 @@ if (in_array($request_method, array('logout_user', 'get_config')))
 {
     define('IN_CHECK_BAN', 1);
 }
-$_SERVER['QUERY_STRING'] = 'method='.$request_method.'&params='.implode('-', $request_params);
+
+$_SERVER['QUERY_STRING'] = 'method='.$request_method.'&amp;params='.intval($request_params[0]);
 include('./include/user.class.php');
 $user = new tapa_user;
 $user->session_begin();
@@ -29,7 +30,6 @@ if ($user->data['user_new_privmsg'])
     include_once($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
     place_pm_into_folder($global_privmsgs_rules);
 }
-
 $request_file = $request_method;
 switch ($request_method)
 {
@@ -77,14 +77,14 @@ switch ($request_method)
         isset($search_filter['userid']) && $_GET['author_id'] = $search_filter['userid'];
         isset($search_filter['forumid']) && $_GET['fid'] = array($search_filter['forumid']);
         
-        if (isset($search_filter['threadid']))
+        if (!empty($search_filter['threadid']))
         {
             $_GET['t'] = $search_filter['threadid'];
             $_GET['sf'] = 'msgonly';
             $_GET['showresults'] = 'posts';
         }
         
-        if (isset($search_filter['searchtime']) && is_numeric($search_filter['searchtime']))
+        if (!empty($search_filter['searchtime']) && is_numeric($search_filter['searchtime']))
         {
             $_GET['st'] = $search_filter['searchtime']/86400;
         }
@@ -96,7 +96,15 @@ switch ($request_method)
         
         if (isset($search_filter['not_in']) && is_array($search_filter['not_in']))
         {
-            $_GET['exclude'] = array_map('intval', $search_filter['not_in']);
+        	//add for tapatalk
+			foreach ($search_filter['not_in'] as $key=>$value)
+			{
+				if($value != 0)
+				{
+					$ex_fid_ary[]=$search_filter['not_in'][$key];
+				}
+			}
+            $_GET['exclude'] = array_map('intval', $ex_fid_ary);
         }
         break;
     case 'search_topic':

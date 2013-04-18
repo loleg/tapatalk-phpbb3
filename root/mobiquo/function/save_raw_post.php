@@ -236,8 +236,8 @@ function save_raw_post_func($xmlrpc_params)
         $notify = false;
     }
 
-    $topic_lock     = (isset($_POST['lock_topic'])) ? true : false;
-    $post_lock      = (isset($_POST['lock_post'])) ? true : false;
+    $topic_lock     = (isset($_POST['lock_topic'])) ? true : $post_data['topic_status'];
+    $post_lock      = (isset($_POST['lock_post'])) ? true : $post_data['post_edit_locked'];
     $poll_delete    = (isset($_POST['poll_delete'])) ? true : false;
 
     $status_switch = (($post_data['enable_bbcode']+1) << 8) + (($post_data['enable_smilies']+1) << 4) + (($post_data['enable_urls']+1) << 2) + (($post_data['enable_sig']+1) << 1);

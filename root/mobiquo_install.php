@@ -202,6 +202,32 @@ $versions = array(
 		'custom'	=> 'push_table_update',
 	),
 	'3.7.1' => array(),
+	'3.8.0' => array(
+		'config_remove' => array(
+			array('tapatalk_iphone_app_id'),
+			array('tapatalk_kindle_hd_msg'),
+			array('tapatalk_kindle_hd_url'),
+			array('tapatalk_android_hd_msg'),
+			array('tapatalk_android_hd_url'),
+			array('tapatalk_app_icon_url'),
+			array('tapatalk_android_msg'),
+			array('tapatalk_android_url'),
+			array('tapatalk_iphone_msg'),
+			array('tapatalk_iphone_url'),
+			array('tapatalk_ipad_msg'),
+			array('tapatalk_ipad_url'),
+			array('tapatalk_kindle_msg'),
+			array('tapatalk_kindle_url'),
+		),
+		'config_add' => array(
+			array('tapatalk_app_banner_msg',''),
+			array('tapatalk_app_ios_id',''),
+			array('tapatalk_android_url'),
+			array('tapatalk_kindle_url'),
+			array('tapatalk_push_slug','0'),
+		),
+		
+	)
 );		
 
 		

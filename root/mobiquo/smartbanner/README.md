@@ -1,28 +1,31 @@
-jQuery Smart Banner
+App Banner
 ===================
-
-[Smart Banners][1] are a new feature in iOS 6 to promote apps on the App Store from a website. This jQuery plugin
-brings this feature to older iOS versions and Android devices.
 
 ## Usage ##
     <html>
       <head>
-        <title>YouTube</title>
-        <meta name="author" content="Google, Inc.">
-        <meta name="apple-itunes-app" content="app-id=544007664">
-        <meta name="google-play-app" content="app-id=com.google.android.youtube">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="jquery.smartbanner.css" type="text/css" media="screen">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+            ...
+            <!-- Tapatalk Banner head start -->
+            <link href="'.$tapatalk_dir_url.'/smartbanner/appbanner.css" rel="stylesheet" type="text/css" media="screen">
+            <script type="text/javascript">
+                var is_mobile_skin     = '.$is_mobile_skin.';
+                var app_ios_id         = "'.intval($settings['app_ios_id']).'";
+                var app_android_url    = "'.addslashes($settings['app_android_url']).'";
+                var app_kindle_url     = "'.addslashes($settings['app_kindle_url']).'";
+                var app_banner_message = "'.addslashes(str_replace("\n", '<br />', $settings['app_banner_message'])).'";
+                var app_forum_name     = "'.addslashes($settings['board_name']).'";
+                var app_location_url   = "'.addslashes($app_location_url).'";
+            </script>
+            <script src="'.$tapatalk_dir_url.'/smartbanner/appbanner.js" type="text/javascript"></script>
+            <!-- Tapatalk Banner head end-->
+            ...
       </head>
       <body>
         ...
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-        <script src="jquery.smartbanner.js"></script>
-        <script type="text/javascript">
-          $(function() { $.smartbanner() } )
-        </script>
+        <!-- Tapatalk Banner body start -->
+            <script type="text/javascript">tapatalkDetect()</script>
+        <!-- Tapatalk Banner body end -->
+        ...
       </body>
     </html>
 

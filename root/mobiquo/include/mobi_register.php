@@ -210,9 +210,19 @@ class mobi_ucp_register
 			$messenger->template($email_template, $data['lang']);
 
 			$messenger->to($data['email'], $data['username']);
-
-			$messenger->anti_abuse_headers($config, $user);
-
+			
+			if(!method_exists($messenger, 'anti_abuse_headers'))
+			{
+				$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
+				$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
+				$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
+				$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+			}
+			else 
+			{
+				$messenger->anti_abuse_headers($config, $user);
+			}
+			
 			$messenger->assign_vars(array(
 				'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($user->lang['WELCOME_SUBJECT'], $config['sitename'])),
 				'USERNAME'		=> htmlspecialchars_decode($data['username']),

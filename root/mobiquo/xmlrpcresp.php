@@ -11,7 +11,7 @@ defined('IN_MOBIQUO') or exit;
 function get_thread_func()
 {
     global $template, $user, $auth, $phpbb_home, $config, $attachment_by_id, $forum_id, $topic_id, $support_post_thanks, $topic_data, $total_posts, $can_subscribe;
-    /*
+    
     generate_forum_nav($topic_data);
     $navgation_arr = $template->_tpldata['navlinks'];
 	if(is_array($navgation_arr) && count($navgation_arr) > 0)
@@ -32,7 +32,7 @@ function get_thread_func()
                 ), 'struct');
         }
     }
-    */
+    
     $post_list = array();
     foreach($template->_tpldata['postrow'] as $key => $row)
     {
@@ -185,6 +185,7 @@ function get_thread_func()
         'position'       => new xmlrpcval($topic_data['prev_posts'] + 1, 'int'),
 
         'can_reply'      => new xmlrpcval($auth->acl_get('f_reply', $forum_id) && $topic_data['forum_status'] != ITEM_LOCKED && $topic_data['topic_status'] != ITEM_LOCKED, 'boolean'),
+    	'can_report'     => new xmlrpcval($auth->acl_get('f_report', $forum_id),'boolean'),
         'can_upload'     => new xmlrpcval($allowed, 'boolean'),
         'can_delete'     => new xmlrpcval($auth->acl_get('m_delete', $forum_id), 'boolean'),
         'can_move'       => new xmlrpcval($auth->acl_get('m_move', $forum_id), 'boolean'),
@@ -242,11 +243,11 @@ function search_func()
         {
             $lastpost = $item['lastpost'];
             $isbanned = $lastpost['isbanned'];
-            
             $return_item = array(
                 'forum_id'              => new xmlrpcval($item['FORUM_ID'], 'string'),
                 'forum_name'            => new xmlrpcval(basic_clean($item['FORUM_TITLE']), 'base64'),
                 'topic_id'              => new xmlrpcval($item['TOPIC_ID'], 'string'),
+            	'post_id'               => new xmlrpcval($item['LAST_POST_ID'], 'string'),
                 'topic_title'           => new xmlrpcval(basic_clean($item['TOPIC_TITLE']), 'base64'),
                 
                 'post_author_id'        => new xmlrpcval($item['LAST_POSTER_ID'], 'string'),
@@ -258,7 +259,7 @@ function search_func()
                 
                 // compatibility data
                 'last_reply_author_id'  => new xmlrpcval($item['LAST_POSTER_ID'], 'string'),
-              'last_reply_author_name'  => new xmlrpcval(basic_clean($item['LAST_POST_AUTHOR']), 'base64'),
+              	'last_reply_author_name'  => new xmlrpcval(basic_clean($item['LAST_POST_AUTHOR']), 'base64'),
                 'last_reply_time'       => new xmlrpcval($item['LAST_POST_TIME'], 'dateTime.iso8601'),
                 
                 'reply_number'          => new xmlrpcval($item['TOPIC_REPLIES'], 'int'),

@@ -25,6 +25,7 @@ if (MOBIQUO_DEBUG == 0) ob_start();
 require('./server_define.php');
 require('./env_setting.php');
 require('./xmlrpcresp.php');
+
 if ($request_file && isset($server_param[$request_method]))
 {
     if (strpos($request_file, 'm_') === 0)

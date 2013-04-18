@@ -1,5 +1,5 @@
 api_level = 3
-version = pb30_3.7.1
+version = pb30_3.8.0
 is_open = 1
 guest_okay = 1
 
@@ -44,3 +44,4 @@ push = 0
 push_type = pm,sub,quote,newtopic,tag
 inappreg = 0
 announcement = 1
+ban_delete_type = hard_delete

@@ -245,15 +245,41 @@ function get_short_content($post_id, $length = 200)
 function process_short_content($post_text, $length = 200)
 {
     $post_text = censor_text($post_text);
-    $post_text = preg_replace('/\[url.*?\].*?\[\/url.*?\]/', '[url]', $post_text);
-    $post_text = preg_replace('/\[img.*?\].*?\[\/img.*?\]/', '[img]', $post_text);
-    $post_text = preg_replace('/[\n\r\t]+/', ' ', $post_text);
+	$array_reg = array(
+		array('reg' => '/\[quote(.*?)\](.*?)\[\/quote(.*?)\]/si','replace' => '[quote]'),
+		array('reg' => '/\[code(.*?)\](.*?)\[\/code(.*?)\]/si','replace' => ''),
+		array('reg' => '/\[url=(.*?):(.*?)\](.*?)\[\/url(.*?)\]/sei','replace' => "mobi_url_convert('$1','$3')"),
+		array('reg' => '/\[video(.*?)\](.*?)\[\/video(.*?)\]/si','replace' => '[V]'),
+		array('reg' => '/\[attachment(.*?)\](.*?)\[\/attachment(.*?)\]/si','replace' => '[attach]'),
+		array('reg' => '/\[url.*?\].*?\[\/url.*?\]/','replace' => '[url]'),
+		array('reg' => '/\[img.*?\].*?\[\/img.*?\]/','replace' => '[img]'),
+		array('reg' => '/[\n\r\t]+/','replace' => ' '),
+		array('reg' => '/\[flash(.*?)\](.*?)\[\/flash(.*?)\]/si','replace' => '[V]'),
+	);
+	//echo $post_text;die();
+	foreach ($array_reg as $arr)
+	{
+		$post_text = preg_replace($arr['reg'], $arr['replace'], $post_text);
+	}
     strip_bbcode($post_text);
     $post_text = html_entity_decode($post_text, ENT_QUOTES, 'UTF-8');
     $post_text = function_exists('mb_substr') ? mb_substr($post_text, 0, $length) : substr($post_text, 0, $length);
-    return strip_tags($post_text);
+    $post_text = trim(strip_tags($post_text));
+    $post_text = preg_replace('/\\s+|\\r|\\n/', ' ', $post_text);
+    return $post_text;
 }
 
+function mobi_url_convert($a,$b)
+{
+	if(html_entity_decode(trim($a)) == trim($b))
+	{
+		return '[url]';
+	}
+	else 
+	{
+		return $b;
+	}
+}
 function post_html_clean($str)
 {
 	
@@ -1166,7 +1192,7 @@ function tt_register_verify($tt_token,$tt_code)
  * @exmaple: getContentFromRemoteServer('http://push.tapatalk.com/push.php', 0, $error_msg, 'POST', $ttp_post_data)
  * @return string when get content successfully|false when the parameter is invalid or connection failed.
 */
-function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 'GET', $data = array())
+function getContentFromRemoteServer($url, $holdTime = 0, $error_msg='', $method = 'GET', $data = array())
 {
     //Validate input.
     $vurl = parse_url($url);
@@ -1188,7 +1214,7 @@ function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 
 
     if(!empty($holdTime) && function_exists('file_get_contents') && $method == 'GET')
     {
-        $response = file_get_contents($url);
+        $response = @file_get_contents($url);
     }
     else if (@ini_get('allow_url_fopen'))
     {
@@ -1200,7 +1226,7 @@ function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 
 
             if($method == 'POST')
             {
-                $fp = fsockopen($host, 80, $errno, $errstr, 5);
+                $fp = @fsockopen($host, 80, $errno, $errstr, 5);
 
                 if(!$fp)
                 {
@@ -1217,6 +1243,7 @@ function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 
                 fputs($fp, "Connection: close\r\n\r\n");
                 fputs($fp, $data);
                 fclose($fp);
+                return 1;
             }
             else
             {
@@ -1232,6 +1259,7 @@ function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 
                     'method' => 'POST',
                     'content' => http_build_query($data, '', '&'),
                 ));
+               
                 $ctx = stream_context_create($params);
                 $old = ini_set('default_socket_timeout', $holdTime);
                 $fp = @fopen($url, 'rb', false, $ctx);
@@ -1274,6 +1302,10 @@ function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 
     {
         $error_msg = 'CURL is disabled and PHP option "allow_url_fopen" is OFF. You can enable CURL or turn on "allow_url_fopen" in php.ini to fix this problem.';
         return false;
+    }
+    if(!empty($error_msg))
+    {
+    	return $error_msg;
     }
     return $response;
 }

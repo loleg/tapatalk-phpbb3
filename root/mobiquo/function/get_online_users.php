@@ -279,11 +279,17 @@ function get_online_users_func()
 		{
 			$row['from'] = 'tapatalk';
 		}
+		else if(!empty($row['is_byo']))
+		{
+			$row['from'] = 'byo';
+		}
 		else if(strpos($row['session_browser'],'Android') !== false || strpos($row['session_browser'],'iPhone') !== false || 
 		strpos($row['session_browser'],'BlackBerry') !== false)
 		{
 			$row['from'] = 'mobile';
 		}
+		
+		
 		
         $user_list[] = new xmlrpcval(array(
             'user_id'       => new xmlrpcval($row['user_id'], 'string'),
@@ -301,7 +307,7 @@ function get_online_users_func()
     unset($prev_id, $prev_ip);
     
     $online_users = array(
-        'member_count' => new xmlrpcval($logged_visible_online + $logged_hidden_online, 'int'),
+        'member_count' => new xmlrpcval($logged_visible_online, 'int'),
         'guest_count'  => new xmlrpcval($guest_counter, 'int'),
         'list'         => new xmlrpcval($user_list, 'array')
     );

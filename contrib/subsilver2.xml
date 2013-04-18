@@ -122,6 +122,28 @@
 					<change>some bugs fixed</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2013-04-01</date>
+				<rev-version>3.7.1</rev-version>
+				<changelog lang="en">
+					<change>fix undefine index notice in some pages</change>
+					<change>fix sql error when topic_watch table have invalid data</change>
+					<change>optimize register function</change>
+					<change>fix no No Prompt for App Download</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2013-04-18</date>
+				<rev-version>3.8.0</rev-version>
+				<changelog lang="en">
+					<change>short content optimization</change>
+					<change>new smartbanner deploy</change>
+					<change>browser online page optimize for BYO</change>
+					<change>fix UTF-8 non-ASCII chars showing as "?" In push notifications</change>
+					<change>Optimize push feature.</change>
+					<change>other bug fix.</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
 			<link type="parent" href="../install.xml" lang="en">Main Install File</link>
@@ -135,28 +157,17 @@
 			<edit>
 				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
 				<action type="after-add"><![CDATA[<script type="text/javascript">
-var byo_ios_app_id      = '{TAPATALK_IPHONE_APP_ID}';
-var byo_app_name        = '{TAPATALK_APP_NAME}';
-var byo_app_desc        = '{TAPATALK_APP_DESC}';
-var byo_app_icon_url    = '{TAPATALK_APP_ICON_URL}';
-var app_ios_msg         = '{TAPATALK_IPHONE_MSG}';
-var app_ios_url         = '{TAPATALK_IPHONE_URL}';;
-var app_ios_hd_msg      = '{TAPATALK_IPAD_MSG}';
-var app_ios_hd_url      = '{TAPATALK_IPAD_URL}';
-var app_android_msg     = '{TAPATALK_ANDROID_MSG}';
+var is_mobile_skin      = '0';  
+var app_ios_id          = '{TAPATALK_APP_IOS_ID}';
+var app_banner_message  = '{TAPATALK_APP_BANNER_MSG}';
+var app_forum_name      = '{SITENAME}';
 var app_android_url     = '{TAPATALK_ANDROID_URL}';
-var app_android_hd_msg  = '{TAPATALK_ANDROID_HD_MSG}';
-var app_android_hd_url  = '{TAPATALK_ANDROID_HD_URL}';
-var app_kindle_msg      = '{TAPATALK_KINDLE_MSG}';
 var app_kindle_url      = '{TAPATALK_KINDLE_URL}';
-var app_kindle_hd_msg   = '{TAPATALK_KINDLE_HD_MSG}';
-var app_kindle_hd_url   = '{TAPATALK_KINDLE_HD_URL}';
 var tapatalk_dir_url    = '{TAPATALK_DIR}';
 var app_location_url    = '{TAPATALK_LOCATION_URL}';
 </script>
-<link href="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.css" rel="stylesheet" type="text/css" media="screen">
-<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery-1.7.min.js"></script>
-<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.js"></script>]]></action>
+<link href="{TAPATALK_DIR}/smartbanner/appbanner.css" rel="stylesheet" type="text/css" media="screen">
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/appbanner.js"></script>]]></action>
 			</edit>	
 			<edit>
 				<find><![CDATA[<body class="{S_CONTENT_DIRECTION}">]]></find>

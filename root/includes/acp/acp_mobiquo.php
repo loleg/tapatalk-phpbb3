@@ -55,22 +55,10 @@ class acp_mobiquo
 					'title'	=> 'ACP_TAPATALK_REBRANDING',
 					'vars'	=> array(
 					'legend'				=> 'GENERAL_OPTIONS',
-					'tapatalk_iphone_app_id'=> array('lang' => 'TAPATALK_IPHONE_APP_ID', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_app_name'     => array('lang' => 'TAPATALK_APP_NAME', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_app_desc'     => array('lang' => 'TAPATALK_APP_DESC', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_app_icon_url' => array('lang' => 'TAPATALK_APP_ICON_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_ipad_msg'		=> array('lang' => 'TAPATALK_IPAD_MESSAGE', 'validate' => 'string', 'type' => 'textarea:4:250', 'explain' => true),
-					'tapatalk_ipad_url'	    => array('lang' => 'TAPATALK_IPAD_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_android_msg'	=> array('lang' => 'TAPATALK_ANDROID_MESSAGE', 'validate' => 'string',	'type' => 'textarea:4:250',	'explain' => true),
+					'tapatalk_app_banner_msg'=> array('lang' => 'TAPATALK_APP_BANNER_MSG', 'validate' => 'string', 'type' => 'textarea:4:250', 'explain' => true),
+					'tapatalk_app_ios_id'     => array('lang' => 'TAPATALK_APP_IOS_ID', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
 					'tapatalk_android_url'	=> array('lang' => 'TAPATALK_ANDROID_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),
-					'tapatalk_iphone_msg'	=> array('lang' => 'TAPATALK_IPHONE_MESSAGE', 'validate' => 'string', 'type' => 'textarea:4:250', 'explain' => true),
-					'tapatalk_iphone_url'	=> array('lang' => 'TAPATALK_IPHONE_URL', 'validate' => 'string', 'type' => 'text:40:250', 'explain' => true),	
-				    'tapatalk_kindle_msg'	=> array('lang' => 'TAPATALK_KINDLE_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
 					'tapatalk_kindle_url'   => array('lang' => 'TAPATALK_KINDLE_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
-					'tapatalk_android_hd_msg'	=> array('lang' => 'TAPATALK_ANDROID_HD_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
-					'tapatalk_android_hd_url'   => array('lang' => 'TAPATALK_ANDROID_HD_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
-					'tapatalk_kindle_hd_msg'	=> array('lang' => 'TAPATALK_KINDLE_HD_MESSAGE', 'validate' => 'string','type' => 'textarea:4:250','explain' => true),
-					'tapatalk_kindle_hd_url'   => array('lang' => 'TAPATALK_KINDLE_HD_URL', 'validate' => 'string','type' => 'text:40:250','explain' => true),
 					)
 				);
 				break;

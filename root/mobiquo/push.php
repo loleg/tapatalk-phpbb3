@@ -7,8 +7,8 @@ define('IN_MOBIQUO', 1);
 require_once 'xmlrpcresp.' . $phpEx;
 include($phpbb_root_path . 'common.php');
 include 'push_hook.php';
-$return_status = tt_do_post_request(array('test' => 1,'key' => $config['tapatalk_push_key']));
-$server_ip = tt_do_post_request(array('ip' => 1));
+$return_status = tt_do_post_request(array('test' => 1,'key' => $config['tapatalk_push_key']),true);
+$server_ip = tt_do_post_request(array('ip' => 1),true);
 $board_url = generate_board_url();
 $table_exist = push_table_exists();
 if(isset($_GET['checkcode']))

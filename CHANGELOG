@@ -105,3 +105,14 @@ fix undefine index notice in some pages
 fix sql error when topic_watch table have invalid data
 optimize register function
 fix no No Prompt for App Download
+
+phpBB 3.0.X - Version 3.8.0 released
+
+Update note:
+
+short content optimization.
+new smartbanner deploy.
+browser online page optimize for BYO.
+fix UTF-8 non-ASCII chars showing as "?" In push notifications.
+Optimize push feature..
+other bug fix..

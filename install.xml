@@ -19,7 +19,7 @@
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>3.7.1</mod-version>
+		<mod-version>3.8.0</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>1800</time>
@@ -123,7 +123,7 @@
 				</changelog>
 			</entry>
 			<entry>
-				<date>2013-04-02</date>
+				<date>2013-04-01</date>
 				<rev-version>3.7.1</rev-version>
 				<changelog lang="en">
 					<change>fix undefine index notice in some pages</change>
@@ -132,17 +132,23 @@
 					<change>fix no No Prompt for App Download</change>
 				</changelog>
 			</entry>
+			<entry>
+				<date>2013-04-18</date>
+				<rev-version>3.8.0</rev-version>
+				<changelog lang="en">
+					<change>short content optimization</change>
+					<change>new smartbanner deploy</change>
+					<change>browser online page optimize for BYO</change>
+					<change>fix UTF-8 non-ASCII chars showing as "?" In push notifications</change>
+					<change>Optimize push feature.</change>
+					<change>other bug fix.</change>
+				</changelog>
+			</entry>
 		</history>
 		<link-group>
-			<link type="template" href="./contrib/subsilver2.xml" lang="en">SubSilver2</link>
-			<link type="contrib" href="./contrib/update_tapatalk_340_341.xml" lang="en">Update from 340 to 341</link>
-			<link type="contrib" href="./contrib/update_tapatalk_341_342.xml" lang="en">Update from 341 to 342</link>
-			<link type="contrib" href="./contrib/update_tapatalk_342_343.xml" lang="en">Update from 342 to 343</link>
-			<link type="contrib" href="./contrib/update_tapatalk_343_350.xml" lang="en">Update from 343 to 350</link>
-			<link type="contrib" href="./contrib/update_tapatalk_350_360.xml" lang="en">Update from 350 to 360</link>
-			<link type="contrib" href="./contrib/update_tapatalk_360_361.xml" lang="en">Update from 360 to 361</link>
-			<link type="contrib" href="./contrib/update_tapatalk_361_370.xml" lang="en">Update from 361 to 370</link>
-			<link type="contrib" href="./contrib/update_tapatalk_370_371.xml" lang="en">Update from 370 to 371</link>
+			<link type="template" href="contrib/subsilver2.xml" lang="en">SubSilver2</link>
+			<link type="contrib" href="contrib/update_tapatalk_371_380.xml" lang="en">Update from 371 to 380</link>
+			<link type="contrib" href="contrib/update_tapatalk_371_380_subsilver2.xml" lang="en">Update from 371 to 380 for subsilver2</link>
 		</link-group>
 	</header>
 	<action-group>
@@ -194,9 +200,9 @@
 		$on_page[1] = '';
 	}]]></find>
 				<action type="after-add"><![CDATA[	//start taptalk hook
-    if(file_exists($phpbb_root_path.$config['tapatalkdir'].'/include/online_hook.php'))
+    if(file_exists($phpbb_root_path.(!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo').'/include/online_hook.php'))
     {
-        include  $phpbb_root_path.$config['tapatalkdir'].'/include/online_hook.php';
+        include  $phpbb_root_path.(!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo').'/include/online_hook.php';
     }
     //end tapatalk hook]]></action>
 			</edit>		
@@ -220,9 +226,9 @@
 			<edit>
 				<find><![CDATA[	if (strpos($user_lang, '-x-') !== false)]]></find>
 				<action type="before-add"><![CDATA[	$user->add_lang('mods/info_acp_mobiquo');
-	if(file_exists($phpbb_root_path.$config['tapatalkdir'].'/include/function_hook.php'))
+	if(file_exists($phpbb_root_path.(!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo').'/include/function_hook.php'))
 	{
-		require_once $phpbb_root_path.$config['tapatalkdir'].'/include/function_hook.php';
+		require_once $phpbb_root_path.(!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo').'/include/function_hook.php';
 		$tapatalk_location_url = get_tapatlk_location();
 	}
 	else 
@@ -232,21 +238,9 @@
 			</edit>
 			<edit>
 				<find><![CDATA['ROOT_PATH'			=> $phpbb_root_path,]]></find>
-				<action type="after-add"><![CDATA[		'TAPATALK_IPHONE_APP_ID'      => isset($config['tapatalk_iphone_app_id']) ? $config['tapatalk_iphone_app_id'] : '' ,
-		'TAPATALK_APP_NAME'      => isset($config['tapatalk_app_name']) ? addslashes($config['tapatalk_app_name']) : '' ,
-		'TAPATALK_APP_DESC'      => isset($config['tapatalk_app_desc']) ? addslashes($config['tapatalk_app_desc']) : '' ,
-		'TAPATALK_APP_ICON_URL'      => isset($config['tapatalk_app_icon_url']) ? addslashes($config['tapatalk_app_icon_url']) : '' ,
-		'TAPATALK_ANDROID_HD_MSG' => isset($config['tapatalk_android_hd_msg']) ? addslashes($config['tapatalk_android_hd_msg']) : '' ,
-		'TAPATALK_ANDROID_HD_URL' => isset($config['tapatalk_android_hd_url']) ? addslashes($config['tapatalk_android_hd_url']) : '' ,
-		'TAPATALK_KINDLE_HD_MSG' => isset($config['tapatalk_kindle_hd_msg']) ? addslashes($config['tapatalk_kindle_hd_msg']) : '' ,
-		'TAPATALK_KINDLE_HD_URL' => isset($config['tapatalk_kindle_hd_url']) ? addslashes($config['tapatalk_kindle_hd_url']) : '' ,
-		'TAPATALK_IPAD_MSG' => isset($config['tapatalk_ipad_msg']) ? addslashes($config['tapatalk_ipad_msg']) : '' ,
-		'TAPATALK_IPAD_URL' => isset($config['tapatalk_ipad_url']) ? addslashes($config['tapatalk_ipad_url']) : '' ,
-		'TAPATALK_IPHONE_MSG' => isset($config['tapatalk_iphone_msg']) ? addslashes($config['tapatalk_iphone_msg']) : '' ,
-		'TAPATALK_IPHONE_URL' => isset($config['tapatalk_iphone_url']) ? addslashes($config['tapatalk_iphone_url']) : '' ,
-		'TAPATALK_ANDROID_MSG' => isset($config['tapatalk_android_msg']) ? addslashes($config['tapatalk_android_msg']) : '' ,
+				<action type="after-add"><![CDATA[		'TAPATALK_APP_IOS_ID'      => isset($config['tapatalk_app_ios_id']) ? addslashes($config['tapatalk_app_ios_id']) : '' ,
+		'TAPATALK_APP_BANNER_MSG'      => isset($config['tapatalk_app_banner_msg']) ? addslashes(preg_replace("/\r?\n/", "<br />",$config['tapatalk_app_banner_msg'])) : '' ,
 		'TAPATALK_ANDROID_URL' => isset($config['tapatalk_android_url']) ? addslashes($config['tapatalk_android_url']) : '' ,
-		'TAPATALK_KINDLE_MSG' => isset($config['tapatalk_kindle_msg']) ? addslashes($config['tapatalk_kindle_msg']) : '' ,
 		'TAPATALK_KINDLE_URL' => isset($config['tapatalk_kindle_url']) ? addslashes($config['tapatalk_kindle_url']) : '' ,
 		'TAPATALK_DIR' => generate_board_url().'/' . (!empty($config['tapatalkdir']) ? $config['tapatalkdir'] : 'mobiquo' ) ,
 		'TAPATALK_LOCATION_URL' => $tapatalk_location_url,]]></action>
@@ -256,28 +250,17 @@
 			<edit>
 				<find><![CDATA[<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull;]]></find>
 				<action type="after-add"><![CDATA[<script type="text/javascript">
-var byo_ios_app_id      = '{TAPATALK_IPHONE_APP_ID}';
-var byo_app_name        = '{TAPATALK_APP_NAME}';
-var byo_app_desc        = '{TAPATALK_APP_DESC}';
-var byo_app_icon_url    = '{TAPATALK_APP_ICON_URL}';
-var app_ios_msg         = '{TAPATALK_IPHONE_MSG}';
-var app_ios_url         = '{TAPATALK_IPHONE_URL}';;
-var app_ios_hd_msg      = '{TAPATALK_IPAD_MSG}';
-var app_ios_hd_url      = '{TAPATALK_IPAD_URL}';
-var app_android_msg     = '{TAPATALK_ANDROID_MSG}';
+var is_mobile_skin      = '0';  
+var app_ios_id          = '{TAPATALK_APP_IOS_ID}';
+var app_banner_message  = '{TAPATALK_APP_BANNER_MSG}';
+var app_forum_name      = '{SITENAME}';
 var app_android_url     = '{TAPATALK_ANDROID_URL}';
-var app_android_hd_msg  = '{TAPATALK_ANDROID_HD_MSG}';
-var app_android_hd_url  = '{TAPATALK_ANDROID_HD_URL}';
-var app_kindle_msg      = '{TAPATALK_KINDLE_MSG}';
 var app_kindle_url      = '{TAPATALK_KINDLE_URL}';
-var app_kindle_hd_msg   = '{TAPATALK_KINDLE_HD_MSG}';
-var app_kindle_hd_url   = '{TAPATALK_KINDLE_HD_URL}';
 var tapatalk_dir_url    = '{TAPATALK_DIR}';
 var app_location_url    = '{TAPATALK_LOCATION_URL}';
 </script>
-<link href="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.css" rel="stylesheet" type="text/css" media="screen">
-<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery-1.7.min.js"></script>
-<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/jquery.smartbanner.js"></script>]]></action>
+<link href="{TAPATALK_DIR}/smartbanner/appbanner.css" rel="stylesheet" type="text/css" media="screen">
+<script type="text/javascript" src="{TAPATALK_DIR}/smartbanner/appbanner.js"></script>]]></action>
 			</edit>	
 			<edit>
 				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
