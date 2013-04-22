@@ -187,7 +187,14 @@ function tt_do_post_request($data,$is_test = false)
         }
 		if(!function_exists("getContentFromRemoteServer"))
 		{
-			define('IN_MOBIQUO', true);
+			if(!defined("IN_MOBIQUO"))
+			{
+				define('IN_MOBIQUO', true);
+			}			
+			if(!isset($config['tapatalkdir']))
+			{
+				$config['tapatalkdir'] = 'mobiquo';
+			}
 			require_once $phpbb_root_path.$config['tapatalkdir'].'/mobiquo_common.php';
 		}
 		if(isset($data['ip']) || isset($data['test']))
