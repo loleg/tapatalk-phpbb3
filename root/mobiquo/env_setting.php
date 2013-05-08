@@ -53,6 +53,7 @@ switch ($request_method)
         $return_html = isset($request_params[2]) ? $request_params[2] : false;
         break;
     case 'get_thread_by_post':
+    case 'get_thread_by_time':
         $request_file = 'viewtopic';
         $_GET['st'] = 0;
         $_GET['sk'] = 't';

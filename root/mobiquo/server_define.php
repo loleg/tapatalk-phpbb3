@@ -54,6 +54,13 @@ $server_param = array(
                              array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt),
                              array($xmlrpcStruct, $xmlrpcString)),
     ),
+    
+    'get_thread_by_time' => array(
+        'function'  => 'get_thread_func',
+        'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt, $xmlrpcBoolean),
+                             array($xmlrpcStruct, $xmlrpcString, $xmlrpcInt),
+                             array($xmlrpcStruct, $xmlrpcString)),
+    ),
 
     'get_raw_post' => array(
         'function'  => 'get_raw_post_func',

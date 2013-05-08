@@ -158,6 +158,22 @@ function tapatalk_online_display($tapatalk_method)
 				$row['session_forum_id'] = $post_row['forum_id'];
 			}
 			break;
+		case 'get_thread_by_time':
+			$on_page[1] = 'viewtopic';
+			if(!empty($tapatalk_params[0]))
+			{
+				$tapatalk_params[0] = intval($tapatalk_params[0]);
+				$sql = 'SELECT post_id, topic_id, forum_id
+				FROM ' . POSTS_TABLE . '
+				WHERE post_time <= ' . $tapatalk_params[0] . '
+				ORDER BY post_time';
+				$result = $db->sql_query($sql);
+				$post_row = $db->sql_fetchrow($result);
+				$db->sql_freeresult($result);
+				if(!empty($post_row['forum_id']))
+				$row['session_forum_id'] = $post_row['forum_id'];
+			}
+			break;
 		case 'create_message':
 		case 'get_box_info':
 		case 'get_box':
